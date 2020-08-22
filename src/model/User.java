@@ -5,7 +5,6 @@ package model;
  * @author joshuadorsett
  */
 public class User {
-    private static int userIdCounter = 0;
     private int userId;
     private String userName;
     private String userPassword;
@@ -22,13 +21,6 @@ public class User {
 
     public int getUserId(){
         return this.userId;
-    }
-    /**
-     * a method for getting and then incrementing the latest static User ID.
-     * @return the User ID counter for a new User object.
-     */
-    public int generateId(){
-        return userIdCounter++;
     }
 
     public void setUserName(String name){

@@ -5,7 +5,6 @@ package model;
  * @author joshuadorsett
  */
 public class Customer {
-    private static int customerIdCounter = 0;
     private int customerId;
     private String customerName;
     private String customerAddress;
@@ -22,15 +21,8 @@ public class Customer {
         this.customerId = id;
     }
 
-    public int getCustomerId(){
+    public int getCustomerId() {
         return this.customerId;
-    }
-    /**
-     * a method for getting and then incrementing the latest static Customer ID.
-     * @return the Customer ID counter for a new Customer object.
-     */
-    public int generateId(){
-        return customerIdCounter++;
     }
 
     public void setCustomerName(String name){

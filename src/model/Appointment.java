@@ -8,7 +8,6 @@ import java.time.LocalTime;
  * @author joshuadorsett
  */
 public class Appointment {
-    private static int appointmentIdCounter = 0;
     private int appointmentId;
     private int associatedCustomerId;
     private int associatedUserid;
@@ -33,15 +32,8 @@ public class Appointment {
         this.appointmentId = id;
     }
 
-    public int getAppointmentId(){
+    public int getAppointmentId() {
         return this.appointmentId;
-    }
-    /**
-     * a method for getting and then incrementing the latest static Appointment ID.
-     * @return the appointment ID counter for a new appointment object.
-     */
-    public int generateId(){
-        return appointmentIdCounter++;
     }
 
     public void setAssociatedCustomerId(int id){

@@ -18,7 +18,7 @@ public class JoshuadorsettC195 extends Application {
      */
     public static void main(String[] args) throws SQLException {
         MakeConnection.makeConnection();
-        test();
+        test2();
         launch(args);
         MakeConnection.endConnection();
     }
@@ -32,11 +32,17 @@ public class JoshuadorsettC195 extends Application {
         stage.show();
     }
 
-    public static void test() throws SQLException {
+    public static void test2() throws SQLException {
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
-
         MakeStatement.makeStatement(connection); //create statement object
+        Statement statement = MakeStatement.getStatement(); // get reference to statement object
+    }
 
+    public static void test1() throws SQLException {
+//        inserting raw sql
+
+        Connection connection = MakeConnection.getConnection(); //get reference to connection object
+        MakeStatement.makeStatement(connection); //create statement object
         Statement statement = MakeStatement.getStatement(); // get reference to statement object
 
         //raw sql insert statement
