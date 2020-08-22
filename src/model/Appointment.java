@@ -10,17 +10,17 @@ import java.time.LocalTime;
 public class Appointment {
     private int appointmentId;
     private int associatedCustomerId;
-    private int associatedUserid;
+    private int associatedUserId;
     private String appointmentTitle;
     private String appointmentType;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
     private String appointmentLocation;
 
-    public Appointment(int id, int custId, int userId, String title, String type, LocalDate date, LocalTime time, String location){
+    public Appointment(int id, int customerId, int userId, String title, String type, LocalDate date, LocalTime time, String location){
         this.appointmentId = id;
-        this.associatedCustomerId = custId;
-        this.associatedUserid = userId;
+        this.associatedCustomerId = customerId;
+        this.associatedUserId = userId;
         this.appointmentTitle = title;
         this.appointmentType = type;
         this.appointmentDate = date;
@@ -45,11 +45,11 @@ public class Appointment {
     }
 
     public void setAssociatedUserId(int id){
-        this.associatedUserid = id;
+        this.associatedUserId = id;
     }
 
     public int getAssociatedUserId(){
-        return this.associatedUserid;
+        return this.associatedUserId;
     }
 
     public void setAppointmentTitle(String title){

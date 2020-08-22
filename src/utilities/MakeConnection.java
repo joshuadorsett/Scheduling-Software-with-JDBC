@@ -18,9 +18,10 @@ public class MakeConnection {
             Class.forName(DRIVER);
             connection= (Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("Connection to "+ DB +" has been established");
-        } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (ClassNotFoundException | SQLException throwables) {
+            throwables.printStackTrace();
         }
+
     }
 
     public static Connection getConnection(){
@@ -31,8 +32,8 @@ public class MakeConnection {
         try {
             connection.close();
             System.out.println("Connection to " + DB + " has ended");
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }
