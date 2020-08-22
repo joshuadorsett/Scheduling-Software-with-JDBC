@@ -5,12 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Country;
 import utilities.MakeConnection;
 import utilities.MakeStatement;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class JoshuadorsettC195 extends Application {
     /**
@@ -18,7 +22,7 @@ public class JoshuadorsettC195 extends Application {
      */
     public static void main(String[] args) throws SQLException {
         MakeConnection.makeConnection();
-        test2();
+        selectSQLtest();
         launch(args);
         MakeConnection.endConnection();
     }
@@ -32,13 +36,28 @@ public class JoshuadorsettC195 extends Application {
         stage.show();
     }
 
-    public static void test2() throws SQLException {
+    public static void selectSQLtest() throws SQLException {
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
         MakeStatement.makeStatement(connection); //create statement object
         Statement statement = MakeStatement.getStatement(); // get reference to statement object
+
+        String selectStatement = "Select * FROM U07nke.country";
+        statement.execute(selectStatement);
+        ResultSet resultSet = statement.getResultSet();
+        while (resultSet.next()){
+            int countryId = resultSet.getInt("countryId");
+            String countryName = resultSet.getString("country");
+            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
+            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalTime lastTime = resultSet.getTime("lastUpdate").toLocalTime();
+            String editor = resultSet.getString("lastUpdateBy");
+            Country country = new Country(countryId, countryName, author, lastDate);
+        }
     }
 
-    public static void test1() throws SQLException {
+    public static void insertSQLtest() throws SQLException {
 //        inserting raw sql
 
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
