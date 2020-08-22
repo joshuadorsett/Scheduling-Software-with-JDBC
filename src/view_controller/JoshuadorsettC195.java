@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class JoshuadorsettC195 extends Application {
@@ -51,9 +52,14 @@ public class JoshuadorsettC195 extends Application {
             LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
-            LocalTime lastTime = resultSet.getTime("lastUpdate").toLocalTime();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
             String editor = resultSet.getString("lastUpdateBy");
-            Country country = new Country(countryId, countryName, author, lastDate);
+
+            System.out.println(countryId + " | " + countryName +" | " + dateCreated +" "+
+                    timeCreated + " | " + author + " | " + lastDate +
+                                            " | " + lastTimestamp + " | ");
+//            OR create a country object for each iteration and append them into a display observable list utside of the loop!
+//            Country country = new Country(countryId, countryName, author, lastTimestamp);
         }
     }
 
