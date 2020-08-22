@@ -1,10 +1,10 @@
-package DAO;
+package dao;
 
 /**
  *
  * @author joshuadorsett
  */
-public class AppointmentDAOImpl {
+public class AppointmentDaoImpl {
     /**
      * create Appointment object and convert it into SQL code and add it to database
      */

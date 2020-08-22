@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.sql.SQLException;
 
@@ -7,7 +7,7 @@ import java.sql.SQLException;
  *
  * @author joshuadorsett
  */
-public class CustomerDAOImpl {
+public class CustomerDaoImpl {
     /**
      * create Customer object and convert it into SQL code and add it to database
      */

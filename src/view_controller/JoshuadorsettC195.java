@@ -17,7 +17,7 @@ public class JoshuadorsettC195 extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        MakeConnection.startConnection();
+        MakeConnection.makeConnection();
         test();
         launch(args);
         MakeConnection.endConnection();
@@ -35,7 +35,7 @@ public class JoshuadorsettC195 extends Application {
     public static void test() throws SQLException {
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
 
-        MakeStatement.setStatement(connection); //create statement object
+        MakeStatement.makeStatement(connection); //create statement object
 
         Statement statement = MakeStatement.getStatement(); // get reference to statement object
 

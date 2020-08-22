@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class MakeStatement {
     private static Statement statement;
 
-    public static void setStatement(Connection connection) throws SQLException {
+    public static void makeStatement(Connection connection) throws SQLException {
         statement = connection.createStatement();
     }
 

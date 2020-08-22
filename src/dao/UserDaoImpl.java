@@ -1,10 +1,10 @@
-package DAO;
+package dao;
 
 /**
  *
  * @author joshuadorsett
  */
-public class UserDAOImpl {
+public class UserDaoImpl {
     /**
      * create User object and convert it into SQL code and add it to database
      */

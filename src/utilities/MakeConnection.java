@@ -13,7 +13,7 @@ public class MakeConnection {
     private static Connection connection;
 
 
-    public static void startConnection(){
+    public static void makeConnection(){
         try {
             Class.forName(DRIVER);
             connection= (Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
