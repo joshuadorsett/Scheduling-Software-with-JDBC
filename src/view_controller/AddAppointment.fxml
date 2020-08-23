@@ -30,12 +30,12 @@
                 <Label fx:id="userId" layoutX="102.0" layoutY="35.0" text="Auto-Generated" />
                 <Button fx:id="saveAppointment" layoutX="26.0" layoutY="295.0" mnemonicParsing="false" onAction="#saveAppointment" text="Save" />
                 <Button fx:id="cancelAppointment" layoutX="147.0" layoutY="295.0" mnemonicParsing="false" onAction="#cancelAppointment" text="Cancel" />
-                <RadioButton fx:id="remoteRadio" layoutX="81.0" layoutY="147.0" mnemonicParsing="false" selected="true" text="Remote">
+                <RadioButton fx:id="remoteRadio" layoutX="81.0" layoutY="147.0" mnemonicParsing="false" onAction="#remoteRadio" selected="true" text="Remote">
                     <toggleGroup>
                         <ToggleGroup fx:id="type" />
                     </toggleGroup>
                 </RadioButton>
-                <RadioButton fx:id="inPersonradio" layoutX="158.0" layoutY="147.0" mnemonicParsing="false" selected="true" text="In-Person" toggleGroup="$type" />
+                <RadioButton fx:id="inPersonRadio" layoutX="158.0" layoutY="147.0" mnemonicParsing="false" onAction="#inPersonRadio" selected="true" text="In-Person" toggleGroup="$type" />
             </children>
         </Pane>
         <Label layoutX="62.0" layoutY="14.0" prefHeight="36.0" prefWidth="183.0" text=" Add Appointment">

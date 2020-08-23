@@ -1,3 +1,5 @@
+package softwareTwoExamples;
+
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 import utilities.MakeStatement;
@@ -8,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Scanner;
 
-public class ExampleMethods {
+public class JdbcExamples {
     public static void selectPreparedStatementTest() throws SQLException {
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
         String selectStatement = "Select * FROM U07nke.country";

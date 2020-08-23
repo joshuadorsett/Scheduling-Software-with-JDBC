@@ -7,6 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import dao.AppointmentDaoImpl;
+import dao.CustomerDaoImpl;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +24,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
@@ -64,30 +69,83 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Customer, String> name;
     @FXML
-    private TableColumn<Customer, String> address;
+    private TableColumn<Customer, Integer> address;
     @FXML
     private TableColumn<Customer, Integer> phone;
-
+    @FXML
+    private static Appointment modifyAppointment; /*the selected Appointment to be modified*/
+    private static int modifyAppointmentIndex; /*the index of the selected Appointment*/
+    private static Customer modifyCustomer; /*the selected Customer to be modified*/
+    private static int modifyCustomerIndex; /*the index of the selected Customer*/
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        generateCalendarTable();
+        generateCustomerTable();
     }
 
+    public void generateCalendarTable(){
+        try {
+            calendarTable.setItems(AppointmentDaoImpl.getAllAppointments());
+            appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
+            userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
+            title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+            location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
+            date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+            time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+            type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public void generateCustomerTable(){
+        try {
+            customerTable.setItems(CustomerDaoImpl.getAllCustomers());
+            customerIdCustomerTable.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            address.setCellValueFactory(new PropertyValueFactory<>("customerAddressId"));
+            phone.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
     @FXML
     public void addAppointment(ActionEvent event) throws IOException {
         sceneChange("AddAppointment.fxml", event);
     }
 
     @FXML
-    public void modifyAppointment(ActionEvent event) throws IOException {
+    public void modifyAppointment(ActionEvent event) throws IOException, SQLException {
+        modifyAppointment = calendarTable.getSelectionModel().getSelectedItem();
+        modifyAppointmentIndex = AppointmentDaoImpl.getAllAppointments().indexOf(modifyAppointment);
         sceneChange("ModifyAppointment.fxml", event);
+    }
+    /**
+     * @return modifyAppointmentIndex
+     */
+    public static int appointmentToModifyIndex() {
+        return modifyAppointmentIndex;
     }
 
     @FXML
-    public void deleteAppointment(ActionEvent event) {
+    public void deleteAppointment(ActionEvent event) throws SQLException {
+        Appointment appointment = calendarTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("Appointment Delete");
+        alert.setHeaderText("Confirm?");
+        alert.setContentText("Are you sure you want to delete " + appointment.getAppointmentTitle() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            AppointmentDaoImpl.deleteAppointment(appointment);
+            generateCalendarTable();
+            System.out.println("Appointment " + appointment.getAppointmentTitle() + " was removed.");
+        } else {
+            System.out.println("Appointment " + appointment.getAppointmentTitle() + " was not removed.");
+        }
     }
 
     @FXML
@@ -96,12 +154,34 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void modifyCustomer(ActionEvent event) throws IOException {
+    public void modifyCustomer(ActionEvent event) throws IOException, SQLException {
+        modifyCustomer = customerTable.getSelectionModel().getSelectedItem();
+        modifyCustomerIndex = CustomerDaoImpl.getAllCustomers().indexOf(modifyCustomer);
         sceneChange("ModifyCustomer.fxml", event);
     }
 
+    /**
+     * @return modifyCustomerIndex
+     */
+    public static int customerToModifyIndex() {
+        return modifyCustomerIndex;
+    }
     @FXML
-    public void deleteCustomer(ActionEvent event) {
+    public void deleteCustomer(ActionEvent event) throws SQLException {
+        Customer customer = customerTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("Customer Delete");
+        alert.setHeaderText("Confirm?");
+        alert.setContentText("Are you sure you want to delete " + customer.getCustomerName() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            CustomerDaoImpl.deleteCustomer(customer);
+            generateCustomerTable();
+            System.out.println("Customer " + customer.getCustomerName() + " was removed.");
+        } else {
+            System.out.println("Customer " + customer.getCustomerName() + " was not removed.");
+        }
     }
 
     @FXML

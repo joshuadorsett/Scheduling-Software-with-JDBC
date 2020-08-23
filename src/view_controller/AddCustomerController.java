@@ -2,7 +2,10 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import dao.CustomerDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,7 +47,10 @@ public class AddCustomerController implements Initializable {
     }
 
     @FXML
-    public void save(ActionEvent event) throws IOException {
+    public void save(ActionEvent event) throws IOException, SQLException {
+        String customerName = name.getText();
+        int addressId = Integer.parseInt(address.getText());
+        CustomerDaoImpl.addCustomer(customerName, addressId, 1);
         sceneChange("Home.fxml", event);
     }
 

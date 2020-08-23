@@ -2,7 +2,11 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
+
+import dao.AppointmentDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +37,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private ToggleGroup type;
     @FXML
-    private RadioButton inPersonradio;
+    private RadioButton inPersonRadio;
     @FXML
     private TextField date;
     @FXML
@@ -48,17 +52,37 @@ public class AddAppointmentController implements Initializable {
     private Button saveAppointment;
     @FXML
     private Button cancelAppointment;
-
+    private boolean remote;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        //
     }
 
     @FXML
-    private void saveAppointment(ActionEvent event) throws IOException {
+    public void remoteRadio(ActionEvent event){
+        remote = true;
+    }
+
+    @FXML
+    public void inPersonRadio(ActionEvent event){
+        remote = false;
+    }
+
+    @FXML
+    private void saveAppointment(ActionEvent event) throws IOException, SQLException {
+        String typeSelected;
+        if (remote){
+            typeSelected = "Remote";
+        }
+        else {
+            typeSelected = "In-Person";
+        }
+        String start = date + " "+ time;
+
+        AppointmentDaoImpl.addAppointment(customerId.getText(), title.getText(), location.getText(), typeSelected, start);
         sceneChange("Home.fxml", event);
     }
 

@@ -1,12 +1,23 @@
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Customer;
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import static utilities.MakePreparedStatement.getPreparedStatement;
+import static utilities.MakePreparedStatement.makePreparedStatement;
 
 
 /**
@@ -17,102 +28,91 @@ public class CustomerDaoImpl {
     /**
      * create Customer object and convert it into SQL code and add it to database
      */
-    public static void addCustomer() throws SQLException{
-        // from text field make a new Customer Object adn then convert that customer object into sql with concactaenion of the variables?
+    public static void addCustomer(String customerName, int addressId, int active) throws SQLException{
+        Connection connection = MakeConnection.getConnection();
+        String insertStatement = "INSERT INTO customer(customerName, addressId, active, createDate, " +
+                "createdBy, lastUpdateBy) VALUES(?,?,?,?,?,?)";
+        MakePreparedStatement.makePreparedStatement(connection, insertStatement); //create statement object
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
+        LocalDate localDate = LocalDate.now();
+        String stringLocalDate = localDate.toString();
+        String addressIdString = Integer.toString(addressId);
+        String activeString = Integer.toString(active);
+        String createdBy = "user";
+        String lastUpdateBy = "user";
 
-    }
 
-    /**
-     * get a  Customer object from database
-     */
-    public void getCustomer() throws SQLException{
+        // key-value mapping
+        preparedStatement.setString(1, customerName);
+        preparedStatement.setString(2, addressIdString);
+        preparedStatement.setString(3, activeString);
+        preparedStatement.setString(4, stringLocalDate);
+        preparedStatement.setString(5, createdBy);
+        preparedStatement.setString(6, lastUpdateBy);
 
+        //execute statement
+        preparedStatement.execute();
+
+        if (preparedStatement.getUpdateCount() > 0 ){
+            System.out.println(preparedStatement.getUpdateCount() + " customer added.");
+        } else {
+            System.out.println("customer was not added");
+        }
     }
 
     /**
      * get all Customer objects from database
      */
-    public void getAllCustomers() throws SQLException{
+    public static ObservableList<Customer> getAllCustomers() throws SQLException{
+        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection(); //get reference to connection object
+        String selectStatement = "Select * FROM U07nke.customer";
+        makePreparedStatement(connection, selectStatement); //create statement object
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        while (resultSet.next()) {
+            int customerId = resultSet.getInt("customerId");
+            String customerName = resultSet.getString("customerName");
+            int addressId = resultSet.getInt("addressId");
+            int active = resultSet.getInt("active");
+            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
+            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+            String editor = resultSet.getString("lastUpdateBy");
 
+            Customer customer = new Customer(customerId,customerName,addressId,active);
+            allCustomers.add(customer);
+            System.out.println(customerId + " | " + customerName + " | " + dateCreated + " " +
+                    timeCreated + " | " + author + " | " + lastDate +
+                    " | " + lastTimestamp);
+        }
+        return allCustomers;
     }
 
     /**
      * modify Customer object and convert it into SQl code and update database
      */
     public void modifyCustomer() throws SQLException {
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
-
-        // make the sql code with ? for each value that is variable. this index starts at 1 and skips if a value is entered.
-        String updateStatement = "UPDATE country SET country = ?, createdBy = ? WHERE country = ?";
-
-        //create prepared statement
-        MakePreparedStatement.makePreparedStatement(connection, updateStatement); //create statement object
-        PreparedStatement ps = MakePreparedStatement.getPreparedStatement();
-
-        // make variables for ps
-        String countryName, newCountry, createdBy;
-
-        // keyboard input
-        Scanner keyboard = new Scanner(System.in);
-        //promt one enter country for filter
-        System.out.print("enter a country to update! ");
-        countryName = keyboard.nextLine();
-        // prompt for new country
-        System.out.print("enter new country! ");
-        newCountry = keyboard.nextLine();
-        //prompt for who created it
-        System.out.print("enter user name! ");
-        createdBy = keyboard.nextLine();
-
-        // key-value mapping
-        ps.setString(1, newCountry);
-        ps.setString(2, createdBy);
-        ps.setString(3, countryName);
-
-        //execute statement
-        ps.execute();
-
-        if (ps.getUpdateCount() > 0 ){
-            System.out.println(ps.getUpdateCount() + " rows updated.");
-        } else {
-            System.out.println("no rows updated");
-        }
 
     }
     /**
      * delete Customer object from database
      */
-    public void deleteCustomer() throws SQLException{
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
-
-        // make the sql code with ? for each value that is variable. this index starts at 1 and skips if a value is entered.
-        String deleteStatement = "DELETE FROM country WHERE country = ?";
-
-        //create prepared statement
-        MakePreparedStatement.makePreparedStatement(connection, deleteStatement); //create statement object
-        PreparedStatement ps = MakePreparedStatement.getPreparedStatement();
-
-        // make variables for ps
-        String countryName;
-
-        // keyboard input
-        Scanner keyboard = new Scanner(System.in);
-
-        System.out.print("enter a country to delete! ");
-        countryName = keyboard.nextLine();
-
-        // key-value mapping
-        ps.setString(1, countryName);
-
-
-        //execute statement
-        ps.execute();
-
-        if (ps.getUpdateCount() > 0 ){
-            System.out.println(ps.getUpdateCount() + " rows deleted.");
+    public static void deleteCustomer(Customer customer) throws SQLException{
+        Connection connection = MakeConnection.getConnection();
+        String deleteStatement = "DELETE FROM customer WHERE customerId = ?";
+        makePreparedStatement(connection, deleteStatement);
+        PreparedStatement preparedStatement = getPreparedStatement();
+        String customerId = Integer.toString(customer.getCustomerId());
+        preparedStatement.setString(1, customerId);
+        preparedStatement.execute();
+        if (preparedStatement.getUpdateCount() > 0 ){
+            System.out.println(preparedStatement.getUpdateCount() + " customers deleted.");
         } else {
-            System.out.println("no rows deleted");
+            System.out.println("no customers deleted");
         }
-
     }
 }
