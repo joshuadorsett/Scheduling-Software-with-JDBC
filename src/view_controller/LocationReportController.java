@@ -2,7 +2,10 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import dao.AppointmentDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +16,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
 
 /**
  * FXML Controller class
@@ -23,11 +28,11 @@ import javafx.stage.Stage;
 public class LocationReportController implements Initializable {
 
     @FXML
-    private TableView<?> locationTable;
+    private TableView<Appointment> locationTable;
     @FXML
-    private TableColumn<?, ?> title;
+    private TableColumn<Appointment, String> title;
     @FXML
-    private TableColumn<?, ?> location;
+    private TableColumn<Appointment, String> location;
     @FXML
     private Button goBack;
 
@@ -36,7 +41,13 @@ public class LocationReportController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            locationTable.setItems(AppointmentDaoImpl.getAllAppointments());
+            title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+            location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @FXML

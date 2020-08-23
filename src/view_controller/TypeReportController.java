@@ -2,7 +2,12 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
+
+import dao.AppointmentDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +18,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
 
 /**
  * FXML Controller class
@@ -24,28 +31,40 @@ public class TypeReportController implements Initializable {
     @FXML
     private Button goBack;
     @FXML
-    private TableView<?> RemoteTable;
+    private TableView<Appointment> RemoteTable;
     @FXML
-    private TableColumn<?, ?> remoteTitle;
+    private TableColumn<Appointment, String> remoteTitle;
     @FXML
-    private TableColumn<?, ?> remoteDate;
+    private TableColumn<Appointment, LocalDate> remoteDate;
     @FXML
-    private TableColumn<?, ?> remoteTime;
+    private TableColumn<Appointment, LocalTime> remoteTime;
     @FXML
-    private TableView<?> inPersonTable;
+    private TableView<Appointment> inPersonTable;
     @FXML
-    private TableColumn<?, ?> inPersonTitle;
+    private TableColumn<Appointment, String> inPersonTitle;
     @FXML
-    private TableColumn<?, ?> inPersonDate;
+    private TableColumn<Appointment, LocalDate> inPersonDate;
     @FXML
-    private TableColumn<?, ?> inPersonTime;
+    private TableColumn<Appointment, LocalTime> inPersonTime;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            inPersonTable.setItems(AppointmentDaoImpl.getInPersonAppointments());
+            inPersonTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+            inPersonDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+            inPersonTime.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+
+            RemoteTable.setItems(AppointmentDaoImpl.getRemoteAppointments());
+            remoteTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+            remoteDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+            remoteTime.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @FXML

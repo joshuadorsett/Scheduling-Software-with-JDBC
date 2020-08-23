@@ -2,7 +2,13 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
+
+import dao.AppointmentDaoImpl;
+import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +19,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.User;
 
 /**
  * FXML Controller class
@@ -23,28 +32,49 @@ import javafx.stage.Stage;
 public class ConsultantReportController implements Initializable {
 
     @FXML
-    private TableView<?> consultantTable;
+    private TableView<User> consultantTable;
     @FXML
-    private TableColumn<?, ?> consultantId;
+    private TableColumn<User, Integer> consultantId;
     @FXML
-    private TableColumn<?, ?> consultantName;
+    private TableColumn<User, String> consultantName;
     @FXML
-    private TableView<?> AppointmentTable;
+    private TableView<Appointment> AppointmentTable;
     @FXML
-    private TableColumn<?, ?> title;
+    private TableColumn<Appointment, String> title;
     @FXML
-    private TableColumn<?, ?> date;
+    private TableColumn<Appointment, LocalDate> date;
     @FXML
-    private TableColumn<?, ?> time;
+    private TableColumn<Appointment, LocalTime> time;
     @FXML
     private Button goBack;
-
+    private static User selectedUser;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        generateConsultantTable();
+    }
+
+    public void generateConsultantTable(){
+        try {
+
+            consultantTable.setItems(UserDaoImpl.getAllUsers());
+            consultantId.setCellValueFactory(new PropertyValueFactory<>("userId"));
+            consultantName.setCellValueFactory(new PropertyValueFactory<>("userName"));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void generateAppointmentTable() throws SQLException {
+        selectedUser = consultantTable.getSelectionModel().getSelectedItem();
+        String userIdString = Integer.toString(selectedUser.getUserId());
+        AppointmentTable.setItems(AppointmentDaoImpl.getConsultantReport(userIdString));
+        title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+        date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+        time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
     }
 
     @FXML

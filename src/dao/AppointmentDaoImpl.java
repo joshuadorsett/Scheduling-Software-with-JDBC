@@ -99,6 +99,108 @@ public class AppointmentDaoImpl {
         }
         return allAppointments;
     }
+    public static ObservableList<Appointment> getRemoteAppointments() throws  SQLException {
+        ObservableList<Appointment> remoteAppointments = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection();
+        String selectStatement = "Select * FROM U07nke.appointment Where type = 'Remote' ";
+        makePreparedStatement(connection, selectStatement);
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        while (resultSet.next()) {
+            int appointmentId = resultSet.getInt("appointmentId");
+            int customerId = resultSet.getInt("customerId");
+            int userId = resultSet.getInt("userId");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
+            String location = resultSet.getString("location");
+            String contact = resultSet.getString("contact");
+            String type = resultSet.getString("type");
+            String url = resultSet.getString("url");
+            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
+            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+            String editor = resultSet.getString("lastUpdateBy");
+
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,dateCreated,timeCreated,location);
+            remoteAppointments.add(appointment);
+            System.out.println(appointmentId + " | " + title + " | " + dateCreated + " " +
+                    timeCreated + " | " + author + " | " + lastDate +
+                    " | " + lastTimestamp);
+        }
+        return remoteAppointments;
+    }
+
+    public static ObservableList<Appointment> getInPersonAppointments() throws  SQLException {
+        ObservableList<Appointment> inPersonAppointments = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection();
+        String selectStatement = "Select * FROM U07nke.appointment WHERE type = 'In-Person' ";
+        makePreparedStatement(connection, selectStatement);
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        while (resultSet.next()) {
+            int appointmentId = resultSet.getInt("appointmentId");
+            int customerId = resultSet.getInt("customerId");
+            int userId = resultSet.getInt("userId");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
+            String location = resultSet.getString("location");
+            String contact = resultSet.getString("contact");
+            String type = resultSet.getString("type");
+            String url = resultSet.getString("url");
+            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
+            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+            String editor = resultSet.getString("lastUpdateBy");
+
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,dateCreated,timeCreated,location);
+            inPersonAppointments.add(appointment);
+            System.out.println(appointmentId + " | " + title + " | " + dateCreated + " " +
+                    timeCreated + " | " + author + " | " + lastDate +
+                    " | " + lastTimestamp);
+        }
+        return inPersonAppointments;
+    }
+
+    public static ObservableList<Appointment> getConsultantReport(String id) throws SQLException {
+        ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection();
+        String selectStatement = "Select * FROM U07nke.appointment WHERE userId = ?";
+        makePreparedStatement(connection, selectStatement); //create statement object
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.setString(1, id);
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        while (resultSet.next()) {
+            int appointmentId = resultSet.getInt("appointmentId");
+            int customerId = resultSet.getInt("customerId");
+            int userId = resultSet.getInt("userId");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
+            String location = resultSet.getString("location");
+            String contact = resultSet.getString("contact");
+            String type = resultSet.getString("type");
+            String url = resultSet.getString("url");
+            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
+            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+            String editor = resultSet.getString("lastUpdateBy");
+
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,dateCreated,timeCreated,location);
+            userAppointments.add(appointment);
+            System.out.println(appointmentId + " | " + title + " | " + dateCreated + " " +
+                    timeCreated + " | " + author + " | " + lastDate +
+                    " | " + lastTimestamp);
+        }
+        return userAppointments;
+    }
 
     /**
      * modify Appointment object and convert it into SQl code and update database

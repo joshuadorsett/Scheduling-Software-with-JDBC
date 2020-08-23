@@ -1,12 +1,23 @@
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Appointment;
+import model.User;
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Scanner;
+
+import static utilities.MakePreparedStatement.getPreparedStatement;
+import static utilities.MakePreparedStatement.makePreparedStatement;
 
 /**
  *
@@ -21,17 +32,26 @@ public class UserDaoImpl {
     }
 
     /**
-     * get a  User object from database
-     */
-    public void getUser(){
-
-    }
-
-    /**
      * get all User objects from database
      */
-    public void getAllUsers(){
+    public static ObservableList<User> getAllUsers() throws SQLException {
+        ObservableList<User> allUsers = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection();
+        String selectStatement = "Select * FROM U07nke.user";
+        makePreparedStatement(connection, selectStatement);
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        while (resultSet.next()) {
+            int userId = resultSet.getInt("userId");
+            String userName = resultSet.getString("userName");
+            String password = resultSet.getString("password");
 
+            User user = new User(userId, userName, password);
+            allUsers.add(user);
+            System.out.println(userId + " | " + userName + " | " + password + " ");
+        }
+        return allUsers;
     }
 
     /**
