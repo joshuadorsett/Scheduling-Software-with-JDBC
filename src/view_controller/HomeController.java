@@ -86,9 +86,9 @@ public class HomeController implements Initializable {
         generateCustomerTable();
     }
 
-    public void generateCalendarTable(){
+    public void generateWeeklyCalendarTable(){
         try {
-            calendarTable.setItems(AppointmentDaoImpl.getAllAppointments());
+            calendarTable.setItems(AppointmentDaoImpl.getWeeklyAppointments());
             appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
             customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
             userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
@@ -101,6 +101,55 @@ public class HomeController implements Initializable {
             throwables.printStackTrace();
         }
     }
+    public void generateCalendarTable(){
+
+        if (allRadio.isSelected()) {
+            try {
+                calendarTable.setItems(AppointmentDaoImpl.getAllAppointments());
+                appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+                customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
+                userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
+                title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+                location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
+                date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+                time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+                type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        } else if (thisWeekRadio.isSelected()) {
+            try {
+                calendarTable.setItems(AppointmentDaoImpl.getWeeklyAppointments());
+                appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+                customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
+                userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
+                title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+                location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
+                date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+                time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+                type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        } else {
+            try {
+                calendarTable.setItems(AppointmentDaoImpl.getMonthlyAppointments());
+                appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+                customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
+                userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
+                title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
+                location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
+                date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+                time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+                type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+
+    }
+
     public void generateCustomerTable(){
         try {
             customerTable.setItems(CustomerDaoImpl.getAllCustomers());
@@ -232,4 +281,15 @@ public class HomeController implements Initializable {
         window.show();
     }
 
+    public void allRadio(ActionEvent actionEvent) {
+        generateCalendarTable();
+    }
+
+    public void thisMonthRadio(ActionEvent actionEvent) {
+        generateCalendarTable();
+    }
+
+    public void thisWeekRadio(ActionEvent actionEvent) {
+        generateCalendarTable();
+    }
 }

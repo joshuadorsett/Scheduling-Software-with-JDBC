@@ -47,8 +47,8 @@ public class AppointmentDaoImpl {
         preparedStatement.setString(6, "none");
         preparedStatement.setString(7, type);
         preparedStatement.setString(8, "none");
-        preparedStatement.setString(9, "2020-02-02 00:00:00");
-        preparedStatement.setString(10, "2020-02-02 00:00:00");
+        preparedStatement.setString(9, start);
+        preparedStatement.setString(10, "2020-12-31 00:00:00");
         preparedStatement.setString(11, stringLocalDate);
         preparedStatement.setString(12, "none");
         preparedStatement.setString(13, createdBy);
@@ -84,17 +84,85 @@ public class AppointmentDaoImpl {
             String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
             String url = resultSet.getString("url");
-            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
-            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            LocalDate startDate = resultSet.getDate("start").toLocalDate();
+            LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
             String editor = resultSet.getString("lastUpdateBy");
 
-            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,dateCreated,timeCreated,location);
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             allAppointments.add(appointment);
-            System.out.println(appointmentId + " | " + title + " | " + dateCreated + " " +
-                    timeCreated + " | " + author + " | " + lastDate +
+            System.out.println(appointmentId + " | " + title + " | " + startDate + " " +
+                    startTime + " | " + author + " | " + lastDate +
+                    " | " + lastTimestamp);
+        }
+        return allAppointments;
+    }
+
+    public static ObservableList<Appointment> getMonthlyAppointments() throws SQLException {
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection(); //get reference to connection object
+        String selectStatement = "Select * FROM U07nke.appointment WHERE start BETWEEN NOW() AND LAST_DAY(NOW())";
+        makePreparedStatement(connection, selectStatement); //create statement object
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        while (resultSet.next()) {
+            int appointmentId = resultSet.getInt("appointmentId");
+            int customerId = resultSet.getInt("customerId");
+            int userId = resultSet.getInt("userId");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
+            String location = resultSet.getString("location");
+            String contact = resultSet.getString("contact");
+            String type = resultSet.getString("type");
+            String url = resultSet.getString("url");
+            LocalDate startDate = resultSet.getDate("start").toLocalDate();
+            LocalTime startTime = resultSet.getTime("start").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+            String editor = resultSet.getString("lastUpdateBy");
+
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
+            allAppointments.add(appointment);
+            System.out.println(appointmentId + " | " + title + " | " + startDate + " " +
+                    startTime + " | " + author + " | " + lastDate +
+                    " | " + lastTimestamp);
+        }
+        return allAppointments;
+    }
+
+    public static ObservableList<Appointment> getWeeklyAppointments() throws SQLException {
+        ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection(); //get reference to connection object
+        String selectStatement = "Select * FROM U07nke.appointment WHERE WEEK(NOW()) = WEEK(start)";
+        makePreparedStatement(connection, selectStatement); //create statement object
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+        while (resultSet.next()) {
+            int appointmentId = resultSet.getInt("appointmentId");
+            int customerId = resultSet.getInt("customerId");
+            int userId = resultSet.getInt("userId");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
+            String location = resultSet.getString("location");
+            String contact = resultSet.getString("contact");
+            String type = resultSet.getString("type");
+            String url = resultSet.getString("url");
+            LocalDate startDate = resultSet.getDate("start").toLocalDate();
+            LocalTime startTime = resultSet.getTime("start").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+            String editor = resultSet.getString("lastUpdateBy");
+
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
+            allAppointments.add(appointment);
+            System.out.println(appointmentId + " | " + title + " | " + startDate + " " +
+                    startTime + " | " + author + " | " + lastDate +
                     " | " + lastTimestamp);
         }
         return allAppointments;
@@ -117,17 +185,17 @@ public class AppointmentDaoImpl {
             String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
             String url = resultSet.getString("url");
-            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
-            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            LocalDate startDate = resultSet.getDate("start").toLocalDate();
+            LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
             String editor = resultSet.getString("lastUpdateBy");
 
-            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,dateCreated,timeCreated,location);
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             remoteAppointments.add(appointment);
-            System.out.println(appointmentId + " | " + title + " | " + dateCreated + " " +
-                    timeCreated + " | " + author + " | " + lastDate +
+            System.out.println(appointmentId + " | " + title + " | " + startDate + " " +
+                    startTime + " | " + author + " | " + lastDate +
                     " | " + lastTimestamp);
         }
         return remoteAppointments;
@@ -151,17 +219,17 @@ public class AppointmentDaoImpl {
             String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
             String url = resultSet.getString("url");
-            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
-            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            LocalDate startDate = resultSet.getDate("start").toLocalDate();
+            LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
             String editor = resultSet.getString("lastUpdateBy");
 
-            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,dateCreated,timeCreated,location);
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             inPersonAppointments.add(appointment);
-            System.out.println(appointmentId + " | " + title + " | " + dateCreated + " " +
-                    timeCreated + " | " + author + " | " + lastDate +
+            System.out.println(appointmentId + " | " + title + " | " + startDate + " " +
+                    startTime + " | " + author + " | " + lastDate +
                     " | " + lastTimestamp);
         }
         return inPersonAppointments;
@@ -186,17 +254,17 @@ public class AppointmentDaoImpl {
             String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
             String url = resultSet.getString("url");
-            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
-            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
+            LocalDate startDate = resultSet.getDate("start").toLocalDate();
+            LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
             String editor = resultSet.getString("lastUpdateBy");
 
-            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,dateCreated,timeCreated,location);
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             userAppointments.add(appointment);
-            System.out.println(appointmentId + " | " + title + " | " + dateCreated + " " +
-                    timeCreated + " | " + author + " | " + lastDate +
+            System.out.println(appointmentId + " | " + title + " | " + startDate + " " +
+                    startTime + " | " + author + " | " + lastDate +
                     " | " + lastTimestamp);
         }
         return userAppointments;

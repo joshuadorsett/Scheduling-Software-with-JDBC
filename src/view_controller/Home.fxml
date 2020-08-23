@@ -38,13 +38,13 @@
         </Rectangle>
         <Pane layoutX="88.0" layoutY="58.0">
             <children>
-                <RadioButton fx:id="allRadio" layoutX="190.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="45.0" selected="true" text="All">
+                <RadioButton fx:id="allRadio" layoutX="190.0" mnemonicParsing="false" prefHeight="30.0" onAction="#allRadio" prefWidth="45.0" selected="true" text="All">
                     <toggleGroup>
                         <ToggleGroup fx:id="homeRadio" />
                     </toggleGroup>
                 </RadioButton>
-                <RadioButton fx:id="thisMonthRadio" layoutX="244.0" layoutY="6.0" mnemonicParsing="false" selected="true" text="This Month" toggleGroup="$homeRadio" />
-                <RadioButton fx:id="thisWeekRadio" layoutX="335.0" layoutY="6.0" mnemonicParsing="false" selected="true" text="This Week" toggleGroup="$homeRadio" />
+                <RadioButton fx:id="thisMonthRadio" layoutX="244.0" layoutY="6.0" mnemonicParsing="false" selected="true" onAction="#thisMonthRadio" text="This Month" toggleGroup="$homeRadio" />
+                <RadioButton fx:id="thisWeekRadio" layoutX="335.0" layoutY="6.0" mnemonicParsing="false" selected="true" onAction="#thisWeekRadio" text="This Week" toggleGroup="$homeRadio" />
                 <TableView fx:id="calendarTable" layoutY="33.0" prefHeight="174.0" prefWidth="573.0">
                     <columns>
                         <TableColumn fx:id="appointmentId" prefWidth="93.0" text="Appointment ID" />

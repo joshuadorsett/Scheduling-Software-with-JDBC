@@ -80,7 +80,7 @@ public class AddAppointmentController implements Initializable {
         else {
             typeSelected = "In-Person";
         }
-        String start = date + " "+ time;
+        String start = date.getText() + " "+ time.getText();
 
         AppointmentDaoImpl.addAppointment(customerId.getText(), title.getText(), location.getText(), typeSelected, start);
         sceneChange("Home.fxml", event);
