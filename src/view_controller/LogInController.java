@@ -2,8 +2,11 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,24 +19,22 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
  * @author joshuadorsett
  */
 public class LogInController implements Initializable {
-
+    @FXML
+    private TextField name;
+    @FXML
+    private TextField password;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
-
-    @FXML
-    private TextField name;
-
-    @FXML
-    private TextField password;
 
     @FXML
     void cancel(ActionEvent event) {
@@ -51,9 +52,38 @@ public class LogInController implements Initializable {
     }
 
     @FXML
-    void loginButton(ActionEvent event) throws IOException {
-//        add code here to check that user login is correct and then set user info to current user
-        sceneChange("Home.fxml", event);
+    void loginButton(ActionEvent event) throws IOException, SQLException {
+
+        try {
+            User activeUser = UserDaoImpl.getUserByName(name.getText());
+            System.out.println(activeUser.getUserPassword());
+            if (name.getText().equals("")){
+                Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert3.initModality(Modality.NONE);
+                alert3.setTitle("Invalid UserName");
+                alert3.setHeaderText("Invalid UserName");
+                alert3.setContentText("The UserName was Invalid.");
+                alert3.showAndWait();
+            }
+            if (activeUser.getUserPassword().equals(password.getText())) {
+                sceneChange("Home.fxml", event);
+            } else {
+                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert2.initModality(Modality.NONE);
+                alert2.setTitle("Invalid Password");
+                alert2.setHeaderText("Invalid Password");
+                alert2.setContentText("The password was incorrect.");
+                alert2.showAndWait();
+            }
+        } catch (Exception e){
+            Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert3.initModality(Modality.NONE);
+            alert3.setTitle("Invalid UserName");
+            alert3.setHeaderText("Invalid UserName");
+            alert3.setContentText("The UserName was Invalid.");
+            alert3.showAndWait();
+        }
+//        sceneChange("Home.fxml", event);
     }
     /**
      * changes scenes.
