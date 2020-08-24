@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Scanner;
 
 import static utilities.MakePreparedStatement.*;
 
@@ -36,8 +35,9 @@ public class AppointmentDaoImpl {
 
         LocalDate localDate = LocalDate.now();
         String stringLocalDate = localDate.toString();
-        String userId = "1";
-        String createdBy = "user";
+        String userId = Integer.toString(UserDaoImpl.getActiveUser().getUserId());
+        String createdBy = UserDaoImpl.getActiveUser().getUserName();
+        String lastUpdateBy = createdBy;
 
         preparedStatement.setString(1, customerId);
         preparedStatement.setString(2, userId);
@@ -50,8 +50,8 @@ public class AppointmentDaoImpl {
         preparedStatement.setString(9, start);
         preparedStatement.setString(10, "2020-12-31 00:00:00");
         preparedStatement.setString(11, stringLocalDate);
-        preparedStatement.setString(12, "none");
-        preparedStatement.setString(13, createdBy);
+        preparedStatement.setString(12, createdBy);
+        preparedStatement.setString(13, lastUpdateBy);
 
         preparedStatement.execute();
 
@@ -79,17 +79,13 @@ public class AppointmentDaoImpl {
             int customerId = resultSet.getInt("customerId");
             int userId = resultSet.getInt("userId");
             String title = resultSet.getString("title");
-            String description = resultSet.getString("description");
             String location = resultSet.getString("location");
-            String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
-            String url = resultSet.getString("url");
             LocalDate startDate = resultSet.getDate("start").toLocalDate();
             LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
 
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             allAppointments.add(appointment);
@@ -113,17 +109,13 @@ public class AppointmentDaoImpl {
             int customerId = resultSet.getInt("customerId");
             int userId = resultSet.getInt("userId");
             String title = resultSet.getString("title");
-            String description = resultSet.getString("description");
             String location = resultSet.getString("location");
-            String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
-            String url = resultSet.getString("url");
             LocalDate startDate = resultSet.getDate("start").toLocalDate();
             LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
 
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             allAppointments.add(appointment);
@@ -147,17 +139,13 @@ public class AppointmentDaoImpl {
             int customerId = resultSet.getInt("customerId");
             int userId = resultSet.getInt("userId");
             String title = resultSet.getString("title");
-            String description = resultSet.getString("description");
             String location = resultSet.getString("location");
-            String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
-            String url = resultSet.getString("url");
             LocalDate startDate = resultSet.getDate("start").toLocalDate();
             LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
 
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             allAppointments.add(appointment);
@@ -180,17 +168,13 @@ public class AppointmentDaoImpl {
             int customerId = resultSet.getInt("customerId");
             int userId = resultSet.getInt("userId");
             String title = resultSet.getString("title");
-            String description = resultSet.getString("description");
             String location = resultSet.getString("location");
-            String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
-            String url = resultSet.getString("url");
             LocalDate startDate = resultSet.getDate("start").toLocalDate();
             LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
 
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             remoteAppointments.add(appointment);
@@ -214,17 +198,13 @@ public class AppointmentDaoImpl {
             int customerId = resultSet.getInt("customerId");
             int userId = resultSet.getInt("userId");
             String title = resultSet.getString("title");
-            String description = resultSet.getString("description");
             String location = resultSet.getString("location");
-            String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
-            String url = resultSet.getString("url");
             LocalDate startDate = resultSet.getDate("start").toLocalDate();
             LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
 
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             inPersonAppointments.add(appointment);
@@ -249,17 +229,13 @@ public class AppointmentDaoImpl {
             int customerId = resultSet.getInt("customerId");
             int userId = resultSet.getInt("userId");
             String title = resultSet.getString("title");
-            String description = resultSet.getString("description");
             String location = resultSet.getString("location");
-            String contact = resultSet.getString("contact");
             String type = resultSet.getString("type");
-            String url = resultSet.getString("url");
             LocalDate startDate = resultSet.getDate("start").toLocalDate();
             LocalTime startTime = resultSet.getTime("start").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
 
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,location);
             userAppointments.add(appointment);
@@ -274,43 +250,7 @@ public class AppointmentDaoImpl {
      * modify Appointment object and convert it into SQl code and update database
      */
     public void modifyAppointment() throws SQLException {
-            Connection connection = MakeConnection.getConnection(); //get reference to connection object
 
-            // make the sql code with ? for each value that is variable. this index starts at 1 and skips if a value is entered.
-            String updateStatement = "UPDATE country SET country = ?, createdBy = ? WHERE country = ?";
-
-            //create prepared statement
-            makePreparedStatement(connection, updateStatement); //create statement object
-            PreparedStatement ps = getPreparedStatement();
-
-            // make variables for ps
-            String countryName, newCountry, createdBy;
-
-            // keyboard input
-            Scanner keyboard = new Scanner(System.in);
-            //promt one enter country for filter
-            System.out.print("enter a country to update! ");
-            countryName = keyboard.nextLine();
-            // prompt for new country
-            System.out.print("enter new country! ");
-            newCountry = keyboard.nextLine();
-            //prompt for who created it
-            System.out.print("enter user name! ");
-            createdBy = keyboard.nextLine();
-
-            // key-value mapping
-            ps.setString(1, newCountry);
-            ps.setString(2, createdBy);
-            ps.setString(3, countryName);
-
-            //execute statement
-            ps.execute();
-
-            if (ps.getUpdateCount() > 0 ){
-                System.out.println(ps.getUpdateCount() + " rows updated.");
-            } else {
-                System.out.println("no rows updated");
-            }
     }
 
     /**

@@ -28,7 +28,7 @@ public class CustomerDaoImpl {
     /**
      * create Customer object and convert it into SQL code and add it to database
      */
-    public static void addCustomer(String customerName, int addressId, int active) throws SQLException{
+    public static void addCustomer(String customerName, String addressId, String active) throws SQLException{
         Connection connection = MakeConnection.getConnection();
         String insertStatement = "INSERT INTO customer(customerName, addressId, active, createDate, " +
                 "createdBy, lastUpdateBy) VALUES(?,?,?,?,?,?)";
@@ -36,16 +36,13 @@ public class CustomerDaoImpl {
         PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         LocalDate localDate = LocalDate.now();
         String stringLocalDate = localDate.toString();
-        String addressIdString = Integer.toString(addressId);
-        String activeString = Integer.toString(active);
-        String createdBy = "user";
-        String lastUpdateBy = "user";
-
+        String createdBy = UserDaoImpl.getActiveUser().getUserName();
+        String lastUpdateBy = createdBy;
 
         // key-value mapping
         preparedStatement.setString(1, customerName);
-        preparedStatement.setString(2, addressIdString);
-        preparedStatement.setString(3, activeString);
+        preparedStatement.setString(2, addressId);
+        preparedStatement.setString(3, active);
         preparedStatement.setString(4, stringLocalDate);
         preparedStatement.setString(5, createdBy);
         preparedStatement.setString(6, lastUpdateBy);

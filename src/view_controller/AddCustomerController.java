@@ -48,9 +48,7 @@ public class AddCustomerController implements Initializable {
 
     @FXML
     public void save(ActionEvent event) throws IOException, SQLException {
-        String customerName = name.getText();
-        int addressId = Integer.parseInt(address.getText());
-        CustomerDaoImpl.addCustomer(customerName, addressId, 1);
+        CustomerDaoImpl.addCustomer(name.getText(), address.getText(), "1");
         sceneChange("Home.fxml", event);
     }
 

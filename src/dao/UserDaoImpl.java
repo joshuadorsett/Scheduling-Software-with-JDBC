@@ -2,19 +2,14 @@ package dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Appointment;
 import model.User;
 import utilities.MakeConnection;
-import utilities.MakePreparedStatement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Scanner;
+
 
 import static utilities.MakePreparedStatement.getPreparedStatement;
 import static utilities.MakePreparedStatement.makePreparedStatement;
@@ -66,6 +61,9 @@ public class UserDaoImpl {
             activeUser = user;
             System.out.println(id + " | " + /*userName + */" ");
         }
+        return activeUser;
+    }
+    public static User getActiveUser(){
         return activeUser;
     }
 
