@@ -74,9 +74,8 @@ public class HomeController implements Initializable {
     private TableColumn<Customer, Integer> phone;
     @FXML
     private static Appointment modifyAppointment; /*the selected Appointment to be modified*/
-    private static int modifyAppointmentIndex; /*the index of the selected Appointment*/
     private static Customer modifyCustomer; /*the selected Customer to be modified*/
-    private static int modifyCustomerIndex; /*the index of the selected Customer*/
+    private static Customer customerToMeetWith; /* customer selected for new appointment*/
     /**
      * Initializes the controller class.
      */
@@ -86,21 +85,6 @@ public class HomeController implements Initializable {
         generateCustomerTable();
     }
 
-    public void generateWeeklyCalendarTable(){
-        try {
-            calendarTable.setItems(AppointmentDaoImpl.getWeeklyAppointments());
-            appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-            customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
-            userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
-            title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-            location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
-            date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-            time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
-            type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
     public void generateCalendarTable(){
 
         if (allRadio.isSelected()) {
@@ -163,20 +147,32 @@ public class HomeController implements Initializable {
     }
     @FXML
     public void addAppointment(ActionEvent event) throws IOException {
-        sceneChange("AddAppointment.fxml", event);
+        customerToMeetWith = customerTable.getSelectionModel().getSelectedItem();
+        if (customerToMeetWith != null) {
+            sceneChange("AddAppointment.fxml", event);
+        }else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initModality(Modality.NONE);
+            alert.setTitle("Select Customer");
+            alert.setHeaderText("Select Customer");
+            alert.setContentText("Please select a customer to meet with");
+            alert.showAndWait();
+        }
+    }
+    public static Customer getCustomerToMeetWith() {
+        return customerToMeetWith;
     }
 
     @FXML
-    public void modifyAppointment(ActionEvent event) throws IOException, SQLException {
+    public void modifyAppointment(ActionEvent event) throws IOException {
         modifyAppointment = calendarTable.getSelectionModel().getSelectedItem();
-        modifyAppointmentIndex = AppointmentDaoImpl.getAllAppointments().indexOf(modifyAppointment);
         sceneChange("ModifyAppointment.fxml", event);
     }
     /**
-     * @return modifyAppointmentIndex
+     * @return modifyAppointment
      */
-    public static int appointmentToModifyIndex() {
-        return modifyAppointmentIndex;
+    public static Appointment appointmentToModify() {
+        return modifyAppointment;
     }
 
     @FXML
@@ -203,17 +199,16 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void modifyCustomer(ActionEvent event) throws IOException, SQLException {
+    public void modifyCustomer(ActionEvent event) throws IOException {
         modifyCustomer = customerTable.getSelectionModel().getSelectedItem();
-        modifyCustomerIndex = CustomerDaoImpl.getAllCustomers().indexOf(modifyCustomer);
         sceneChange("ModifyCustomer.fxml", event);
     }
-
     /**
-     * @return modifyCustomerIndex
+     * @return modifyCustomer
      */
-    public static int customerToModifyIndex() {
-        return modifyCustomerIndex;
+
+    public static Customer customerToModify() {
+        return modifyCustomer;
     }
     @FXML
     public void deleteCustomer(ActionEvent event) throws SQLException {
@@ -253,7 +248,7 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void exitProgram(ActionEvent event) throws SQLException, Exception {
+    public void exitProgram(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirmation Needed");

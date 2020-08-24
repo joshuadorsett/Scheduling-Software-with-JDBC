@@ -18,6 +18,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import model.Customer;
 
 /**
  * FXML Controller class
@@ -27,7 +28,7 @@ import javafx.stage.Stage;
 public class AddAppointmentController implements Initializable {
 
     @FXML
-    private TextField customerId;
+    private Label customerId;
     @FXML
     private TextField title;
     @FXML
@@ -51,12 +52,14 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private Button cancelAppointment;
     private boolean remote;
+    private Customer selectedCustomer;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //
+        selectedCustomer = HomeController.getCustomerToMeetWith();
+        customerId.setText(selectedCustomer.getCustomerName());
     }
 
     @FXML
@@ -72,15 +75,16 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private void saveAppointment(ActionEvent event) throws IOException, SQLException {
         String typeSelected;
-        if (remote){
+        if (remoteRadio.isSelected()){
             typeSelected = "Remote";
         }
         else {
             typeSelected = "In-Person";
         }
         String start = date.getText() + " "+ time.getText();
+        String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
 
-        AppointmentDaoImpl.addAppointment(customerId.getText(), title.getText(), location.getText(), typeSelected, start);
+        AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, start);
         sceneChange("Home.fxml", event);
     }
 
