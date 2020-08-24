@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import dao.AppointmentDaoImpl;
+import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import model.Customer;
+import model.User;
 
 /**
  * FXML Controller class
@@ -44,14 +46,11 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private TextField location;
     @FXML
-    private Label appointmentId;
-    @FXML
     private Label userId;
     @FXML
     private Button saveAppointment;
     @FXML
     private Button cancelAppointment;
-    private boolean remote;
     private Customer selectedCustomer;
     /**
      * Initializes the controller class.
@@ -60,16 +59,7 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         selectedCustomer = HomeController.getCustomerToMeetWith();
         customerId.setText(selectedCustomer.getCustomerName());
-    }
-
-    @FXML
-    public void remoteRadio(ActionEvent event){
-        remote = true;
-    }
-
-    @FXML
-    public void inPersonRadio(ActionEvent event){
-        remote = false;
+        userId.setText(UserDaoImpl.getActiveUser().getUserName());
     }
 
     @FXML
