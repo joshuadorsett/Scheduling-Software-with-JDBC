@@ -40,7 +40,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private DatePicker date;
     @FXML
-    private TextField time;
+    private ComboBox time;
     @FXML
     private TextField location;
     @FXML
@@ -60,7 +60,6 @@ public class AddAppointmentController implements Initializable {
         customerId.setText(selectedCustomer.getCustomerName());
         userId.setText(UserDaoImpl.getActiveUser().getUserName());
         date.setConverter(converter);
-
         converter = new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter =
                     DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -82,6 +81,11 @@ public class AddAppointmentController implements Initializable {
                 }
             }
         };
+
+        time.getItems().addAll("08:00:00", "08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
+                "11:00:00", "11:30:00","12:00:00","12:30:00","01:00:00","01:30:00","02:00:00","02:30:00", "03:00:00",
+                "03:30:00","04:00:00","04:30:00","05:00:00","05:30:00");
+
     }
 
     @FXML
@@ -93,7 +97,7 @@ public class AddAppointmentController implements Initializable {
         else {
             typeSelected = "In-Person";
         }
-        String start = date.getValue() + " "+ time.getText();
+        String start = date.getValue() + " "+ time.getSelectionModel().getSelectedItem().toString();
         String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
 
         AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, start);
@@ -118,4 +122,5 @@ public class AddAppointmentController implements Initializable {
         window.setScene(Scene);
         window.show();
     }
+
 }
