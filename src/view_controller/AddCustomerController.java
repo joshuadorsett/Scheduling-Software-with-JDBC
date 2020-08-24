@@ -23,8 +23,7 @@ import javafx.stage.Stage;
  *
  * @author joshuadorsett
  */
-public class AddCustomerController implements Initializable {
-
+public class AddCustomerController {
     @FXML
     private TextField name;
     @FXML
@@ -38,17 +37,9 @@ public class AddCustomerController implements Initializable {
     @FXML
     private Button cancel;
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
-
     @FXML
     public void save(ActionEvent event) throws IOException, SQLException {
-        CustomerDaoImpl.addCustomer(name.getText(), address.getText(), "1");
+        CustomerDaoImpl.addCustomer(name.getText(), address.getText(), phoneNumber.getText());
         sceneChange("Home.fxml", event);
     }
 

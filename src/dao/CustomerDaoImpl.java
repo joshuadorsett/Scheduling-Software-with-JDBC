@@ -6,10 +6,8 @@ import model.Customer;
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.swing.plaf.nimbus.State;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -25,30 +23,45 @@ import static utilities.MakePreparedStatement.makePreparedStatement;
  * @author joshuadorsett
  */
 public class CustomerDaoImpl {
-    /**
-     * create Customer object and convert it into SQL code and add it to database
-     */
-    public static void addCustomer(String customerName, String addressId, String active) throws SQLException{
+
+    public static void addCustomer(String customerName, String address, String phoneNumber) throws SQLException{
         Connection connection = MakeConnection.getConnection();
-        String insertStatement = "INSERT INTO customer(customerName, addressId, active, createDate, " +
-                "createdBy, lastUpdateBy) VALUES(?,?,?,?,?,?)";
-        MakePreparedStatement.makePreparedStatement(connection, insertStatement); //create statement object
-        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
+        String insertAddressStatement = "INSERT INTO address(address, address2, cityId, postalCode, phone, createDate, " +
+                "createdBy,lastUpdateBy) VALUES(?,?,?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(insertAddressStatement, PreparedStatement.RETURN_GENERATED_KEYS);
         LocalDate localDate = LocalDate.now();
         String stringLocalDate = localDate.toString();
         String createdBy = UserDaoImpl.getActiveUser().getUserName();
         String lastUpdateBy = createdBy;
 
         // key-value mapping
-        preparedStatement.setString(1, customerName);
-        preparedStatement.setString(2, addressId);
-        preparedStatement.setString(3, active);
-        preparedStatement.setString(4, stringLocalDate);
-        preparedStatement.setString(5, createdBy);
-        preparedStatement.setString(6, lastUpdateBy);
-
-        //execute statement
+        preparedStatement.setString(1, address);
+        preparedStatement.setString(2,"none");
+        preparedStatement.setString(3,"1");
+        preparedStatement.setString(4,"none");
+        preparedStatement.setString(5, phoneNumber);
+        preparedStatement.setString(6, stringLocalDate);
+        preparedStatement.setString(7, createdBy);
+        preparedStatement.setString(8, lastUpdateBy);
+        //execute statement for address
         preparedStatement.execute();
+//        get the PK of address so we can insert a FK into customer
+        ResultSet rs = preparedStatement.getGeneratedKeys();
+        int key = rs.next() ? rs.getInt(1) : 0;
+        String addressIdString = Integer.toString(key);
+//        next insert statement
+        String insertCustomerStatement = "INSERT INTO customer(customerName, addressId, active, createDate, " +
+                "createdBy, lastUpdateBy) VALUES(?,?,?,?,?,?)";
+        MakePreparedStatement.makePreparedStatement(connection, insertCustomerStatement);
+        PreparedStatement preparedStatement2 = MakePreparedStatement.getPreparedStatement();
+        // key-value mapping
+        preparedStatement2.setString(1, customerName);
+        preparedStatement2.setString(2, addressIdString);
+        preparedStatement2.setString(3, "1");
+        preparedStatement2.setString(4, stringLocalDate);
+        preparedStatement2.setString(5, createdBy);
+        preparedStatement2.setString(6, lastUpdateBy);
+        preparedStatement2.execute();
 
         if (preparedStatement.getUpdateCount() > 0 ){
             System.out.println(preparedStatement.getUpdateCount() + " customer added.");
@@ -63,7 +76,7 @@ public class CustomerDaoImpl {
     public static ObservableList<Customer> getAllCustomers() throws SQLException{
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
-        String selectStatement = "Select * FROM U07nke.customer";
+        String selectStatement = "SELECT * FROM U07nke.customer INNER JOIN U07nke.address ON customer.addressId = address.addressId;";
         makePreparedStatement(connection, selectStatement); //create statement object
         PreparedStatement preparedStatement = getPreparedStatement();
         preparedStatement.execute();
@@ -71,16 +84,15 @@ public class CustomerDaoImpl {
         while (resultSet.next()) {
             int customerId = resultSet.getInt("customerId");
             String customerName = resultSet.getString("customerName");
-            int addressId = resultSet.getInt("addressId");
-            int active = resultSet.getInt("active");
+            String address = resultSet.getString("address");
+            String phone = resultSet.getString("phone");
             LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
             LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
 
-            Customer customer = new Customer(customerId,customerName,addressId,active);
+            Customer customer = new Customer(customerId,customerName,address,phone);
             allCustomers.add(customer);
             System.out.println(customerId + " | " + customerName + " | " + dateCreated + " " +
                     timeCreated + " | " + author + " | " + lastDate +

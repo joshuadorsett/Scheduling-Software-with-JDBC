@@ -7,14 +7,14 @@ package model;
 public class Customer {
     private int customerId;
     private String customerName;
-    private int customerAddressId;
-    private int customerPhoneNumber;
+    private String customerAddressId;
+    private String customerPhoneNumber;
 
-    public Customer(int id, String name, int addressId, int phoneNumber) {
+    public Customer(int id, String name, String address, String phone) {
         this.customerId = id;
         this.customerName = name;
-        this.customerAddressId = addressId;
-        this.customerPhoneNumber = phoneNumber;
+        this.customerAddressId = address;
+        this.customerPhoneNumber = phone;
     }
 
     public void setCustomerId(int id){
@@ -33,19 +33,19 @@ public class Customer {
         return this.customerName;
     }
 
-    public void setCustomerAddressId(int addressId){
+    public void setCustomerAddressId(String addressId){
         this.customerAddressId = addressId;
     }
 
-    public int getCustomerAddressId(){
+    public String getCustomerAddressId(){
         return this.customerAddressId;
     }
 
-    public void setCustomerPhoneNumber(int phoneNumber){
+    public void setCustomerPhoneNumber(String phoneNumber){
         this.customerPhoneNumber = phoneNumber;
     }
 
-    public int getCustomerPhoneNumber(){
+    public String getCustomerPhoneNumber(){
         return this.customerPhoneNumber;
     }
 
