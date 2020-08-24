@@ -171,7 +171,7 @@ public class HomeController implements Initializable {
     /**
      * @return modifyAppointment
      */
-    public static Appointment appointmentToModify() {
+    public static Appointment getModifyAppointment() {
         return modifyAppointment;
     }
 
@@ -203,9 +203,10 @@ public class HomeController implements Initializable {
         modifyCustomer = customerTable.getSelectionModel().getSelectedItem();
         sceneChange("ModifyCustomer.fxml", event);
     }
-    /**
-     * @return modifyCustomer
-     */
+
+    public static Customer getModifyCustomer() {
+        return modifyCustomer;
+    }
 
     public static Customer customerToModify() {
         return modifyCustomer;

@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.Customer;
+import utilities.DateTimeUtils;
 
 /**
  * FXML Controller class
@@ -61,29 +62,7 @@ public class AddAppointmentController implements Initializable {
         selectedCustomer = HomeController.getCustomerToMeetWith();
         customerId.setText(selectedCustomer.getCustomerName());
         userId.setText(UserDaoImpl.getActiveUser().getUserName());
-        date.setConverter(converter);
-        converter = new StringConverter<LocalDate>() {
-            DateTimeFormatter dateFormatter =
-                    DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-            @Override
-            public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateFormatter.format(date);
-                } else {
-                    return "";
-                }
-            }
-            @Override
-            public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormatter);
-                } else {
-                    return null;
-                }
-            }
-        };
-
+        date.setConverter(DateTimeUtils.setDateFormatConverter());
         time.getItems().addAll("08:00:00", "08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","01:00:00","01:30:00","02:00:00","02:30:00", "03:00:00",
                 "03:30:00","04:00:00","04:30:00","05:00:00","05:30:00");

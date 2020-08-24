@@ -61,7 +61,33 @@ public class AppointmentDaoImpl {
             System.out.println("appointment was not added");
         }
     }
+    /**
+     * modify Appointment object and convert it into SQl code and update database
+     */
+    public static void modifyAppointment(String customerId, String title,
+                                         String location, String type, String start, String end, String appointmentId) throws SQLException {
+        Connection connection = MakeConnection.getConnection();
+        String updateStatement = "UPDATE appointment SET customerId = ?, title = ?, location = ?, type = ?, start = ?, end = ? WHERE appointmentId = ?;";
+        MakePreparedStatement.makePreparedStatement(connection, updateStatement);
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
 
+        preparedStatement.setString(1,customerId);
+        preparedStatement.setString(2,title);
+        preparedStatement.setString(3,location);
+        preparedStatement.setString(4,type);
+        preparedStatement.setString(5,start);
+        preparedStatement.setString(6,end);
+        preparedStatement.setString(7,appointmentId);
+
+        preparedStatement.execute();
+
+        if (preparedStatement.getUpdateCount() > 0 ){
+            System.out.println(preparedStatement.getUpdateCount() + " appointment updated.");
+        } else {
+            System.out.println("appointment not updated");
+        }
+
+    }
     /**
      * get all Appointment objects from database
      * @return
@@ -250,13 +276,6 @@ public class AppointmentDaoImpl {
                     " | " + lastTimestamp);
         }
         return userAppointments;
-    }
-
-    /**
-     * modify Appointment object and convert it into SQl code and update database
-     */
-    public void modifyAppointment() throws SQLException {
-
     }
 
     /**
