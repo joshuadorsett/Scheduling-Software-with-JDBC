@@ -6,12 +6,14 @@ package model;
  */
 public class Customer {
     private int customerId;
+    private int addressId;
     private String customerName;
     private String customerAddress;
     private String customerPhoneNumber;
 
-    public Customer(int id, String name, String address, String phone) {
+    public Customer(int id, int addressId, String name, String address, String phone) {
         this.customerId = id;
+        this.addressId = addressId;
         this.customerName = name;
         this.customerAddress = address;
         this.customerPhoneNumber = phone;
@@ -39,6 +41,14 @@ public class Customer {
 
     public String getCustomerAddress(){
         return this.customerAddress;
+    }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
     public void setCustomerPhoneNumber(String phoneNumber){

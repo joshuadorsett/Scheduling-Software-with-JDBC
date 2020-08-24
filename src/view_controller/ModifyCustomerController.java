@@ -2,7 +2,10 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import dao.CustomerDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Customer;
 
 /**
  * FXML Controller class
@@ -34,17 +38,21 @@ public class ModifyCustomerController implements Initializable {
     private Button save;
     @FXML
     private Button cancel;
-
+    private Customer customer = HomeController.customerToModify();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        name.setText(customer.getCustomerName());
+        address.setText(customer.getCustomerAddress());
+        phoneNumber.setText(customer.getCustomerPhoneNumber());
+        customerId.setText(Integer.toString(customer.getCustomerId()));
     }
 
     @FXML
-    private void save(ActionEvent event) throws IOException {
+    private void save(ActionEvent event) throws IOException, SQLException {
+        CustomerDaoImpl.modifyCustomer(name.getText(),address.getText(),phoneNumber.getText());
         sceneChange("Home.fxml", event);
     }
 

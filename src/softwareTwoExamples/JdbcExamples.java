@@ -2,7 +2,6 @@ package softwareTwoExamples;
 
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
-import utilities.MakeStatement;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -142,52 +141,6 @@ public class JdbcExamples {
             System.out.println(ps.getUpdateCount() + " rows inserted.");
         } else {
             System.out.println("no rows inserted");
-        }
-    }
-    public static void selectStatementtest() throws SQLException {
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
-        MakeStatement.makeStatement(connection); //create statement object
-        Statement statement = MakeStatement.getStatement(); // get reference to statement object
-
-        String selectStatement = "Select * FROM U07nke.country";
-        statement.execute(selectStatement);
-        ResultSet resultSet = statement.getResultSet();
-        while (resultSet.next()){
-            int countryId = resultSet.getInt("countryId");
-            String countryName = resultSet.getString("country");
-            LocalDate dateCreated = resultSet.getDate("createDate").toLocalDate();
-            LocalTime timeCreated = resultSet.getTime("createDate").toLocalTime();
-            String author = resultSet.getString("createdBy");
-            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
-            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-            String editor = resultSet.getString("lastUpdateBy");
-
-            System.out.println(countryId + " | " + countryName +" | " + dateCreated +" "+
-                    timeCreated + " | " + author + " | " + lastDate +
-                    " | " + lastTimestamp + " | ");
-//            OR create a country object for each iteration and append them into a display observable list utside of the loop!
-//            Country country = new Country(countryId, countryName, author, lastTimestamp);
-        }
-    }
-
-    public static void insertRawSqlTest() throws SQLException {
-//        inserting raw sql
-
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
-        MakeStatement.makeStatement(connection); //create statement object
-        Statement statement = MakeStatement.getStatement(); // get reference to statement object
-
-        //raw sql insert statement
-        String insertStatement = "INSERT INTO country(country, createDate, createdBy, lastUpdateBy) "
-                + "VALUES('Russia', '2020-02-22 00:00:00', 'Dave', 'Josh')";
-
-        statement.execute(insertStatement); //execute sql statement
-
-        //confirm rows are affected
-        if (MakeStatement.getStatement().getUpdateCount() > 0){
-            System.out.println(statement.getUpdateCount()+" country added");
-        } else {
-            System.out.println("country was not added");
         }
     }
 }

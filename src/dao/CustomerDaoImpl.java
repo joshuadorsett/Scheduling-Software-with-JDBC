@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import model.Customer;
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
+import view_controller.HomeController;
 
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
@@ -82,6 +83,7 @@ public class CustomerDaoImpl {
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
             int customerId = resultSet.getInt("customerId");
+            int addressId = resultSet.getInt("addressId");
             String customerName = resultSet.getString("customerName");
             String address = resultSet.getString("address");
             String phone = resultSet.getString("phone");
@@ -91,7 +93,7 @@ public class CustomerDaoImpl {
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
 
-            Customer customer = new Customer(customerId,customerName,address,phone);
+            Customer customer = new Customer(customerId,addressId, customerName,address,phone);
             allCustomers.add(customer);
             System.out.println(customerId + " | " + customerName + " | " + dateCreated + " " +
                     timeCreated + " | " + author + " | " + lastDate +
@@ -103,7 +105,30 @@ public class CustomerDaoImpl {
     /**
      * modify Customer object and convert it into SQl code and update database
      */
-    public void modifyCustomer() throws SQLException {
+    public static void modifyCustomer(String name, String address, String phoneNumber) throws SQLException {
+        Connection connection = MakeConnection.getConnection();
+        String updateStatement = "UPDATE customer SET customerName = ? WHERE customerId = ?";
+        MakePreparedStatement.makePreparedStatement(connection, updateStatement);
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
+        String customerId = Integer.toString(HomeController.getModifyCustomer().getCustomerId());
+        preparedStatement.setString(1,name);
+        preparedStatement.setString(2, customerId);
+        preparedStatement.execute();
+
+        String updateStatement2 = "UPDATE address SET address = ?, phone = ? WHERE addressId = ?";
+        MakePreparedStatement.makePreparedStatement(connection, updateStatement2);
+        PreparedStatement preparedStatement2 = MakePreparedStatement.getPreparedStatement();
+        String addressId = Integer.toString(HomeController.getModifyCustomer().getAddressId());
+        preparedStatement2.setString(1,address);
+        preparedStatement2.setString(2,phoneNumber);
+        preparedStatement2.setString(3,addressId);
+        preparedStatement2.execute();
+
+        if (preparedStatement.getUpdateCount() > 0 ){
+            System.out.println(preparedStatement.getUpdateCount() + " customers modified.");
+        } else {
+            System.out.println("customer not modified");
+        }
 
     }
     /**
@@ -111,13 +136,20 @@ public class CustomerDaoImpl {
      */
     public static void deleteCustomer(Customer customer) throws SQLException{
         Connection connection = MakeConnection.getConnection();
-        String deleteStatement = "DELETE FROM customer WHERE customerId = ?";
+        String deleteStatement2 = "DELETE FROM customer WHERE customerId = ?";
+        makePreparedStatement(connection, deleteStatement2);
+        PreparedStatement preparedStatement2 = getPreparedStatement();
+        String customerId = Integer.toString(customer.getCustomerId());
+        String addressId = Integer.toString(customer.getAddressId());
+        preparedStatement2.setString(1, addressId);
+        preparedStatement2.execute();
+        String deleteStatement = "DELETE FROM address WHERE addressId = ?";
         makePreparedStatement(connection, deleteStatement);
         PreparedStatement preparedStatement = getPreparedStatement();
-        String customerId = Integer.toString(customer.getCustomerId());
-        preparedStatement.setString(1, customerId);
+        preparedStatement.setString(1, addressId);
         preparedStatement.execute();
-        if (preparedStatement.getUpdateCount() > 0 ){
+
+        if (preparedStatement2.getUpdateCount() > 0 ){
             System.out.println(preparedStatement.getUpdateCount() + " customers deleted.");
         } else {
             System.out.println("no customers deleted");
