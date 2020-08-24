@@ -3,6 +3,8 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import dao.AppointmentDaoImpl;
 import dao.UserDaoImpl;
@@ -13,14 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import model.Customer;
-import model.User;
 
 /**
  * FXML Controller class
@@ -40,7 +38,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private RadioButton inPersonRadio;
     @FXML
-    private TextField date;
+    private DatePicker date;
     @FXML
     private TextField time;
     @FXML
@@ -52,6 +50,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private Button cancelAppointment;
     private Customer selectedCustomer;
+
     /**
      * Initializes the controller class.
      */
@@ -60,6 +59,27 @@ public class AddAppointmentController implements Initializable {
         selectedCustomer = HomeController.getCustomerToMeetWith();
         customerId.setText(selectedCustomer.getCustomerName());
         userId.setText(UserDaoImpl.getActiveUser().getUserName());
+        date.setConverter(new StringConverter<LocalDate>() {
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(pattern);
+            {
+                date.setPromptText(pattern.toLowerCase());
+            }
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormat.format(date);
+                } else {
+                    return "";
+                }
+            }
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormat);
+                } else {
+                    return null;
+                }
+            }
+        });
     }
 
     @FXML
@@ -71,7 +91,7 @@ public class AddAppointmentController implements Initializable {
         else {
             typeSelected = "In-Person";
         }
-        String start = date.getText() + " "+ time.getText();
+        String start = date.getValue() + " "+ time.getText();
         String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
 
         AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, start);
