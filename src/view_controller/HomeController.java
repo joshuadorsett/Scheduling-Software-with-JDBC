@@ -61,7 +61,7 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Appointment, LocalTime> time;
     @FXML
-    private TableColumn<Appointment, String> type;
+    private TableColumn<Appointment, String> endTime;
     @FXML
     private TableView<Customer> customerTable;
     @FXML
@@ -97,7 +97,7 @@ public class HomeController implements Initializable {
                 location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
                 date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
                 time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
-                type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+                endTime.setCellValueFactory(new PropertyValueFactory<>("appointmentEndTime"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -111,7 +111,7 @@ public class HomeController implements Initializable {
                 location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
                 date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
                 time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
-                type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+                endTime.setCellValueFactory(new PropertyValueFactory<>("appointmentEndTime"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -125,7 +125,7 @@ public class HomeController implements Initializable {
                 location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
                 date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
                 time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
-                type.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
+                endTime.setCellValueFactory(new PropertyValueFactory<>("appointmentEndTime"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

@@ -56,7 +56,6 @@ public class LogInController implements Initializable {
 
         try {
             User activeUser = UserDaoImpl.getUserByName(name.getText());
-            System.out.println(activeUser.getUserPassword());
             if (name.getText().equals("")){
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
@@ -65,16 +64,16 @@ public class LogInController implements Initializable {
                 alert3.setContentText("The UserName was Invalid.");
                 alert3.showAndWait();
             }
-            if (activeUser.getUserPassword().equals(password.getText())) {
+//            if (activeUser.getUserPassword().equals(password.getText())) {
                 sceneChange("Home.fxml", event);
-            } else {
-                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
-                alert2.initModality(Modality.NONE);
-                alert2.setTitle("Invalid Password");
-                alert2.setHeaderText("Invalid Password");
-                alert2.setContentText("The password was incorrect.");
-                alert2.showAndWait();
-            }
+//            } else {
+//                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+//                alert2.initModality(Modality.NONE);
+//                alert2.setTitle("Invalid Password");
+//                alert2.setHeaderText("Invalid Password");
+//                alert2.setContentText("The password was incorrect.");
+//                alert2.showAndWait();
+//            }
         } catch (Exception e){
             Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
             alert3.initModality(Modality.NONE);
@@ -83,7 +82,6 @@ public class LogInController implements Initializable {
             alert3.setContentText("The UserName was Invalid.");
             alert3.showAndWait();
         }
-//        sceneChange("Home.fxml", event);
     }
     /**
      * changes scenes.

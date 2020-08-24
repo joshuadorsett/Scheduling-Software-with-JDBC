@@ -15,9 +15,10 @@ public class Appointment {
     private String appointmentType;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
+    private LocalTime appointmentEndTime;
     private String appointmentLocation;
 
-    public Appointment(int id, int customerId, int userId, String title, String type, LocalDate date, LocalTime time, String location){
+    public Appointment(int id, int customerId, int userId, String title, String type, LocalDate date, LocalTime time, LocalTime endTime, String location){
         this.appointmentId = id;
         this.associatedCustomerId = customerId;
         this.associatedUserId = userId;
@@ -25,6 +26,7 @@ public class Appointment {
         this.appointmentType = type;
         this.appointmentDate = date;
         this.appointmentTime = time;
+        this.appointmentEndTime = endTime;
         this.appointmentLocation = location;
     }
 
@@ -77,16 +79,20 @@ public class Appointment {
     }
 
     public void setAppointmentTime(LocalTime time){
-//        add code for converting default time into the UTC time in the Db
         this.appointmentTime = time;
     }
 
     public LocalTime getAppointmentTime(){
-//        add code for converting this from the UTC time in the Db
-//        to the system default time of the current computer (easier than you think)
         return this.appointmentTime;
     }
 
+    public void setAppointmentEndTime(LocalTime appointmentEndTime) {
+        this.appointmentEndTime = appointmentEndTime;
+    }
+
+    public LocalTime getAppointmentEndTime() {
+        return appointmentEndTime;
+    }
 
     public void setAppointmentLocation(String location){
         this.appointmentLocation = location;

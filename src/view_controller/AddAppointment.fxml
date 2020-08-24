@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="385.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.AddAppointmentController">
+<AnchorPane id="AnchorPane" prefHeight="407.0" prefWidth="306.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.AddAppointmentController">
     <children>
-        <Pane layoutX="33.0" layoutY="32.0" prefHeight="324.0" prefWidth="242.0">
+        <Pane layoutX="33.0" layoutY="32.0" prefHeight="359.0" prefWidth="242.0">
             <children>
                 <Label layoutY="72.0" text="Customer" />
                 <Label layoutX="2.0" layoutY="35.0" text="User" />
@@ -14,12 +14,11 @@
                 <Label layoutX="2.0" layoutY="147.0" prefHeight="17.0" prefWidth="41.0" text="Type" />
                 <Label layoutX="2.0" layoutY="185.0" prefHeight="17.0" prefWidth="41.0" text="Date" />
                 <Label layoutX="2.0" layoutY="224.0" prefHeight="17.0" prefWidth="68.0" text="Start Time" />
-                <Label layoutY="260.0" prefHeight="17.0" prefWidth="69.0" text="Location" />
+                <Label layoutX="3.0" layoutY="295.0" prefHeight="17.0" prefWidth="69.0" text="Location" />
                 <TextField fx:id="title" layoutX="81.0" layoutY="105.0" text="Meeting" />
-                <TextField fx:id="location" layoutX="81.0" layoutY="255.0" text="Office" />
                 <Label fx:id="userId" layoutX="102.0" layoutY="35.0" text="Auto-Generated" />
-                <Button fx:id="saveAppointment" layoutX="26.0" layoutY="295.0" mnemonicParsing="false" onAction="#saveAppointment" text="Save" />
-                <Button fx:id="cancelAppointment" layoutX="147.0" layoutY="295.0" mnemonicParsing="false" onAction="#cancelAppointment" text="Cancel" />
+                <Button fx:id="saveAppointment" layoutX="31.0" layoutY="332.0" mnemonicParsing="false" onAction="#saveAppointment" text="Save" />
+                <Button fx:id="cancelAppointment" layoutX="146.0" layoutY="332.0" mnemonicParsing="false" onAction="#cancelAppointment" text="Cancel" />
                 <RadioButton fx:id="remoteRadio" layoutX="81.0" layoutY="147.0" mnemonicParsing="false" selected="true" text="Remote">
                     <toggleGroup>
                         <ToggleGroup fx:id="type" />
@@ -28,7 +27,10 @@
                 <RadioButton fx:id="inPersonRadio" layoutX="158.0" layoutY="147.0" mnemonicParsing="false" selected="true" text="In-Person" toggleGroup="$type" />
             <Label fx:id="customerId" layoutX="102.0" layoutY="72.0" text="Auto-Generated" />
             <DatePicker fx:id="date" layoutX="81.0" layoutY="180.0" prefHeight="27.0" prefWidth="160.0" />
-            <ComboBox fx:id="time" layoutX="81.0" layoutY="219.0" prefHeight="27.0" prefWidth="160.0" promptText="select time" visibleRowCount="20" />
+            <ComboBox fx:id="time" layoutX="81.0" layoutY="219.0" prefHeight="27.0" prefWidth="160.0" promptText="select start time" visibleRowCount="20" />
+            <ComboBox fx:id="endTime" layoutX="81.0" layoutY="255.0" prefHeight="27.0" prefWidth="160.0" promptText="select end time" visibleRowCount="20" />
+            <Label layoutX="3.0" layoutY="260.0" prefHeight="17.0" prefWidth="68.0" text="End Time" />
+                <TextField fx:id="location" layoutX="81.0" layoutY="291.0" text="Office" />
             </children>
         </Pane>
         <Label layoutX="62.0" layoutY="14.0" prefHeight="36.0" prefWidth="183.0" text=" Add Appointment">
