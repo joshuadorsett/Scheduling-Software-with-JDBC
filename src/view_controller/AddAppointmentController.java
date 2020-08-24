@@ -50,7 +50,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private Button cancelAppointment;
     private Customer selectedCustomer;
-
+    StringConverter<LocalDate> converter;
     /**
      * Initializes the controller class.
      */
@@ -59,27 +59,29 @@ public class AddAppointmentController implements Initializable {
         selectedCustomer = HomeController.getCustomerToMeetWith();
         customerId.setText(selectedCustomer.getCustomerName());
         userId.setText(UserDaoImpl.getActiveUser().getUserName());
-        date.setConverter(new StringConverter<LocalDate>() {
-            String pattern = "yyyy-MM-dd";
-            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(pattern);
-            {
-                date.setPromptText(pattern.toLowerCase());
-            }
+        date.setConverter(converter);
+
+        converter = new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter =
+                    DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            @Override
             public String toString(LocalDate date) {
                 if (date != null) {
-                    return dateFormat.format(date);
+                    return dateFormatter.format(date);
                 } else {
                     return "";
                 }
             }
+            @Override
             public LocalDate fromString(String string) {
                 if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormat);
+                    return LocalDate.parse(string, dateFormatter);
                 } else {
                     return null;
                 }
             }
-        });
+        };
     }
 
     @FXML
