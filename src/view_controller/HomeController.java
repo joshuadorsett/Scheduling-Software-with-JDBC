@@ -139,7 +139,7 @@ public class HomeController implements Initializable {
             customerTable.setItems(CustomerDaoImpl.getAllCustomers());
             customerIdCustomerTable.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            address.setCellValueFactory(new PropertyValueFactory<>("customerAddressId"));
+            address.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
             phone.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
         } catch (SQLException throwables) {
             throwables.printStackTrace();

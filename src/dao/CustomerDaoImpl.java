@@ -33,7 +33,6 @@ public class CustomerDaoImpl {
         String stringLocalDate = localDate.toString();
         String createdBy = UserDaoImpl.getActiveUser().getUserName();
         String lastUpdateBy = createdBy;
-
         // key-value mapping
         preparedStatement.setString(1, address);
         preparedStatement.setString(2,"none");
