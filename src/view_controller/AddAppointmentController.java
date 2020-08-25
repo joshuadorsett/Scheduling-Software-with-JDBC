@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import model.Customer;
@@ -74,19 +75,27 @@ public class AddAppointmentController implements Initializable {
 
     @FXML
     private void saveAppointment(ActionEvent event) throws IOException, SQLException {
-        String typeSelected;
-        if (remoteRadio.isSelected()){
-            typeSelected = "Remote";
-        }
-        else {
-            typeSelected = "In-Person";
-        }
-        String start = date.getValue() + " "+ time.getSelectionModel().getSelectedItem().toString();
-        String end = date.getValue() + " "+ endTime.getSelectionModel().getSelectedItem().toString();
-        String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
+        try {
+            String typeSelected;
+            if (remoteRadio.isSelected()) {
+                typeSelected = "Remote";
+            } else {
+                typeSelected = "In-Person";
+            }
+            String start = date.getValue() + " " + time.getSelectionModel().getSelectedItem().toString();
+            String end = date.getValue() + " " + endTime.getSelectionModel().getSelectedItem().toString();
+            String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
 
-        AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, start, end);
-        sceneChange("Home.fxml", event);
+            AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, start, end);
+            sceneChange("Home.fxml", event);
+        } catch(NullPointerException throwables){
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.initModality(Modality.NONE);
+            alert2.setTitle("Cannot Add");
+            alert2.setHeaderText("Cannot Add");
+            alert2.setContentText("Please complete all data fields.");
+            alert2.showAndWait();
+        }
     }
 
     @FXML

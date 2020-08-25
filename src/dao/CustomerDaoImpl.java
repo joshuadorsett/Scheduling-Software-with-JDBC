@@ -140,12 +140,13 @@ public class CustomerDaoImpl {
         makePreparedStatement(connection, deleteStatement2);
         PreparedStatement preparedStatement2 = getPreparedStatement();
         String customerId = Integer.toString(customer.getCustomerId());
-        String addressId = Integer.toString(customer.getAddressId());
         preparedStatement2.setString(1, customerId);
         preparedStatement2.execute();
+
         String deleteStatement = "DELETE FROM address WHERE addressId = ?";
         makePreparedStatement(connection, deleteStatement);
         PreparedStatement preparedStatement = getPreparedStatement();
+        String addressId = Integer.toString(customer.getAddressId());
         preparedStatement.setString(1, addressId);
         preparedStatement.execute();
 

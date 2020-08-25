@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.LoadException;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -159,8 +160,17 @@ public class HomeController implements Initializable {
 
     @FXML
     public void modifyAppointment(ActionEvent event) throws IOException {
-        modifyAppointment = calendarTable.getSelectionModel().getSelectedItem();
-        sceneChange("ModifyAppointment.fxml", event);
+        try {
+            modifyAppointment = calendarTable.getSelectionModel().getSelectedItem();
+            sceneChange("ModifyAppointment.fxml", event);
+        } catch (LoadException throwables) {
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.initModality(Modality.NONE);
+            alert2.setTitle("Cannot Modify");
+            alert2.setHeaderText("Cannot Modify");
+            alert2.setContentText("Please select an appointment to modify.");
+            alert2.showAndWait();
+        }
     }
     /**
      * @return modifyAppointment
@@ -171,19 +181,29 @@ public class HomeController implements Initializable {
 
     @FXML
     public void deleteAppointment(ActionEvent event) throws SQLException {
-        Appointment appointment = calendarTable.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initModality(Modality.NONE);
-        alert.setTitle("Appointment Delete");
-        alert.setHeaderText("Confirm?");
-        alert.setContentText("Are you sure you want to delete " + appointment.getAppointmentTitle() + "?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            AppointmentDaoImpl.deleteAppointment(appointment);
-            generateCalendarTable();
-            System.out.println("Appointment " + appointment.getAppointmentTitle() + " was removed.");
-        } else {
-            System.out.println("Appointment " + appointment.getAppointmentTitle() + " was not removed.");
+        try {
+            Appointment appointment = calendarTable.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initModality(Modality.NONE);
+            alert.setTitle("Appointment Delete");
+            alert.setHeaderText("Confirm?");
+            alert.setContentText("Are you sure you want to delete " + appointment.getAppointmentTitle() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                AppointmentDaoImpl.deleteAppointment(appointment);
+                generateCalendarTable();
+                System.out.println("Appointment " + appointment.getAppointmentTitle() + " was removed.");
+
+            } else {
+                System.out.println("Appointment " + appointment.getAppointmentTitle() + " was not removed.");
+            }
+        } catch (Exception throwables) {
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.initModality(Modality.NONE);
+            alert2.setTitle("Cannot Delete");
+            alert2.setHeaderText("Cannot Delete");
+            alert2.setContentText("Please select an appointment to delete.");
+            alert2.showAndWait();
         }
     }
 
@@ -194,8 +214,17 @@ public class HomeController implements Initializable {
 
     @FXML
     public void modifyCustomer(ActionEvent event) throws IOException {
-        modifyCustomer = customerTable.getSelectionModel().getSelectedItem();
-        sceneChange("ModifyCustomer.fxml", event);
+        try{
+            modifyCustomer = customerTable.getSelectionModel().getSelectedItem();
+            sceneChange("ModifyCustomer.fxml", event);
+        } catch (LoadException throwables) {
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.initModality(Modality.NONE);
+            alert2.setTitle("Cannot Modify");
+            alert2.setHeaderText("Cannot Modify");
+            alert2.setContentText("Please select a customer to modify.");
+            alert2.showAndWait();
+        }
     }
 
     public static Customer getModifyCustomer() {
@@ -203,20 +232,38 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    public void deleteCustomer(ActionEvent event) throws SQLException {
-        Customer customer = customerTable.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initModality(Modality.NONE);
-        alert.setTitle("Customer Delete");
-        alert.setHeaderText("Confirm?");
-        alert.setContentText("Are you sure you want to delete " + customer.getCustomerName() + "?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            CustomerDaoImpl.deleteCustomer(customer);
-            generateCustomerTable();
-            System.out.println("Customer " + customer.getCustomerName() + " was removed.");
-        } else {
-            System.out.println("Customer " + customer.getCustomerName() + " was not removed.");
+    public void deleteCustomer(ActionEvent event) {
+        try {
+            Customer customer = customerTable.getSelectionModel().getSelectedItem();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initModality(Modality.NONE);
+            alert.setTitle("Customer Delete");
+            alert.setHeaderText("Confirm?");
+            alert.setContentText("Are you sure you want to delete " + customer.getCustomerName() + "?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                try {
+                    CustomerDaoImpl.deleteCustomer(customer);
+                    generateCustomerTable();
+                    System.out.println("Customer " + customer.getCustomerName() + " was removed.");
+                } catch (SQLException throwables) {
+                    Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert2.initModality(Modality.NONE);
+                    alert2.setTitle("Cannot Delete");
+                    alert2.setHeaderText("Cannot Delete");
+                    alert2.setContentText("Can't delete a customer that is scheduled for an appointment");
+                    alert2.showAndWait();
+                }
+            } else {
+                System.out.println("Customer " + customer.getCustomerName() + " was not removed.");
+            }
+        } catch (Exception throwables) {
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.initModality(Modality.NONE);
+            alert2.setTitle("Cannot Delete");
+            alert2.setHeaderText("Cannot Delete");
+            alert2.setContentText("Please select a customer to delete and delete customer's associated appointments first.");
+            alert2.showAndWait();
         }
     }
 

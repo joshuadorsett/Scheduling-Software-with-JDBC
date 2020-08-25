@@ -13,9 +13,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -39,8 +41,17 @@ public class AddCustomerController {
 
     @FXML
     public void save(ActionEvent event) throws IOException, SQLException {
-        CustomerDaoImpl.addCustomer(name.getText(), address.getText(), phoneNumber.getText());
-        sceneChange("Home.fxml", event);
+        if (name.getText().equals("")) {
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.initModality(Modality.NONE);
+            alert2.setTitle("Cannot Add");
+            alert2.setHeaderText("Cannot Add");
+            alert2.setContentText("Please enter a customer name. address and phone number are optional.");
+            alert2.showAndWait();
+        } else{
+                CustomerDaoImpl.addCustomer(name.getText(), address.getText(), phoneNumber.getText());
+                sceneChange("Home.fxml", event);
+        }
     }
 
     @FXML
