@@ -29,73 +29,36 @@ public class Appointment {
         this.appointmentEndTime = endTime;
         this.appointmentLocation = location;
     }
-
-    public void setAppointmentId(int id){
-        this.appointmentId = id;
-    }
-
     public int getAppointmentId() {
         return this.appointmentId;
-    }
-
-    public void setAssociatedCustomerId(int id){
-        this.associatedCustomerId = id;
     }
 
     public int getAssociatedCustomerId(){
         return this.associatedCustomerId;
     }
 
-    public void setAssociatedUserId(int id){
-        this.associatedUserId = id;
-    }
-
     public int getAssociatedUserId(){
         return this.associatedUserId;
-    }
-
-    public void setAppointmentTitle(String title){
-        this.appointmentTitle = title;
     }
 
     public String getAppointmentTitle(){
         return this.appointmentTitle;
     }
 
-    public void setAppointmentType(String type){
-        this.appointmentType = type;
-    }
-
     public String getAppointmentType(){
         return this.appointmentType;
-    }
-
-    public void setAppointmentDate(LocalDate date){
-        this.appointmentDate = date;
     }
 
     public LocalDate getAppointmentDate(){
         return this.appointmentDate;
     }
 
-    public void setAppointmentTime(LocalTime time){
-        this.appointmentTime = time;
-    }
-
     public LocalTime getAppointmentTime(){
         return this.appointmentTime;
     }
 
-    public void setAppointmentEndTime(LocalTime appointmentEndTime) {
-        this.appointmentEndTime = appointmentEndTime;
-    }
-
     public LocalTime getAppointmentEndTime() {
         return appointmentEndTime;
-    }
-
-    public void setAppointmentLocation(String location){
-        this.appointmentLocation = location;
     }
 
     public String getAppointmentLocation(){

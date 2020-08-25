@@ -38,7 +38,7 @@ public class ModifyCustomerController implements Initializable {
     private Button save;
     @FXML
     private Button cancel;
-    private Customer customer = HomeController.customerToModify();
+    private Customer customer = HomeController.getModifyCustomer();
     /**
      * Initializes the controller class.
      */

@@ -18,7 +18,6 @@ public class Customer {
         this.customerAddress = address;
         this.customerPhoneNumber = phone;
     }
-
     public void setCustomerId(int id){
         this.customerId = id;
     }
@@ -27,16 +26,8 @@ public class Customer {
         return this.customerId;
     }
 
-    public void setCustomerName(String name){
-        this.customerName = name;
-    }
-
     public String getCustomerName(){
         return this.customerName;
-    }
-
-    public void setCustomerAddress(String addressId){
-        this.customerAddress = addressId;
     }
 
     public String getCustomerAddress(){
@@ -45,14 +36,6 @@ public class Customer {
 
     public int getAddressId() {
         return addressId;
-    }
-
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
-    }
-
-    public void setCustomerPhoneNumber(String phoneNumber){
-        this.customerPhoneNumber = phoneNumber;
     }
 
     public String getCustomerPhoneNumber(){

@@ -37,11 +37,7 @@ import model.Customer;
  */
 public class HomeController implements Initializable {
     @FXML
-    private ToggleGroup homeRadio;
-    @FXML
     private RadioButton allRadio;
-    @FXML
-    private RadioButton thisMonthRadio;
     @FXML
     private RadioButton thisWeekRadio;
     @FXML
@@ -129,9 +125,7 @@ public class HomeController implements Initializable {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-
         }
-
     }
 
     public void generateCustomerTable(){
@@ -208,9 +202,6 @@ public class HomeController implements Initializable {
         return modifyCustomer;
     }
 
-    public static Customer customerToModify() {
-        return modifyCustomer;
-    }
     @FXML
     public void deleteCustomer(ActionEvent event) throws SQLException {
         Customer customer = customerTable.getSelectionModel().getSelectedItem();
