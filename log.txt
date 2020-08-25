@@ -15,3 +15,8 @@
 2020-08-25T15:30:57.799-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
 2020-08-25T15:31:50.532-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
 2020-08-25T15:43:07.251-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
+2020-08-25T15:49:08.201-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
+2020-08-25T15:49:46.607-04:00[America/New_York], User Name: user2, ID: 2,  Login Attempt: Successful.
+2020-08-25T16:21:30.539-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
+2020-08-25T16:27:13.877-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
+2020-08-25T16:29:25.501-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.

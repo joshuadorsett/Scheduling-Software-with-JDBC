@@ -36,7 +36,7 @@ public class DateTimeUtils {
         };
         return converter;
     }
-    public static String toUtcTimeZone(String dateToConvert) throws ParseException {
+    public static String toDbTimeZone(String dateToConvert) throws ParseException {
             ZoneId timeZoneId = ZoneId.systemDefault();
             DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             utcFormat.setTimeZone(TimeZone.getTimeZone("GMT+1:00"));

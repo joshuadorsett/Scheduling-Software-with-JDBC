@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import dao.AppointmentDaoImpl;
 import dao.UserDaoImpl;
@@ -70,14 +72,25 @@ public class AddAppointmentController implements Initializable {
             } else {
                 typeSelected = "In-Person";
             }
-            String start = date.getValue() + " " + time.getSelectionModel().getSelectedItem().toString();
-            String end = date.getValue() + " " + endTime.getSelectionModel().getSelectedItem().toString();
-            String utcStart = DateTimeUtils.toUtcTimeZone(start);
-            String utcEnd = DateTimeUtils.toUtcTimeZone(end);
-            String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
+            String start = date.getValue()+" "+time.getSelectionModel().getSelectedItem().toString();
+            String end = date.getValue()+" "+endTime.getSelectionModel().getSelectedItem().toString();
+            String utcStart = DateTimeUtils.toDbTimeZone(start);
+            String utcEnd = DateTimeUtils.toDbTimeZone(end);
+            LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-            AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, utcStart, utcEnd);
-            sceneChange("Home.fxml", event);
+            String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
+            if(AppointmentDaoImpl.overlaps(utcStartTS,utcEndTS )){
+                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert2.initModality(Modality.NONE);
+                alert2.setTitle("Cannot Add");
+                alert2.setHeaderText("Cannot Add");
+                alert2.setContentText("Sorry, there is already something scheduled for then.");
+                alert2.showAndWait();
+            } else {
+                AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, utcStart, utcEnd);
+                sceneChange("Home.fxml", event);
+            }
         } catch(NullPointerException | ParseException throwables){
             Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
             alert2.initModality(Modality.NONE);

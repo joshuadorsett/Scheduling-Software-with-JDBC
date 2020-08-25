@@ -86,6 +86,7 @@ public class AppointmentDaoImpl {
         }
 
     }
+
     /**
      * get all Appointment objects from database
      * @return
@@ -275,6 +276,46 @@ public class AppointmentDaoImpl {
         }
         return userAppointments;
     }
+    public static boolean overlaps(LocalDateTime start, LocalDateTime end) throws SQLException {
+        ObservableList<Appointment> overlaps = FXCollections.observableArrayList();
+        Connection connection = MakeConnection.getConnection();
+        String selectStatement = "SELECT * FROM appointment WHERE (start >= ? AND end <= ?) "
+                + "OR (start <= ? AND end >= ?) OR (start BETWEEN ? AND ? OR end BETWEEN ? AND ?)";
+        makePreparedStatement(connection, selectStatement);
+        PreparedStatement preparedStatement = getPreparedStatement();
+        preparedStatement.setTimestamp(1, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(2, Timestamp.valueOf(end));
+        preparedStatement.setTimestamp(3, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(end));
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
+        preparedStatement.setTimestamp(7, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(8, Timestamp.valueOf(end));
+        preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.getResultSet();
+
+        while (resultSet.next()) {
+            int appointmentId = resultSet.getInt("appointmentId");
+            int customerId = resultSet.getInt("customerId");
+            int userId = resultSet.getInt("userId");
+            String title = resultSet.getString("title");
+            String location = resultSet.getString("location");
+            String type = resultSet.getString("type");
+            LocalDate startDate = resultSet.getDate("start").toLocalDate();
+            LocalTime startTime = resultSet.getTime("start").toLocalTime();
+            LocalTime endTime = resultSet.getTime("end").toLocalTime();
+            String author = resultSet.getString("createdBy");
+            LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
+            LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
+            Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,startDate,startTime,endTime,location);
+            overlaps.add(appointment);
+        }
+        if (overlaps.size()>0){
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     /**
      * delete Appointment object from database
@@ -294,4 +335,5 @@ public class AppointmentDaoImpl {
             System.out.println("no appointments deleted");
         }
     }
+
 }

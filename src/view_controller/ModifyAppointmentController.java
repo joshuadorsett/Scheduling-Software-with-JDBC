@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import dao.AppointmentDaoImpl;
@@ -15,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
 import utilities.DateTimeUtils;
@@ -73,12 +76,23 @@ public class ModifyAppointmentController implements Initializable {
         }
         String start = modDate.getValue() + " "+ time.getSelectionModel().getSelectedItem().toString();
         String end = modDate.getValue() + " "+ endTime.getSelectionModel().getSelectedItem().toString();
-        String utcStart = DateTimeUtils.toUtcTimeZone(start);
-        String utcEnd = DateTimeUtils.toUtcTimeZone(end);
+        String utcStart = DateTimeUtils.toDbTimeZone(start);
+        String utcEnd = DateTimeUtils.toDbTimeZone(end);
+        LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String customerIdString = Integer.toString(appointment.getAssociatedCustomerId());
         String appointmentId = Integer.toString(appointment.getAppointmentId());
-        AppointmentDaoImpl.modifyAppointment(customerIdString, title.getText(), location.getText(), typeSelected, utcStart, utcEnd, appointmentId);
-        sceneChange("Home.fxml", event);
+        if(AppointmentDaoImpl.overlaps(utcStartTS,utcEndTS )){
+            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+            alert2.initModality(Modality.NONE);
+            alert2.setTitle("Cannot Modify");
+            alert2.setHeaderText("Cannot Modify");
+            alert2.setContentText("Sorry, there is already something scheduled for then.");
+            alert2.showAndWait();
+        } else {
+            AppointmentDaoImpl.modifyAppointment(customerIdString, title.getText(), location.getText(), typeSelected, utcStart, utcEnd, appointmentId);
+            sceneChange("Home.fxml", event);
+        }
     }
 
 
