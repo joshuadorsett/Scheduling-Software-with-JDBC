@@ -57,10 +57,10 @@ public class AddAppointmentController implements Initializable {
         date.setConverter(DateTimeUtils.setDateFormatConverter());
         time.getItems().addAll("08:00:00", "08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
-                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00");
+                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","20:00:00");
         endTime.getItems().addAll("08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
-                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","18:00:00");
+                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","18:00:00","20:30:00");
     }
 
     @FXML
@@ -74,13 +74,15 @@ public class AddAppointmentController implements Initializable {
             }
             String start = date.getValue()+" "+time.getSelectionModel().getSelectedItem().toString();
             String end = date.getValue()+" "+endTime.getSelectionModel().getSelectedItem().toString();
+            LocalDateTime startLDT = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime endLDT = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String utcStart = DateTimeUtils.toDbTimeZone(start);
             String utcEnd = DateTimeUtils.toDbTimeZone(end);
-            LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//            LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//            LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
             String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
-            if(AppointmentDaoImpl.overlaps(utcStartTS,utcEndTS )){
+            if(DateTimeUtils.overlaps(startLDT,endLDT)){
                 Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert2.initModality(Modality.NONE);
                 alert2.setTitle("Cannot Add");

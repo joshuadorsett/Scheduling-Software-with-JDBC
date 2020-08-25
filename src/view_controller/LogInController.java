@@ -3,6 +3,7 @@ package view_controller;
 import java.io.IOException;
 import java.util.Optional;
 
+import dao.AppointmentDaoImpl;
 import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.User;
+import utilities.DateTimeUtils;
 import utilities.Logger;
 
 /**
@@ -57,6 +59,14 @@ public class LogInController {
                 alert3.showAndWait();
             }
             if (activeUser.getUserPassword().equals(password.getText())) {
+                if(DateTimeUtils.fifteenMinuteAlert()){
+                    Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert2.initModality(Modality.NONE);
+                    alert2.setTitle("Upcoming Appointment!");
+                    alert2.setHeaderText("Upcoming Appointment!");
+                    alert2.setContentText("There is an upcoming appointment within the next 15 minutes!");
+                    alert2.showAndWait();
+                }
                 Logger.logger(true);
                 sceneChange("Home.fxml", event);
             } else {

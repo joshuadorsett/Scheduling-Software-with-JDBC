@@ -82,7 +82,7 @@ public class ModifyAppointmentController implements Initializable {
         LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String customerIdString = Integer.toString(appointment.getAssociatedCustomerId());
         String appointmentId = Integer.toString(appointment.getAppointmentId());
-        if(AppointmentDaoImpl.overlaps(utcStartTS,utcEndTS )){
+        if(DateTimeUtils.overlaps(utcStartTS,utcEndTS )){
             Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
             alert2.initModality(Modality.NONE);
             alert2.setTitle("Cannot Modify");
