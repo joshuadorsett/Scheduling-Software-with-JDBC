@@ -3,6 +3,7 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 import dao.AppointmentDaoImpl;
@@ -54,15 +55,15 @@ public class ModifyAppointmentController implements Initializable {
         location.setText(appointment.getAppointmentLocation());
         modDate.setConverter(DateTimeUtils.setDateFormatConverter());
         time.getItems().addAll("08:00:00", "08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
-                "11:00:00", "11:30:00","12:00:00","12:30:00","01:00:00","01:30:00","02:00:00","02:30:00", "03:00:00",
-                "03:30:00","04:00:00","04:30:00","05:00:00","05:30:00");
+                "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
+                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00");
         endTime.getItems().addAll("08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
-                "11:00:00", "11:30:00","12:00:00","12:30:00","01:00:00","01:30:00","02:00:00","02:30:00", "03:00:00",
-                "03:30:00","04:00:00","04:30:00","05:00:00","05:30:00","06:00:00");
+                "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
+                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","18:00:00");
     }
 
     @FXML
-    public void saveAppointment(ActionEvent event) throws IOException, SQLException {
+    public void saveAppointment(ActionEvent event) throws IOException, SQLException, ParseException {
         String typeSelected;
         if (remoteRadio.isSelected()){
             typeSelected = "Remote";
@@ -72,9 +73,11 @@ public class ModifyAppointmentController implements Initializable {
         }
         String start = modDate.getValue() + " "+ time.getSelectionModel().getSelectedItem().toString();
         String end = modDate.getValue() + " "+ endTime.getSelectionModel().getSelectedItem().toString();
+        String utcStart = DateTimeUtils.toUtcTimeZone(start);
+        String utcEnd = DateTimeUtils.toUtcTimeZone(end);
         String customerIdString = Integer.toString(appointment.getAssociatedCustomerId());
         String appointmentId = Integer.toString(appointment.getAppointmentId());
-        AppointmentDaoImpl.modifyAppointment(customerIdString, title.getText(), location.getText(), typeSelected, start, end, appointmentId);
+        AppointmentDaoImpl.modifyAppointment(customerIdString, title.getText(), location.getText(), typeSelected, utcStart, utcEnd, appointmentId);
         sceneChange("Home.fxml", event);
     }
 

@@ -3,16 +3,14 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import utilities.DateTimeUtils;
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.sql.*;
+import java.text.ParseException;
+import java.time.*;
+import java.util.TimeZone;
 
 import static utilities.MakePreparedStatement.*;
 
@@ -65,7 +63,7 @@ public class AppointmentDaoImpl {
      * modify Appointment object and convert it into SQl code and update database
      */
     public static void modifyAppointment(String customerId, String title,
-                                         String location, String type, String start, String end, String appointmentId) throws SQLException {
+                                         String location, String type, String start, String end, String appointmentId) throws SQLException, ParseException {
         Connection connection = MakeConnection.getConnection();
         String updateStatement = "UPDATE appointment SET customerId = ?, title = ?, location = ?, type = ?, start = ?, end = ? WHERE appointmentId = ?;";
         MakePreparedStatement.makePreparedStatement(connection, updateStatement);
