@@ -1,22 +1,14 @@
 package view_controller;
 
-import dao.AppointmentDaoImpl;
-import dao.CustomerDaoImpl;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import utilities.Logger;
 import utilities.MakeConnection;
-
 import java.io.IOException;
-import java.net.SocketException;
-import java.sql.SQLException;
 
-public class JoshuadorsettC195 extends Application {
+public class JoshuaDorsettC195 extends Application {
     /**
      * @param args the command line arguments
      */
@@ -24,7 +16,6 @@ public class JoshuadorsettC195 extends Application {
             MakeConnection.makeConnection();
             launch(args);
             MakeConnection.endConnection();
-
     }
 
     @Override

@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -45,8 +44,6 @@ public class ConsultantReportController implements Initializable {
     private TableColumn<Appointment, LocalDate> date;
     @FXML
     private TableColumn<Appointment, LocalTime> time;
-    @FXML
-    private Button goBack;
     private static User selectedUser;
     /**
      * Initializes the controller class.

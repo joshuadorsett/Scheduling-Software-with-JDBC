@@ -21,8 +21,10 @@ public class Logger {
             String logInFailure = ZonedDateTime.now() + userInfo + ",  Login Attempt: Unsuccessful.";
             if (success) {
                 printWriter.println(logInSuccess);
+                System.out.println(logInSuccess);
             } else {
                 printWriter.println(logInFailure);
+                System.out.println(logInFailure);
             }
         }catch (IOException throwables){
             throwables.printStackTrace();

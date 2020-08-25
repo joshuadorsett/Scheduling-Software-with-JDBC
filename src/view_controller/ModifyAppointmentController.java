@@ -3,8 +3,6 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import dao.AppointmentDaoImpl;
@@ -17,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import model.Appointment;
 import utilities.DateTimeUtils;
 
@@ -36,10 +33,6 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private RadioButton remoteRadio;
     @FXML
-    private ToggleGroup type;
-    @FXML
-    private RadioButton inPersonradio;
-    @FXML
     private ComboBox time;
     @FXML
     private ComboBox endTime;
@@ -47,12 +40,8 @@ public class ModifyAppointmentController implements Initializable {
     private TextField location;
     @FXML
     private Label userId;
-    @FXML
-    private Button saveAppointment;
-    @FXML
-    private Button cancelAppointment;
+
     private Appointment appointment;
-//    StringConverter<LocalDate> converter;
     /**
      * Initializes the controller class.
      */

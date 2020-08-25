@@ -7,13 +7,10 @@ import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 import view_controller.HomeController;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 import static utilities.MakePreparedStatement.getPreparedStatement;
 import static utilities.MakePreparedStatement.makePreparedStatement;

@@ -3,8 +3,6 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import dao.AppointmentDaoImpl;
 import dao.UserDaoImpl;
@@ -18,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import model.Customer;
 import utilities.DateTimeUtils;
 
@@ -36,10 +33,6 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private RadioButton remoteRadio;
     @FXML
-    private ToggleGroup type;
-    @FXML
-    private RadioButton inPersonRadio;
-    @FXML
     private DatePicker date;
     @FXML
     private ComboBox time;
@@ -49,12 +42,7 @@ public class AddAppointmentController implements Initializable {
     private TextField location;
     @FXML
     private Label userId;
-    @FXML
-    private Button saveAppointment;
-    @FXML
-    private Button cancelAppointment;
     private Customer selectedCustomer;
-    StringConverter<LocalDate> converter;
     /**
      * Initializes the controller class.
      */
@@ -70,7 +58,6 @@ public class AddAppointmentController implements Initializable {
         endTime.getItems().addAll("08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","01:00:00","01:30:00","02:00:00","02:30:00", "03:00:00",
                 "03:30:00","04:00:00","04:30:00","05:00:00","05:30:00","06:00:00");
-
     }
 
     @FXML
@@ -116,5 +103,4 @@ public class AddAppointmentController implements Initializable {
         window.setScene(Scene);
         window.show();
     }
-
 }

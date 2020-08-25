@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,8 +27,6 @@ import model.Appointment;
  * @author joshuadorsett
  */
 public class TypeReportController implements Initializable {
-    @FXML
-    private Button goBack;
     @FXML
     private TableView<Appointment> RemoteTable;
     @FXML
@@ -46,7 +43,6 @@ public class TypeReportController implements Initializable {
     private TableColumn<Appointment, LocalDate> inPersonDate;
     @FXML
     private TableColumn<Appointment, LocalTime> inPersonTime;
-
     /**
      * Initializes the controller class.
      */

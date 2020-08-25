@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -34,10 +33,6 @@ public class ModifyCustomerController implements Initializable {
     private TextField phoneNumber;
     @FXML
     private Label customerId;
-    @FXML
-    private Button save;
-    @FXML
-    private Button cancel;
     private Customer customer = HomeController.getModifyCustomer();
     /**
      * Initializes the controller class.

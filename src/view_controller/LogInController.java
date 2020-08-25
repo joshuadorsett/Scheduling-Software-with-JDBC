@@ -1,17 +1,12 @@
 package view_controller;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,16 +22,12 @@ import utilities.Logger;
  *
  * @author joshuadorsett
  */
-public class LogInController implements Initializable {
+public class LogInController {
     @FXML
     private TextField name;
     @FXML
     private TextField password;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
 
     @FXML
     void cancel(ActionEvent event) {
@@ -54,8 +45,7 @@ public class LogInController implements Initializable {
     }
 
     @FXML
-    void loginButton(ActionEvent event) throws IOException, SQLException {
-
+    void loginButton(ActionEvent event) {
         try {
             User activeUser = UserDaoImpl.getUserByName(name.getText());
             if (name.getText().equals("")) {
@@ -78,13 +68,6 @@ public class LogInController implements Initializable {
                 alert2.setContentText("The password was incorrect.");
                 alert2.showAndWait();
             }
-        } catch(FileNotFoundException throwables) {
-                Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
-                alert3.initModality(Modality.NONE);
-                alert3.setTitle("Cannot Find User Log");
-                alert3.setHeaderText("Cannot Find User Log");
-                alert3.setContentText("User Log 'logger.txt' is not found..");
-                alert3.showAndWait();
         }catch (Exception e){
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
@@ -93,7 +76,6 @@ public class LogInController implements Initializable {
                 alert3.setContentText("The UserName was Invalid.");
                 alert3.showAndWait();
             }
-
     }
     /**
      * changes scenes.
