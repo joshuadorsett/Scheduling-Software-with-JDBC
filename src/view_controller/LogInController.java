@@ -1,5 +1,6 @@
 package view_controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.User;
+import utilities.Logger;
 
 /**
  *
@@ -56,7 +58,7 @@ public class LogInController implements Initializable {
 
         try {
             User activeUser = UserDaoImpl.getUserByName(name.getText());
-            if (name.getText().equals("")){
+            if (name.getText().equals("")) {
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
                 alert3.setTitle("Invalid UserName");
@@ -64,24 +66,34 @@ public class LogInController implements Initializable {
                 alert3.setContentText("The UserName was Invalid.");
                 alert3.showAndWait();
             }
-//            if (activeUser.getUserPassword().equals(password.getText())) {
+            if (activeUser.getUserPassword().equals(password.getText())) {
+                Logger.logger(true);
                 sceneChange("Home.fxml", event);
-//            } else {
-//                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
-//                alert2.initModality(Modality.NONE);
-//                alert2.setTitle("Invalid Password");
-//                alert2.setHeaderText("Invalid Password");
-//                alert2.setContentText("The password was incorrect.");
-//                alert2.showAndWait();
-//            }
-        } catch (Exception e){
-            Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
-            alert3.initModality(Modality.NONE);
-            alert3.setTitle("Invalid UserName");
-            alert3.setHeaderText("Invalid UserName");
-            alert3.setContentText("The UserName was Invalid.");
-            alert3.showAndWait();
-        }
+            } else {
+                Logger.logger(false);
+                Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert2.initModality(Modality.NONE);
+                alert2.setTitle("Invalid Password");
+                alert2.setHeaderText("Invalid Password");
+                alert2.setContentText("The password was incorrect.");
+                alert2.showAndWait();
+            }
+        } catch(FileNotFoundException throwables) {
+                Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert3.initModality(Modality.NONE);
+                alert3.setTitle("Cannot Find User Log");
+                alert3.setHeaderText("Cannot Find User Log");
+                alert3.setContentText("User Log 'logger.txt' is not found..");
+                alert3.showAndWait();
+        }catch (Exception e){
+                Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
+                alert3.initModality(Modality.NONE);
+                alert3.setTitle("Invalid UserName");
+                alert3.setHeaderText("Invalid UserName");
+                alert3.setContentText("The UserName was Invalid.");
+                alert3.showAndWait();
+            }
+
     }
     /**
      * changes scenes.
