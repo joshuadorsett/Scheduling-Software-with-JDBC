@@ -56,7 +56,7 @@ public class DateTimeUtils {
         for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
             LocalDateTime fifteenMinsLater = LocalDateTime.now().plusMinutes(15);
             System.out.println(fifteenMinsLater.toString());
-            if (a.getStartTs().isBefore(fifteenMinsLater)) {
+            if (a.getStartTs().isBefore(fifteenMinsLater) && a.getStartTs().isAfter(LocalDateTime.now())) {
                 System.out.println("appointment times in the next 15 minutes : "+a.getAppointmentTime().toString());
                 return true;
             }

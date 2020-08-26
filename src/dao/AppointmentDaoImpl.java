@@ -129,7 +129,7 @@ public class AppointmentDaoImpl {
     public static ObservableList<Appointment> getMonthlyAppointments() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
-        String selectStatement = "Select * FROM U07nke.appointment WHERE start BETWEEN NOW() AND (LAST_DAY(NOW())+ INTERVAL 1 DAY)";
+        String selectStatement = "Select * FROM U07nke.appointment WHERE start BETWEEN (LAST_DAY(NOW())+ INTERVAL 1 DAY - interval 1 month) AND (LAST_DAY(NOW())+ INTERVAL 1 DAY)";
         makePreparedStatement(connection, selectStatement); //create statement object
         PreparedStatement preparedStatement = getPreparedStatement();
         preparedStatement.execute();
