@@ -1,7 +1,7 @@
 package model;
 
 /**
- *
+ * creates an user object used to contain the data selected from the DB
  * @author joshuadorsett
  */
 public class User {
@@ -25,14 +25,5 @@ public class User {
 
     public String getUserPassword(){
         return this.userPassword;
-    }
-
-    /**
-     * this method allows a user to login to access the DataBase
-     */
-    public void login(){
-        //everytime a user logs in you must use time stamp that the user logged in to a txt file
-        //there easy ways to do this with a java method. this must be appended to the file not overwritten over previous logs!!
-
     }
 }

@@ -15,10 +15,11 @@ import static utilities.MakePreparedStatement.getPreparedStatement;
 import static utilities.MakePreparedStatement.makePreparedStatement;
 
 /**
- *
+ * the DAO for the user table
  * @author joshuadorsett
  */
 public class UserDaoImpl {
+//    this is a static variable kept for the active user of this software.
     private static User activeUser;
     /**
      * get all User objects from database
@@ -43,7 +44,7 @@ public class UserDaoImpl {
         return allUsers;
     }
 
-
+//      select a certain user based on the textfield at login
     public static User getUserByName(String logInName) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String selectStatement = "Select * FROM U07nke.user WHERE userName = ? ";
@@ -64,6 +65,8 @@ public class UserDaoImpl {
         }
         return activeUser;
     }
+
+//    getter for the active user
     public static User getActiveUser(){
         return activeUser;
     }

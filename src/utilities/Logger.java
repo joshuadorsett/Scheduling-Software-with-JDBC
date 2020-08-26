@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.ZonedDateTime;
-
+//  this class has one method that logs user data at login in the log.txt file
 public class Logger {
     private static final String path = "log.txt";
     public static void logger(boolean success) {

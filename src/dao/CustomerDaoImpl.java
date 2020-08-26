@@ -17,11 +17,11 @@ import static utilities.MakePreparedStatement.makePreparedStatement;
 
 
 /**
- *
+ * THe Database Access Object for the customer table, it also accesses the address table briefly
  * @author joshuadorsett
  */
 public class CustomerDaoImpl {
-
+//      this uses an insert statement to add an address and a customer from the text fields
     public static void addCustomer(String customerName, String address, String phoneNumber) throws SQLException{
         Connection connection = MakeConnection.getConnection();
         String insertAddressStatement = "INSERT INTO address(address, address2, cityId, postalCode, phone, createDate, " +
@@ -67,9 +67,7 @@ public class CustomerDaoImpl {
         }
     }
 
-    /**
-     * get all Customer objects from database
-     */
+//      returns all customers as an observable list
     public static ObservableList<Customer> getAllCustomers() throws SQLException{
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
@@ -99,9 +97,7 @@ public class CustomerDaoImpl {
         return allCustomers;
     }
 
-    /**
-     * modify Customer object and convert it into SQl code and update database
-     */
+//      this creates an update statement to modify a customer
     public static void modifyCustomer(String name, String address, String phoneNumber) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String updateStatement = "UPDATE customer SET customerName = ? WHERE customerId = ?";
@@ -128,9 +124,8 @@ public class CustomerDaoImpl {
         }
 
     }
-    /**
-     * delete Customer object from database
-     */
+
+//    a delete statement for the select customer object in param
     public static void deleteCustomer(Customer customer) throws SQLException{
         Connection connection = MakeConnection.getConnection();
         String deleteStatement2 = "DELETE FROM customer WHERE customerId = ?";

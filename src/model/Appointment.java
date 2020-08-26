@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDateTime;
 
 /**
- *
+ * creates an appointment object used to contain the data selected from the DB
  * @author joshuadorsett
  */
 public class Appointment {

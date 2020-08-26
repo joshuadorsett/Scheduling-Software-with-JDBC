@@ -10,9 +10,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtils {
-
+//    Lambda Expression #1
+//    a Lambda expression to to calculate 15 minutes from the current time
     static Fifteen fifteen = () -> LocalDateTime.now().plusMinutes(15);
 
+//    a method that returns true if there is an appointment within 15 minutes of login
+//    it remains false for appointments that have are now past tense
     public static boolean fifteenMinuteAlert() throws SQLException {
         for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
             System.out.println(fifteen.fifteen());
@@ -24,6 +27,7 @@ public class DateTimeUtils {
         return false;
     }
 
+//    this returns true if there is an appointment in the desired appointment time
     public static boolean overlaps(LocalDateTime start, LocalDateTime end) throws SQLException {
         for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
             if (a.getStart().isEqual(start))
@@ -37,6 +41,7 @@ public class DateTimeUtils {
         }
         return false;
     }
+//    this uses an anon class to implement StringConverter<LocalDate> to set a new convert to format the DatePicker in JavaFx
     public static StringConverter<LocalDate> newConverter =
             new StringConverter<LocalDate> () {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");

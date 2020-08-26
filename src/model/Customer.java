@@ -1,7 +1,7 @@
 package model;
 
 /**
- *
+ * creates an customer object used to contain the data selected from the DB
  * @author joshuadorsett
  */
 public class Customer {
