@@ -34,15 +34,11 @@ public class TypeReportController implements Initializable {
     @FXML
     private TableColumn<Appointment, LocalDate> remoteDate;
     @FXML
-    private TableColumn<Appointment, LocalTime> remoteTime;
-    @FXML
     private TableView<Appointment> inPersonTable;
     @FXML
     private TableColumn<Appointment, String> inPersonTitle;
     @FXML
     private TableColumn<Appointment, LocalDate> inPersonDate;
-    @FXML
-    private TableColumn<Appointment, LocalTime> inPersonTime;
     /**
      * Initializes the controller class.
      */
@@ -51,13 +47,11 @@ public class TypeReportController implements Initializable {
         try {
             inPersonTable.setItems(AppointmentDaoImpl.getInPersonAppointments());
             inPersonTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-            inPersonDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-            inPersonTime.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+            inPersonDate.setCellValueFactory(new PropertyValueFactory<>("start"));
 
             RemoteTable.setItems(AppointmentDaoImpl.getRemoteAppointments());
             remoteTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-            remoteDate.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-            remoteTime.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+            remoteDate.setCellValueFactory(new PropertyValueFactory<>("start"));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

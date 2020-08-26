@@ -68,7 +68,6 @@ public class HomeController implements Initializable {
     private TableColumn<Customer, Integer> address;
     @FXML
     private TableColumn<Customer, Integer> phone;
-    @FXML
     private static Appointment modifyAppointment; /*the selected Appointment to be modified*/
     private static Customer modifyCustomer; /*the selected Customer to be modified*/
     private static Customer customerToMeetWith; /* customer selected for new appointment*/
@@ -90,10 +89,8 @@ public class HomeController implements Initializable {
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
                 title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-                location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
-                date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-                time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
-                endTime.setCellValueFactory(new PropertyValueFactory<>("appointmentEndTime"));
+                                time.setCellValueFactory(new PropertyValueFactory<>("start"));
+                endTime.setCellValueFactory(new PropertyValueFactory<>("end"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -104,10 +101,8 @@ public class HomeController implements Initializable {
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
                 title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-                location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
-                date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-                time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
-                endTime.setCellValueFactory(new PropertyValueFactory<>("appointmentEndTime"));
+                time.setCellValueFactory(new PropertyValueFactory<>("start"));
+                endTime.setCellValueFactory(new PropertyValueFactory<>("end"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -118,10 +113,8 @@ public class HomeController implements Initializable {
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
                 title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-                location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
-                date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-                time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
-                endTime.setCellValueFactory(new PropertyValueFactory<>("appointmentEndTime"));
+                time.setCellValueFactory(new PropertyValueFactory<>("start"));
+                endTime.setCellValueFactory(new PropertyValueFactory<>("end"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

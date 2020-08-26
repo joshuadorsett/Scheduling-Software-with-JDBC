@@ -42,8 +42,6 @@ public class ConsultantReportController implements Initializable {
     private TableColumn<Appointment, String> title;
     @FXML
     private TableColumn<Appointment, LocalDate> date;
-    @FXML
-    private TableColumn<Appointment, LocalTime> time;
     private static User selectedUser;
     /**
      * Initializes the controller class.
@@ -70,8 +68,7 @@ public class ConsultantReportController implements Initializable {
         String userIdString = Integer.toString(selectedUser.getUserId());
         AppointmentTable.setItems(AppointmentDaoImpl.getConsultantReport(userIdString));
         title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
-        date.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
-        time.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+        date.setCellValueFactory(new PropertyValueFactory<>("start"));
     }
 
     @FXML

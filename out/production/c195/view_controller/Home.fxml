@@ -39,20 +39,18 @@
                 <RadioButton fx:id="thisWeekRadio" layoutX="335.0" layoutY="6.0" mnemonicParsing="false" onAction="#thisWeekRadio" selected="true" text="This Week" toggleGroup="$homeRadio" />
                 <TableView fx:id="calendarTable" layoutY="33.0" prefHeight="174.0" prefWidth="573.0">
                     <columns>
-                        <TableColumn fx:id="appointmentId" prefWidth="93.0" text="Appointment ID" />
-                        <TableColumn fx:id="userId" prefWidth="51.0" text="User ID" />
-                        <TableColumn fx:id="customerId" prefWidth="82.0" text="Customer ID" />
-                        <TableColumn fx:id="title" prefWidth="76.0" text="Title" />
-                        <TableColumn fx:id="location" prefWidth="86.0" text="Location" />
-                        <TableColumn fx:id="date" prefWidth="62.0" text="Date" />
-                        <TableColumn fx:id="time" prefWidth="51.0" text="Start" />
-                        <TableColumn fx:id="endTime" prefWidth="71.0" text="End" />
+                        <TableColumn fx:id="appointmentId" prefWidth="53.0" text="Appt. ID" />
+                        <TableColumn fx:id="userId" prefWidth="47.0" text="User ID" />
+                        <TableColumn fx:id="customerId" prefWidth="50.0" text="Cust. ID" />
+                        <TableColumn fx:id="title" prefWidth="128.0" text="Title" />
+                        <TableColumn fx:id="time" prefWidth="144.0" text="Start" />
+                        <TableColumn fx:id="endTime" prefWidth="150.0" text="End" />
                     </columns>
                 </TableView>
                 <HBox layoutY="207.0" prefHeight="32.0" prefWidth="235.0">
                     <children>
                         <Button fx:id="addAppointment" mnemonicParsing="false" onAction="#addAppointment" prefHeight="32.0" prefWidth="99.0" text="Add" />
-                        <Button fx:id="modifyAppointment" mnemonicParsing="false" onAction="#modifyAppointment" prefHeight="32.0" prefWidth="131.0" text="Modify" />
+                        <Button fx:id="modifyAppointmentButton" mnemonicParsing="false" onAction="#modifyAppointment" prefHeight="32.0" prefWidth="131.0" text="Modify" />
                         <Button fx:id="deleteAppointment" mnemonicParsing="false" onAction="#deleteAppointment" prefHeight="32.0" prefWidth="111.0" text="Delete" />
                     </children>
                 </HBox>
@@ -72,15 +70,15 @@
         <TableView fx:id="customerTable" layoutX="88.0" layoutY="332.0" prefHeight="123.0" prefWidth="573.0">
             <columns>
                 <TableColumn fx:id="customerIdCustomerTable" prefWidth="85.0" text="Customer ID" />
-                <TableColumn fx:id="name" prefWidth="117.0" text="Name" />
-                <TableColumn fx:id="address" prefWidth="157.0" text="Address" />
-                <TableColumn fx:id="phone" minWidth="0.0" prefWidth="123.0" text="Phone" />
+                <TableColumn fx:id="name" prefWidth="132.0" text="Name" />
+                <TableColumn fx:id="address" prefWidth="229.0" text="Address" />
+                <TableColumn fx:id="phone" minWidth="0.0" prefWidth="126.0" text="Phone" />
             </columns>
         </TableView>
         <HBox layoutX="88.0" layoutY="455.0" prefHeight="32.0" prefWidth="235.0">
             <children>
                 <Button fx:id="addCustomer" mnemonicParsing="false" onAction="#addCustomer" prefHeight="32.0" prefWidth="99.0" text="Add" />
-                <Button fx:id="modifyCustomer" mnemonicParsing="false" onAction="#modifyCustomer" prefHeight="32.0" prefWidth="131.0" text="Modify" />
+                <Button fx:id="modifyCustomerButton" mnemonicParsing="false" onAction="#modifyCustomer" prefHeight="32.0" prefWidth="131.0" text="Modify" />
                 <Button fx:id="deleteCustomer" mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="32.0" prefWidth="111.0" text="Delete" />
             </children>
         </HBox>

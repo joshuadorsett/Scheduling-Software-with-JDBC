@@ -1,24 +1,13 @@
 package utilities;
 
 import dao.AppointmentDaoImpl;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.util.StringConverter;
 import model.Appointment;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
-
-import static utilities.MakePreparedStatement.getPreparedStatement;
-import static utilities.MakePreparedStatement.makePreparedStatement;
 
 public class DateTimeUtils {
     public static StringConverter<LocalDate> setDateFormatConverter() {
@@ -44,20 +33,13 @@ public class DateTimeUtils {
         };
         return converter;
     }
-    public static String toDbTimeZone(String dateToConvert) throws ParseException {
-            ZoneId timeZoneId = ZoneId.systemDefault();
-            DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            utcFormat.setTimeZone(TimeZone.getTimeZone("GMT+1"));
-            DateFormat defaultTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            defaultTimeFormat.setTimeZone(TimeZone.getTimeZone(timeZoneId));
-            return utcFormat.format(defaultTimeFormat.parse(dateToConvert));
-    }
+
     public static boolean fifteenMinuteAlert() throws SQLException {
         for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
             LocalDateTime fifteenMinsLater = LocalDateTime.now().plusMinutes(15);
             System.out.println(fifteenMinsLater.toString());
-            if (a.getStartTs().isBefore(fifteenMinsLater) && a.getStartTs().isAfter(LocalDateTime.now())) {
-                System.out.println("appointment times in the next 15 minutes : "+a.getAppointmentTime().toString());
+            if (a.getStart().isBefore(fifteenMinsLater) && a.getStart().isAfter(LocalDateTime.now())) {
+                System.out.println("appointment times in the next 15 minutes : "+a.getStart().toString());
                 return true;
             }
         }
@@ -65,10 +47,14 @@ public class DateTimeUtils {
         }
     public static boolean overlaps(LocalDateTime start, LocalDateTime end) throws SQLException {
         for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
-            if (a.getStartTs().isEqual(start)){
+            if (a.getStart().isEqual(start))
                 return true;
-            }
-            System.out.println(a.getStartTs().toString());
+            if (a.getEnd().isEqual(end))
+                return true;
+            if (a.getEnd().isBefore(end) && a.getEnd().isAfter(start))
+                return true;
+            if (a.getStart().isAfter(start) && a.getStart().isBefore(end))
+                return true;
         }
         return false;
     }

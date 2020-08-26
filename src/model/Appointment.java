@@ -14,22 +14,18 @@ public class Appointment {
     private int associatedUserId;
     private String appointmentTitle;
     private String appointmentType;
-    private LocalDate appointmentDate;
-    private LocalTime appointmentTime;
-    private LocalTime appointmentEndTime;
     private String appointmentLocation;
-    private LocalDateTime startTs;
-    private LocalDateTime endTs;
+    private LocalDateTime start;
+    private LocalDateTime end;
 
-    public Appointment(int id, int customerId, int userId, String title, String type, LocalDate date, LocalTime time, LocalTime endTime, String location){
+    public Appointment(int id, int customerId, int userId, String title, String type, LocalDateTime start, LocalDateTime end, String location){
         this.appointmentId = id;
         this.associatedCustomerId = customerId;
         this.associatedUserId = userId;
         this.appointmentTitle = title;
         this.appointmentType = type;
-        this.appointmentDate = date;
-        this.appointmentTime = time;
-        this.appointmentEndTime = endTime;
+        this.start = start;
+        this.end = end;
         this.appointmentLocation = location;
     }
     public int getAppointmentId() {
@@ -52,36 +48,24 @@ public class Appointment {
         return this.appointmentType;
     }
 
-    public LocalDate getAppointmentDate(){
-        return this.appointmentDate;
-    }
-
-    public LocalTime getAppointmentTime(){
-        return this.appointmentTime;
-    }
-
-    public LocalTime getAppointmentEndTime() {
-        return appointmentEndTime;
-    }
-
     public String getAppointmentLocation(){
         return this.appointmentLocation;
     }
 
-    public LocalDateTime getStartTs() {
-        return startTs;
+    public LocalDateTime getStart() {
+        return start;
     }
 
-    public void setStartTs(LocalDateTime startTs) {
-        this.startTs = startTs;
+    public void setStart(LocalDateTime start) {
+        this.start = start;
     }
 
-    public LocalDateTime getEndTs() {
-        return endTs;
+    public LocalDateTime getEnd() {
+        return end;
     }
 
-    public void setEndTs(LocalDateTime endTs) {
-        this.endTs = endTs;
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
     }
 }
 
