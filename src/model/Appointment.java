@@ -1,8 +1,6 @@
 package model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 /**
  *
@@ -44,10 +42,6 @@ public class Appointment {
         return this.appointmentTitle;
     }
 
-    public String getAppointmentType(){
-        return this.appointmentType;
-    }
-
     public String getAppointmentLocation(){
         return this.appointmentLocation;
     }
@@ -56,16 +50,8 @@ public class Appointment {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
-
     public LocalDateTime getEnd() {
         return end;
-    }
-
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
     }
 }
 

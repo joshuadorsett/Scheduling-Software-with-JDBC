@@ -13,8 +13,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Customer;
 
@@ -47,8 +49,24 @@ public class ModifyCustomerController implements Initializable {
 
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
-        CustomerDaoImpl.modifyCustomer(name.getText(),address.getText(),phoneNumber.getText());
-        sceneChange("Home.fxml", event);
+        Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+        alert2.initModality(Modality.NONE);
+        alert2.setTitle("Cannot Modify");
+        alert2.setHeaderText("Cannot Modify");
+        alert2.setContentText("Please enter data into all text fields.");
+        boolean alertNeeded = false;
+        if (name.getText().equals(""))
+            alertNeeded = true;
+        if (address.getText().equals(""))
+            alertNeeded = true;
+        if (phoneNumber.getText().equals(""))
+            alertNeeded = true;
+        if (alertNeeded)
+            alert2.showAndWait();
+        else {
+            CustomerDaoImpl.modifyCustomer(name.getText(), address.getText(), phoneNumber.getText());
+            sceneChange("Home.fxml", event);
+        }
     }
 
     @FXML

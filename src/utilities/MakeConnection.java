@@ -12,28 +12,31 @@ public class MakeConnection {
     private static final String DRIVER="com.mysql.cj.jdbc.Driver";
     private static Connection connection;
 
-
     public static void makeConnection(){
         try {
             Class.forName(DRIVER);
             connection= (Connection) DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("Connection to "+ DB +" has been established");
-        } catch (ClassNotFoundException | SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
-
     }
-
     public static Connection getConnection(){
         return connection;
     }
 
-    public static void endConnection() {
+    /*
+    A lambda expression for disconnecting the connection that returns in the endConnection Interface.
+     */
+    public static Disconnect disconnect = () -> {
         try {
             connection.close();
-            System.out.println("Connection to " + DB + " has ended");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    };
+    public static void endConnection() {
+        disconnect.disconnect();
+        System.out.println("Connection to " + DB + " has ended");
     }
 }

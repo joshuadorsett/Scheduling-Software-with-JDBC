@@ -18,10 +18,6 @@ public class Customer {
         this.customerAddress = address;
         this.customerPhoneNumber = phone;
     }
-    public void setCustomerId(int id){
-        this.customerId = id;
-    }
-
     public int getCustomerId() {
         return this.customerId;
     }

@@ -99,3 +99,6 @@
 2020-08-26T12:26:48.388-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Unsuccessful.
 2020-08-26T12:26:53.502-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
 2020-08-26T12:49:43.265-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
+2020-08-26T16:37:17.388-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
+2020-08-26T16:42:03.786-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.
+2020-08-26T16:47:21.008-04:00[America/New_York], User Name: user, ID: 1,  Login Attempt: Successful.

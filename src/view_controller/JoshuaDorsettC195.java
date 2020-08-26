@@ -7,15 +7,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utilities.MakeConnection;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class JoshuaDorsettC195 extends Application {
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-            MakeConnection.makeConnection();
-            launch(args);
-            MakeConnection.endConnection();
+        MakeConnection.makeConnection();
+        defineLanguageResource();
+        launch(args);
+        MakeConnection.endConnection();
     }
 
     @Override
@@ -25,5 +28,12 @@ public class JoshuaDorsettC195 extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    static ResourceBundle resources;
+    static Locale locale;
+    static void defineLanguageResource(){
+        locale = Locale.getDefault();
+        resources = ResourceBundle.getBundle("resources", locale);
     }
 }

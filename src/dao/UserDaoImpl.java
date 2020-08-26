@@ -43,6 +43,7 @@ public class UserDaoImpl {
         return allUsers;
     }
 
+
     public static User getUserByName(String logInName) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String selectStatement = "Select * FROM U07nke.user WHERE userName = ? ";

@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class MakePreparedStatement {
     private static PreparedStatement preparedStatement;
-
     public static void makePreparedStatement(Connection connection, String sqlStatement){
         try {
             preparedStatement = connection.prepareStatement(sqlStatement);

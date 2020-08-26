@@ -30,16 +30,23 @@ public class AddCustomerController {
 
     @FXML
     public void save(ActionEvent event) throws IOException, SQLException {
-        if (name.getText().equals("")) {
-            Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
-            alert2.initModality(Modality.NONE);
-            alert2.setTitle("Cannot Add");
-            alert2.setHeaderText("Cannot Add");
-            alert2.setContentText("Please enter a customer name. address and phone number are optional.");
+        Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
+        alert2.initModality(Modality.NONE);
+        alert2.setTitle("Cannot Add");
+        alert2.setHeaderText("Cannot Add");
+        alert2.setContentText("Please enter data into all text fields.");
+        boolean alertNeeded = false;
+        if (name.getText().equals(""))
+            alertNeeded = true;
+        if (address.getText().equals(""))
+            alertNeeded = true;
+        if (phoneNumber.getText().equals(""))
+            alertNeeded = true;
+        if (alertNeeded)
             alert2.showAndWait();
-        } else{
-                CustomerDaoImpl.addCustomer(name.getText(), address.getText(), phoneNumber.getText());
-                sceneChange("Home.fxml", event);
+        else{
+            CustomerDaoImpl.addCustomer(name.getText(), address.getText(), phoneNumber.getText());
+            sceneChange("Home.fxml", event);
         }
     }
 
@@ -61,5 +68,4 @@ public class AddCustomerController {
         window.setScene(Scene);
         window.show();
     }
-
 }

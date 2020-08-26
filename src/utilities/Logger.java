@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 
 public class Logger {
     private static final String path = "log.txt";
-    public static void logger(boolean success) throws IOException {
+    public static void logger(boolean success) {
         try (FileWriter fileWriter = new FileWriter(path, true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
              PrintWriter printWriter = new PrintWriter(bufferedWriter)){

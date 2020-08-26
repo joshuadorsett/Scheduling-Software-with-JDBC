@@ -2,7 +2,6 @@ package view_controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,17 +36,17 @@ public class LogInController implements Initializable {
     private Button login;
     @FXML
     private Button cancel;
-    ResourceBundle resources;
-    Locale locale;
+//    static ResourceBundle resources;
+//    static Locale locale;
 
 
     @FXML
     void cancel(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
-        alert.setTitle(resources.getString("exit"));
-        alert.setHeaderText(resources.getString("exit"));
-        alert.setContentText(resources.getString("exitMessage"));
+        alert.setTitle(JoshuaDorsettC195.resources.getString("exit"));
+        alert.setHeaderText(JoshuaDorsettC195.resources.getString("exit"));
+        alert.setContentText(JoshuaDorsettC195.resources.getString("exitMessage"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             System.exit(0);
@@ -63,18 +62,18 @@ public class LogInController implements Initializable {
             if (name.getText().equals("")) {
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
-                alert3.setTitle(resources.getString("invalidUser"));
-                alert3.setHeaderText(resources.getString("invalidUser"));
-                alert3.setContentText(resources.getString("invalidUserMessage"));
+                alert3.setTitle(JoshuaDorsettC195.resources.getString("invalidUser"));
+                alert3.setHeaderText(JoshuaDorsettC195.resources.getString("invalidUser"));
+                alert3.setContentText(JoshuaDorsettC195.resources.getString("invalidUserMessage"));
                 alert3.showAndWait();
             }
             if (activeUser.getUserPassword().equals(password.getText())) {
                 if(DateTimeUtils.fifteenMinuteAlert()){
                     Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                     alert2.initModality(Modality.NONE);
-                    alert2.setTitle(resources.getString("fifteenMinuteAlert"));
-                    alert2.setHeaderText(resources.getString("fifteenMinuteAlert"));
-                    alert2.setContentText(resources.getString("fifteenMinuteAlertMessage"));
+                    alert2.setTitle(JoshuaDorsettC195.resources.getString("fifteenMinuteAlert"));
+                    alert2.setHeaderText(JoshuaDorsettC195.resources.getString("fifteenMinuteAlert"));
+                    alert2.setContentText(JoshuaDorsettC195.resources.getString("fifteenMinuteAlertMessage"));
                     alert2.showAndWait();
                 }
                 Logger.logger(true);
@@ -83,17 +82,17 @@ public class LogInController implements Initializable {
                 Logger.logger(false);
                 Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert2.initModality(Modality.NONE);
-                alert2.setTitle(resources.getString("invalidPassword"));
-                alert2.setHeaderText(resources.getString("invalidPassword"));
-                alert2.setContentText(resources.getString("invalidPasswordMessage"));
+                alert2.setTitle(JoshuaDorsettC195.resources.getString("invalidPassword"));
+                alert2.setHeaderText(JoshuaDorsettC195.resources.getString("invalidPassword"));
+                alert2.setContentText(JoshuaDorsettC195.resources.getString("invalidPasswordMessage"));
                 alert2.showAndWait();
             }
         }catch (Exception e){
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
-                alert3.setTitle(resources.getString("invalidUser"));
-                alert3.setHeaderText(resources.getString("invalidUser"));
-                alert3.setContentText(resources.getString("invalidUserMessage"));
+                alert3.setTitle(JoshuaDorsettC195.resources.getString("invalidUser"));
+                alert3.setHeaderText(JoshuaDorsettC195.resources.getString("invalidUser"));
+                alert3.setContentText(JoshuaDorsettC195.resources.getString("invalidUserMessage"));
                 alert3.showAndWait();
             }
     }
@@ -113,7 +112,7 @@ public class LogInController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.locale = Locale.getDefault();
-        this.resources = ResourceBundle.getBundle("resources", this.locale);
+        login.setText(JoshuaDorsettC195.resources.getString("login"));
+        cancel.setText(JoshuaDorsettC195.resources.getString("cancel"));
     }
 }
