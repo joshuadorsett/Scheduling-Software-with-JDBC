@@ -74,15 +74,11 @@ public class AddAppointmentController implements Initializable {
             }
             String start = date.getValue()+" "+time.getSelectionModel().getSelectedItem().toString();
             String end = date.getValue()+" "+endTime.getSelectionModel().getSelectedItem().toString();
-            LocalDateTime startLDT = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            LocalDateTime endLDT = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            String utcStart = DateTimeUtils.toDbTimeZone(start);
-            String utcEnd = DateTimeUtils.toDbTimeZone(end);
-//            LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//            LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime startTimeStamp = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime endTimeStamp = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
             String customerIdString = Integer.toString(selectedCustomer.getCustomerId());
-            if(DateTimeUtils.overlaps(startLDT,endLDT)){
+            if(DateTimeUtils.overlaps(startTimeStamp,endTimeStamp)){
                 Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert2.initModality(Modality.NONE);
                 alert2.setTitle("Cannot Add");
@@ -90,10 +86,10 @@ public class AddAppointmentController implements Initializable {
                 alert2.setContentText("Sorry, there is already something scheduled for then.");
                 alert2.showAndWait();
             } else {
-                AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, utcStart, utcEnd);
+                AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp);
                 sceneChange("Home.fxml", event);
             }
-        } catch(NullPointerException | ParseException throwables){
+        } catch(NullPointerException throwables){
             Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
             alert2.initModality(Modality.NONE);
             alert2.setTitle("Cannot Add");

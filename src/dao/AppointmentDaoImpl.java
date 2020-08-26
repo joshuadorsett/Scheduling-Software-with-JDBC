@@ -3,14 +3,12 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
-import utilities.DateTimeUtils;
 import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 
 import java.sql.*;
 import java.text.ParseException;
 import java.time.*;
-import java.util.TimeZone;
 
 import static utilities.MakePreparedStatement.*;
 
@@ -23,7 +21,7 @@ public class AppointmentDaoImpl {
      * create Appointment object and convert it into SQL code and add it to database
      */
     public static void addAppointment(String customerId, String title,
-                                      String location, String type, String start, String end) throws SQLException {
+                                      String location, String type, LocalDateTime start, LocalDateTime end) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String insertStatement = "INSERT INTO appointment(customerId,userId,title,description,"+
                 "location,contact,type,url,start,end,createDate,createdBy,lastUpdateBy)" +
@@ -31,8 +29,7 @@ public class AppointmentDaoImpl {
         MakePreparedStatement.makePreparedStatement(connection, insertStatement);
         PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
 
-        LocalDate localDate = LocalDate.now();
-        String stringLocalDate = localDate.toString();
+        LocalDateTime localDate = LocalDateTime.now();
         String userId = Integer.toString(UserDaoImpl.getActiveUser().getUserId());
         String createdBy = UserDaoImpl.getActiveUser().getUserName();
         String lastUpdateBy = createdBy;
@@ -45,9 +42,9 @@ public class AppointmentDaoImpl {
         preparedStatement.setString(6, "none");
         preparedStatement.setString(7, type);
         preparedStatement.setString(8, "none");
-        preparedStatement.setString(9, start);
-        preparedStatement.setString(10, end);
-        preparedStatement.setString(11, stringLocalDate);
+        preparedStatement.setTimestamp(9, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(10, Timestamp.valueOf(end));
+        preparedStatement.setTimestamp(11, Timestamp.valueOf(localDate));
         preparedStatement.setString(12, createdBy);
         preparedStatement.setString(13, lastUpdateBy);
 
@@ -63,7 +60,7 @@ public class AppointmentDaoImpl {
      * modify Appointment object and convert it into SQl code and update database
      */
     public static void modifyAppointment(String customerId, String title,
-                                         String location, String type, String start, String end, String appointmentId) throws SQLException, ParseException {
+                                         String location, String type, LocalDateTime start, LocalDateTime end, String appointmentId) throws SQLException, ParseException {
         Connection connection = MakeConnection.getConnection();
         String updateStatement = "UPDATE appointment SET customerId = ?, title = ?, location = ?, type = ?, start = ?, end = ? WHERE appointmentId = ?;";
         MakePreparedStatement.makePreparedStatement(connection, updateStatement);
@@ -73,8 +70,8 @@ public class AppointmentDaoImpl {
         preparedStatement.setString(2,title);
         preparedStatement.setString(3,location);
         preparedStatement.setString(4,type);
-        preparedStatement.setString(5,start);
-        preparedStatement.setString(6,end);
+        preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
+        preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
         preparedStatement.setString(7,appointmentId);
 
         preparedStatement.execute();

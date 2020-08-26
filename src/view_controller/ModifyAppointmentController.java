@@ -76,13 +76,15 @@ public class ModifyAppointmentController implements Initializable {
         }
         String start = modDate.getValue() + " "+ time.getSelectionModel().getSelectedItem().toString();
         String end = modDate.getValue() + " "+ endTime.getSelectionModel().getSelectedItem().toString();
-        String utcStart = DateTimeUtils.toDbTimeZone(start);
-        String utcEnd = DateTimeUtils.toDbTimeZone(end);
-        LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime startTimeStamp = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime endTimeStamp = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        String utcStart = DateTimeUtils.toDbTimeZone(start);
+//        String utcEnd = DateTimeUtils.toDbTimeZone(end);
+//        LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String customerIdString = Integer.toString(appointment.getAssociatedCustomerId());
         String appointmentId = Integer.toString(appointment.getAppointmentId());
-        if(DateTimeUtils.overlaps(utcStartTS,utcEndTS )){
+        if(DateTimeUtils.overlaps(startTimeStamp,endTimeStamp )){
             Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
             alert2.initModality(Modality.NONE);
             alert2.setTitle("Cannot Modify");
@@ -90,7 +92,7 @@ public class ModifyAppointmentController implements Initializable {
             alert2.setContentText("Sorry, there is already something scheduled for then.");
             alert2.showAndWait();
         } else {
-            AppointmentDaoImpl.modifyAppointment(customerIdString, title.getText(), location.getText(), typeSelected, utcStart, utcEnd, appointmentId);
+            AppointmentDaoImpl.modifyAppointment(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp, appointmentId);
             sceneChange("Home.fxml", event);
         }
     }
