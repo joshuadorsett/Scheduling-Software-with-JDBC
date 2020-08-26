@@ -56,7 +56,7 @@ public class ModifyAppointmentController implements Initializable {
         customerId.setText(Integer.toString(appointment.getAssociatedCustomerId()));
         title.setText(appointment.getAppointmentTitle());
         location.setText(appointment.getAppointmentLocation());
-        modDate.setConverter(DateTimeUtils.setDateFormatConverter());
+        modDate.setConverter(DateTimeUtils.newConverter);
         time.getItems().addAll("08:00:00", "08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
                 "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00");

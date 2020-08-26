@@ -10,29 +10,43 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtils {
-    public static StringConverter<LocalDate> setDateFormatConverter() {
-        StringConverter<LocalDate> converter = new StringConverter<LocalDate>() {
-            DateTimeFormatter dateFormatter =
-                    DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            @Override
-            public String toString(LocalDate date) {
-                if (date != null) {
-                    return dateFormatter.format(date);
-                } else {
-                    return "";
-                }
+
+    public static StringConverter<LocalDate> newConverter =
+            new StringConverter<LocalDate>() {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        @Override
+        public String toString(LocalDate date) {
+            if (date != null) {
+                return dateFormat.format(date);
+            } else {
+                return "";
             }
-            @Override
-            public LocalDate fromString(String string) {
-                if (string != null && !string.isEmpty()) {
-                    return LocalDate.parse(string, dateFormatter);
-                } else {
-                    return null;
-                }
+        }
+        @Override
+        public LocalDate fromString(String string) {
+            if (string != null && !string.isEmpty()) {
+                return LocalDate.parse(string, dateFormat);
+            } else {
+                return null;
             }
-        };
-        return converter;
-    }
+        }
+    };
+//    public static StringConverter<LocalDate> newConverter =
+//        (LocalDate date,String string) -> {
+//            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//            if (date != null)
+//                return dateFormat.format(date);
+//            else {
+//                return "";
+//            }
+//            if (string != null && !string.isEmpty()) {
+//                return LocalDate.parse(string, dateFormat);
+//            } else {
+//                return null;
+//            }
+
+
+
 
     public static boolean fifteenMinuteAlert() throws SQLException {
         for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
@@ -58,6 +72,4 @@ public class DateTimeUtils {
         }
         return false;
     }
-
-
 }

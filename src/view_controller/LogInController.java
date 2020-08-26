@@ -1,18 +1,21 @@
 package view_controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-import dao.AppointmentDaoImpl;
 import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
@@ -25,20 +28,26 @@ import utilities.Logger;
  *
  * @author joshuadorsett
  */
-public class LogInController {
+public class LogInController implements Initializable {
     @FXML
     private TextField name;
     @FXML
     private TextField password;
+    @FXML
+    private Button login;
+    @FXML
+    private Button cancel;
+    ResourceBundle resources;
+    Locale locale;
 
 
     @FXML
     void cancel(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
-        alert.setTitle("Confirmation Needed");
-        alert.setHeaderText("Confirm Exit");
-        alert.setContentText("Are you sure you want to exit?");
+        alert.setTitle(resources.getString("exit"));
+        alert.setHeaderText(resources.getString("exit"));
+        alert.setContentText(resources.getString("exitMessage"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             System.exit(0);
@@ -54,18 +63,18 @@ public class LogInController {
             if (name.getText().equals("")) {
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
-                alert3.setTitle("Invalid UserName");
-                alert3.setHeaderText("Invalid UserName");
-                alert3.setContentText("The UserName was Invalid.");
+                alert3.setTitle(resources.getString("invalidUser"));
+                alert3.setHeaderText(resources.getString("invalidUser"));
+                alert3.setContentText(resources.getString("invalidUserMessage"));
                 alert3.showAndWait();
             }
             if (activeUser.getUserPassword().equals(password.getText())) {
                 if(DateTimeUtils.fifteenMinuteAlert()){
                     Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                     alert2.initModality(Modality.NONE);
-                    alert2.setTitle("Upcoming Appointment!");
-                    alert2.setHeaderText("Upcoming Appointment!");
-                    alert2.setContentText("There is an upcoming appointment within the next 15 minutes!");
+                    alert2.setTitle(resources.getString("fifteenMinuteAlert"));
+                    alert2.setHeaderText(resources.getString("fifteenMinuteAlert"));
+                    alert2.setContentText(resources.getString("fifteenMinuteAlertMessage"));
                     alert2.showAndWait();
                 }
                 Logger.logger(true);
@@ -74,17 +83,17 @@ public class LogInController {
                 Logger.logger(false);
                 Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert2.initModality(Modality.NONE);
-                alert2.setTitle("Invalid Password");
-                alert2.setHeaderText("Invalid Password");
-                alert2.setContentText("The password was incorrect.");
+                alert2.setTitle(resources.getString("invalidPassword"));
+                alert2.setHeaderText(resources.getString("invalidPassword"));
+                alert2.setContentText(resources.getString("invalidPasswordMessage"));
                 alert2.showAndWait();
             }
         }catch (Exception e){
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
-                alert3.setTitle("Invalid UserName");
-                alert3.setHeaderText("Invalid UserName");
-                alert3.setContentText("The UserName was Invalid.");
+                alert3.setTitle(resources.getString("invalidUser"));
+                alert3.setHeaderText(resources.getString("invalidUser"));
+                alert3.setContentText(resources.getString("invalidUserMessage"));
                 alert3.showAndWait();
             }
     }
@@ -102,4 +111,9 @@ public class LogInController {
         window.show();
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.locale = Locale.getDefault();
+        this.resources = ResourceBundle.getBundle("resources", this.locale);
+    }
 }
