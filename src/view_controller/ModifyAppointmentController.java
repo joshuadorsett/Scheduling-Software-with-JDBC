@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import model.Appointment;
 import utilities.DateTimeUtils;
 
@@ -56,7 +58,27 @@ public class ModifyAppointmentController implements Initializable {
         customerId.setText(Integer.toString(appointment.getAssociatedCustomerId()));
         title.setText(appointment.getAppointmentTitle());
         location.setText(appointment.getAppointmentLocation());
-        modDate.setConverter(DateTimeUtils.newConverter);
+        modDate.setConverter(
+            new StringConverter<LocalDate>() {
+                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                @Override
+                public String toString(LocalDate date) {
+                    if (date != null) {
+                        return dateFormat.format(date);
+                    } else {
+                        return "";
+                    }
+                }
+                @Override
+                public LocalDate fromString(String string) {
+                    if (string != null && !string.isEmpty()) {
+                        return LocalDate.parse(string, dateFormat);
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        );
         time.getItems().addAll("08:00:00", "08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
                 "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00");
@@ -78,10 +100,6 @@ public class ModifyAppointmentController implements Initializable {
         String end = modDate.getValue() + " "+ endTime.getSelectionModel().getSelectedItem().toString();
         LocalDateTime startTimeStamp = LocalDateTime.parse(start, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         LocalDateTime endTimeStamp = LocalDateTime.parse(end, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        String utcStart = DateTimeUtils.toDbTimeZone(start);
-//        String utcEnd = DateTimeUtils.toDbTimeZone(end);
-//        LocalDateTime utcStartTS = LocalDateTime.parse(utcStart, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        LocalDateTime utcEndTS = LocalDateTime.parse(utcEnd, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String customerIdString = Integer.toString(appointment.getAssociatedCustomerId());
         String appointmentId = Integer.toString(appointment.getAppointmentId());
         if(DateTimeUtils.overlaps(startTimeStamp,endTimeStamp )){

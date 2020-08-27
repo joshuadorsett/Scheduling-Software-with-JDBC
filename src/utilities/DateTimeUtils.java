@@ -41,25 +41,4 @@ public class DateTimeUtils {
         }
         return false;
     }
-//    this uses an anon class to implement StringConverter<LocalDate> to set a new convert to format the DatePicker in JavaFx
-    public static StringConverter<LocalDate> newConverter =
-            new StringConverter<LocalDate> () {
-                DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                @Override
-                public String toString(LocalDate date) {
-                    if (date != null) {
-                        return dateFormat.format(date);
-                    } else {
-                        return "";
-                    }
-                }
-                @Override
-                public LocalDate fromString(String string) {
-                    if (string != null && !string.isEmpty()) {
-                        return LocalDate.parse(string, dateFormat);
-                    } else {
-                        return null;
-                    }
-                }
-            };
 }
