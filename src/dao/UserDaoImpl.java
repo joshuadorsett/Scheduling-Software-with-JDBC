@@ -36,10 +36,9 @@ public class UserDaoImpl {
             int userId = resultSet.getInt("userId");
             String userName = resultSet.getString("userName");
             String password = resultSet.getString("password");
-
             User user = new User(userId, userName, password);
             allUsers.add(user);
-            System.out.println(userId + " | " + userName + " | " + password + " ");
+            System.out.println(userId + " | " + userName);
         }
         return allUsers;
     }
@@ -56,12 +55,12 @@ public class UserDaoImpl {
 
         while (resultSet.next()) {
             int id = resultSet.getInt("userId");
-            String name = resultSet.getString("userName");
+            String userName = resultSet.getString("userName");
             String password = resultSet.getString("password");
 
-            User user = new User(id, name, password);
+            User user = new User(id, userName, password);
             activeUser = user;
-            System.out.println(id + " | " + /*userName + */" ");
+            System.out.println(id + " | " + userName);
         }
         return activeUser;
     }

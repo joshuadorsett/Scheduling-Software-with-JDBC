@@ -7,12 +7,12 @@ package model;
 public class User {
     private int userId;
     private String userName;
-    private String userPassword;
+    private String password;
 
     public User(int userId, String userName, String userPassword){
         this.userId = userId;
         this.userName = userName;
-        this.userPassword = userPassword;
+        this.password = userPassword;
     }
 
     public int getUserId(){
@@ -23,7 +23,7 @@ public class User {
         return this.userName;
     }
 
-    public String getUserPassword(){
-        return this.userPassword;
+    public String getPassword(){
+        return this.password;
     }
 }

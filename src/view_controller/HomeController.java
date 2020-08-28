@@ -3,7 +3,6 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
@@ -84,7 +83,7 @@ public class HomeController implements Initializable {
 
         if (allRadio.isSelected()) {
             try {
-                calendarTable.setItems(AppointmentDaoImpl.getAllAppointments());
+                calendarTable.setItems(AppointmentDaoImpl.getAll());
                 appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
@@ -96,7 +95,7 @@ public class HomeController implements Initializable {
             }
         } else if (thisWeekRadio.isSelected()) {
             try {
-                calendarTable.setItems(AppointmentDaoImpl.getWeeklyAppointments());
+                calendarTable.setItems(AppointmentDaoImpl.getAllWeekly());
                 appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
@@ -108,7 +107,7 @@ public class HomeController implements Initializable {
             }
         } else {
             try {
-                calendarTable.setItems(AppointmentDaoImpl.getMonthlyAppointments());
+                calendarTable.setItems(AppointmentDaoImpl.getAllMonthly());
                 appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
@@ -123,7 +122,7 @@ public class HomeController implements Initializable {
 
     public void generateCustomerTable(){
         try {
-            customerTable.setItems(CustomerDaoImpl.getAllCustomers());
+            customerTable.setItems(CustomerDaoImpl.getAll());
             customerIdCustomerTable.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             address.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
@@ -179,15 +178,15 @@ public class HomeController implements Initializable {
             alert.initModality(Modality.NONE);
             alert.setTitle("Appointment Delete");
             alert.setHeaderText("Confirm?");
-            alert.setContentText("Are you sure you want to delete " + appointment.getAppointmentTitle() + "?");
+            alert.setContentText("Are you sure you want to delete " + appointment.getTitle() + "?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                AppointmentDaoImpl.deleteAppointment(appointment);
+                AppointmentDaoImpl.delete(appointment);
                 generateCalendarTable();
-                System.out.println("Appointment " + appointment.getAppointmentTitle() + " was removed.");
+                System.out.println("Appointment " + appointment.getTitle() + " was removed.");
 
             } else {
-                System.out.println("Appointment " + appointment.getAppointmentTitle() + " was not removed.");
+                System.out.println("Appointment " + appointment.getTitle() + " was not removed.");
             }
         } catch (Exception throwables) {
             Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
@@ -235,7 +234,7 @@ public class HomeController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 try {
-                    CustomerDaoImpl.deleteCustomer(customer);
+                    CustomerDaoImpl.delete(customer);
                     generateCustomerTable();
                     System.out.println("Customer " + customer.getCustomerName() + " was removed.");
                 } catch (SQLException throwables) {

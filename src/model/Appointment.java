@@ -8,42 +8,42 @@ import java.time.LocalDateTime;
  */
 public class Appointment {
     private int appointmentId;
-    private int associatedCustomerId;
-    private int associatedUserId;
-    private String appointmentTitle;
-    private String appointmentType;
-    private String appointmentLocation;
+    private int customerId;
+    private int userId;
+    private String title;
+    private String type;
+    private String location;
     private LocalDateTime start;
     private LocalDateTime end;
 
-    public Appointment(int id, int customerId, int userId, String title, String type, LocalDateTime start, LocalDateTime end, String location){
-        this.appointmentId = id;
-        this.associatedCustomerId = customerId;
-        this.associatedUserId = userId;
-        this.appointmentTitle = title;
-        this.appointmentType = type;
+    public Appointment(int appointmentId, int customerId, int userId, String title, String type, LocalDateTime start, LocalDateTime end, String location){
+        this.appointmentId = appointmentId;
+        this.customerId = customerId;
+        this.userId = userId;
+        this.title = title;
+        this.type = type;
         this.start = start;
         this.end = end;
-        this.appointmentLocation = location;
+        this.location = location;
     }
     public int getAppointmentId() {
         return this.appointmentId;
     }
 
-    public int getAssociatedCustomerId(){
-        return this.associatedCustomerId;
+    public int getCustomerId(){
+        return this.customerId;
     }
 
-    public int getAssociatedUserId(){
-        return this.associatedUserId;
+    public int getUserId(){
+        return this.userId;
     }
 
-    public String getAppointmentTitle(){
-        return this.appointmentTitle;
+    public String getTitle(){
+        return this.title;
     }
 
-    public String getAppointmentLocation(){
-        return this.appointmentLocation;
+    public String getLocation(){
+        return this.location;
     }
 
     public LocalDateTime getStart() {

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 import dao.AppointmentDaoImpl;
@@ -45,11 +44,11 @@ public class TypeReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            inPersonTable.setItems(AppointmentDaoImpl.getInPersonAppointments());
+            inPersonTable.setItems(AppointmentDaoImpl.getAllInPerson());
             inPersonTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
             inPersonDate.setCellValueFactory(new PropertyValueFactory<>("start"));
 
-            RemoteTable.setItems(AppointmentDaoImpl.getRemoteAppointments());
+            RemoteTable.setItems(AppointmentDaoImpl.getAllRemote());
             remoteTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
             remoteDate.setCellValueFactory(new PropertyValueFactory<>("start"));
         } catch (SQLException throwables) {

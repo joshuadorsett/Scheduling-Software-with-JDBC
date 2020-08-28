@@ -67,7 +67,7 @@ public class LogInController implements Initializable {
                 alert3.setContentText(JoshuaDorsettC195.resources.getString("invalidUserMessage"));
                 alert3.showAndWait();
             }
-            if (activeUser.getUserPassword().equals(password.getText())) {
+            if (activeUser.getPassword().equals(password.getText())) {
                 if(DateTimeUtils.fifteenMinuteAlert()){
                     Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                     alert2.initModality(Modality.NONE);

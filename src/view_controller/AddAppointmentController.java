@@ -3,7 +3,6 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -79,10 +78,10 @@ public class AddAppointmentController implements Initializable {
         );
         time.getItems().addAll("08:00:00", "08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
-                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","20:00:00");
+                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00");
         endTime.getItems().addAll("08:30:00","09:00:00","09:30:00","10:00:00", "10:30:00",
                 "11:00:00", "11:30:00","12:00:00","12:30:00","13:00:00","13:30:00","14:00:00","14:30:00", "15:00:00",
-                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","18:00:00","20:30:00");
+                "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","18:00:00");
     }
 
     @FXML
@@ -108,7 +107,7 @@ public class AddAppointmentController implements Initializable {
                 alert2.setContentText("Sorry, there is already something scheduled for then.");
                 alert2.showAndWait();
             } else {
-                AppointmentDaoImpl.addAppointment(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp);
+                AppointmentDaoImpl.add(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp);
                 sceneChange("Home.fxml", event);
             }
         } catch(NullPointerException throwables){

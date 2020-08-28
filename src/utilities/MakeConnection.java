@@ -29,18 +29,9 @@ public class MakeConnection {
         return connection;
     }
 
-//    Lambda Expression #2
-//    A lambda expression for disconnecting the connection that returns in the endConnection Interface.
-    public static Disconnect disconnect = () -> {
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    };
 //    this method accesses the disconnect lambda expression.
-    public static void endConnection() {
-        disconnect.disconnect();
+    public static void endConnection() throws SQLException {
+        connection.close();
         System.out.println("Connection to " + DB + " has ended");
     }
 }

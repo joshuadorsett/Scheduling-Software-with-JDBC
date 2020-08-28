@@ -3,7 +3,6 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ResourceBundle;
 
 import dao.AppointmentDaoImpl;
@@ -41,7 +40,7 @@ public class LocationReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            locationTable.setItems(AppointmentDaoImpl.getAllAppointments());
+            locationTable.setItems(AppointmentDaoImpl.getAll());
             title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
             location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
         } catch (SQLException throwables) {

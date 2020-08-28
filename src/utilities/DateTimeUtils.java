@@ -1,26 +1,19 @@
 package utilities;
 
 import dao.AppointmentDaoImpl;
-import javafx.util.StringConverter;
 import model.Appointment;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtils {
-//    Lambda Expression #1
-//    a Lambda expression to to calculate 15 minutes from the current time
-    static Fifteen fifteen = () -> LocalDateTime.now().plusMinutes(15);
-
 //    a method that returns true if there is an appointment within 15 minutes of login
 //    it remains false for appointments that have are now past tense
     public static boolean fifteenMinuteAlert() throws SQLException {
-        for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
-            System.out.println(fifteen.fifteen());
-            if (a.getStart().isBefore(fifteen.fifteen()) && a.getStart().isAfter(LocalDateTime.now())) {
-                System.out.println("appointment times in the next 15 minutes : "+a.getStart().toString());
+        LocalDateTime fifteenAfterNow = LocalDateTime.now().plusMinutes(15);
+        LocalDateTime now = LocalDateTime.now();
+        for (Appointment a : AppointmentDaoImpl.getAll()) {
+            if (a.getStart().isBefore(fifteenAfterNow) && a.getStart().isAfter(now)) {
                 return true;
             }
         }
@@ -29,7 +22,7 @@ public class DateTimeUtils {
 
 //    this returns true if there is an appointment in the desired appointment time
     public static boolean overlaps(LocalDateTime start, LocalDateTime end) throws SQLException {
-        for (Appointment a : AppointmentDaoImpl.getAllAppointments()) {
+        for (Appointment a : AppointmentDaoImpl.getAll()) {
             if (a.getStart().isEqual(start))
                 return true;
             if (a.getEnd().isEqual(end))

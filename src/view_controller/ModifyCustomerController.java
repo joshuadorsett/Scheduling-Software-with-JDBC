@@ -42,8 +42,8 @@ public class ModifyCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         name.setText(customer.getCustomerName());
-        address.setText(customer.getCustomerAddress());
-        phoneNumber.setText(customer.getCustomerPhoneNumber());
+        address.setText(customer.getAddress());
+        phoneNumber.setText(customer.getPhone());
         customerId.setText(Integer.toString(customer.getCustomerId()));
     }
 
@@ -64,7 +64,7 @@ public class ModifyCustomerController implements Initializable {
         if (alertNeeded)
             alert2.showAndWait();
         else {
-            CustomerDaoImpl.modifyCustomer(name.getText(), address.getText(), phoneNumber.getText());
+            CustomerDaoImpl.modify(name.getText(), address.getText(), phoneNumber.getText());
             sceneChange("Home.fxml", event);
         }
     }

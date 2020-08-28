@@ -7,7 +7,6 @@ import utilities.MakeConnection;
 import utilities.MakePreparedStatement;
 
 import java.sql.*;
-import java.text.ParseException;
 import java.time.*;
 
 import static utilities.MakePreparedStatement.*;
@@ -18,8 +17,8 @@ import static utilities.MakePreparedStatement.*;
  */
 public class AppointmentDaoImpl {
 //    creates a prepared statement object and then uses variables from text fields to insert into SQL.
-    public static void addAppointment(String customerId, String title,
-                                      String location, String type, LocalDateTime start, LocalDateTime end) throws SQLException {
+    public static void add(String customerId, String title,
+                           String location, String type, LocalDateTime start, LocalDateTime end) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String insertStatement = "INSERT INTO appointment(customerId,userId,title,description,"+
                 "location,contact,type,url,start,end,createDate,createdBy,lastUpdateBy)" +
@@ -58,8 +57,8 @@ public class AppointmentDaoImpl {
     }
 
 //    uses a prepared statement to make an update statement with variables from the textfield
-    public static void modifyAppointment(String customerId, String title,
-                                         String location, String type, LocalDateTime start, LocalDateTime end, String appointmentId) throws SQLException, ParseException {
+    public static void modify(String customerId, String title,
+                              String location, String type, LocalDateTime start, LocalDateTime end, String appointmentId) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String updateStatement = "UPDATE appointment SET customerId = ?, title = ?, location = ?, type = ?, start = ?, end = ? WHERE appointmentId = ?;";
         MakePreparedStatement.makePreparedStatement(connection, updateStatement);
@@ -85,7 +84,7 @@ public class AppointmentDaoImpl {
     }
 
 //    this creates a select statement to return all appointments as an observable list
-    public static ObservableList<Appointment> getAllAppointments() throws SQLException {
+    public static ObservableList<Appointment> getAll() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
         String selectStatement = "Select * FROM U07nke.appointment";
@@ -111,7 +110,7 @@ public class AppointmentDaoImpl {
     }
 
 //    this creates a select statement to return appointments this month as an observable list
-    public static ObservableList<Appointment> getMonthlyAppointments() throws SQLException {
+    public static ObservableList<Appointment> getAllMonthly() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
         String selectStatement = "Select * FROM U07nke.appointment WHERE start BETWEEN (LAST_DAY(NOW())+ INTERVAL 1 DAY - interval 1 month) AND (LAST_DAY(NOW())+ INTERVAL 1 DAY)";
@@ -137,7 +136,7 @@ public class AppointmentDaoImpl {
     }
 
     //    this creates a select statement to return weekly appointments as an observable list
-    public static ObservableList<Appointment> getWeeklyAppointments() throws SQLException {
+    public static ObservableList<Appointment> getAllWeekly() throws SQLException {
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
         String selectStatement = "Select * FROM U07nke.appointment WHERE WEEK(NOW()) = WEEK(start)";
@@ -163,7 +162,7 @@ public class AppointmentDaoImpl {
     }
 
 //    this creates a select statement to return all remote appointments as an observable list
-    public static ObservableList<Appointment> getRemoteAppointments() throws  SQLException {
+    public static ObservableList<Appointment> getAllRemote() throws  SQLException {
         ObservableList<Appointment> remoteAppointments = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection();
         String selectStatement = "Select * FROM U07nke.appointment Where type = 'Remote' ";
@@ -189,7 +188,7 @@ public class AppointmentDaoImpl {
     }
 
 //    this creates a select statement to return all In-Person appointments as an observable list
-    public static ObservableList<Appointment> getInPersonAppointments() throws  SQLException {
+    public static ObservableList<Appointment> getAllInPerson() throws  SQLException {
         ObservableList<Appointment> inPersonAppointments = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection();
         String selectStatement = "Select * FROM U07nke.appointment WHERE type = 'In-Person' ";
@@ -216,13 +215,13 @@ public class AppointmentDaoImpl {
     }
 
     //    this creates a select statement to return all appointments for each seperate consultatnt as an observable list
-    public static ObservableList<Appointment> getConsultantReport(String id) throws SQLException {
+    public static ObservableList<Appointment> getConsultantReport(String consultant) throws SQLException {
         ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection();
         String selectStatement = "Select * FROM U07nke.appointment WHERE userId = ?";
         makePreparedStatement(connection, selectStatement); //create statement object
         PreparedStatement preparedStatement = getPreparedStatement();
-        preparedStatement.setString(1, id);
+        preparedStatement.setString(1, consultant);
         preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
@@ -244,7 +243,7 @@ public class AppointmentDaoImpl {
     }
 
 //            this creates a delete statement that deletes the appointment selected in param
-    public static void deleteAppointment(Appointment appointment) throws SQLException {
+    public static void delete(Appointment appointment) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String deleteStatement = "DELETE FROM appointment WHERE appointmentId = ?";
         makePreparedStatement(connection, deleteStatement);
@@ -258,4 +257,6 @@ public class AppointmentDaoImpl {
             System.out.println("no appointments deleted");
         }
     }
+
+
 }

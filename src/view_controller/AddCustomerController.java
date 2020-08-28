@@ -45,7 +45,7 @@ public class AddCustomerController {
         if (alertNeeded)
             alert2.showAndWait();
         else{
-            CustomerDaoImpl.addCustomer(name.getText(), address.getText(), phoneNumber.getText());
+            CustomerDaoImpl.add(name.getText(), address.getText(), phoneNumber.getText());
             sceneChange("Home.fxml", event);
         }
     }

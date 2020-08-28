@@ -22,7 +22,7 @@ import static utilities.MakePreparedStatement.makePreparedStatement;
  */
 public class CustomerDaoImpl {
 //      this uses an insert statement to add an address and a customer from the text fields
-    public static void addCustomer(String customerName, String address, String phoneNumber) throws SQLException{
+    public static void add(String customerName, String address, String phoneNumber) throws SQLException{
         Connection connection = MakeConnection.getConnection();
         String insertAddressStatement = "INSERT INTO address(address, address2, cityId, postalCode, phone, createDate, " +
                 "createdBy,lastUpdateBy) VALUES(?,?,?,?,?,?,?,?)";
@@ -68,7 +68,7 @@ public class CustomerDaoImpl {
     }
 
 //      returns all customers as an observable list
-    public static ObservableList<Customer> getAllCustomers() throws SQLException{
+    public static ObservableList<Customer> getAll() throws SQLException{
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
         String selectStatement = "SELECT * FROM U07nke.customer INNER JOIN U07nke.address ON customer.addressId = address.addressId;";
@@ -98,7 +98,7 @@ public class CustomerDaoImpl {
     }
 
 //      this creates an update statement to modify a customer
-    public static void modifyCustomer(String name, String address, String phoneNumber) throws SQLException {
+    public static void modify(String name, String address, String phoneNumber) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String updateStatement = "UPDATE customer SET customerName = ? WHERE customerId = ?";
         MakePreparedStatement.makePreparedStatement(connection, updateStatement);
@@ -126,7 +126,7 @@ public class CustomerDaoImpl {
     }
 
 //    a delete statement for the select customer object in param
-    public static void deleteCustomer(Customer customer) throws SQLException{
+    public static void delete(Customer customer) throws SQLException{
         Connection connection = MakeConnection.getConnection();
         String deleteStatement2 = "DELETE FROM customer WHERE customerId = ?";
         makePreparedStatement(connection, deleteStatement2);
