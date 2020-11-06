@@ -112,3 +112,10 @@
 2020-08-27T20:20:53.065-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
 2020-08-27T20:22:55.774-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
 2020-08-28T11:28:23.174-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
+2020-09-09T18:29:54.126-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
+2020-09-09T18:33:43.222-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
+2020-09-09T18:35:11.978-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
+2020-09-09T18:40:53.801-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
+2020-09-09T19:09:41.460-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
+2020-10-17T13:11:46.029-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Unsuccessful.
+2020-10-17T13:11:51.425-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.

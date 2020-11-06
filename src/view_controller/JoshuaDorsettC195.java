@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import utilities.MakeConnection;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;

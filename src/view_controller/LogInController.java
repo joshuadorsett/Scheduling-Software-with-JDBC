@@ -36,8 +36,7 @@ public class LogInController implements Initializable {
     private Button login;
     @FXML
     private Button cancel;
-//    static ResourceBundle resources;
-//    static Locale locale;
+
 
 
     @FXML
