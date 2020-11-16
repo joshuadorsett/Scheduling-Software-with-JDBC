@@ -38,17 +38,18 @@ public class TypeReportController implements Initializable {
     private TableColumn<Appointment, String> inPersonTitle;
     @FXML
     private TableColumn<Appointment, LocalDate> inPersonDate;
+    private AppointmentDaoImpl aptDao;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            inPersonTable.setItems(AppointmentDaoImpl.getAllInPerson());
+            inPersonTable.setItems(aptDao.getAllInPerson());
             inPersonTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
             inPersonDate.setCellValueFactory(new PropertyValueFactory<>("start"));
 
-            RemoteTable.setItems(AppointmentDaoImpl.getAllRemote());
+            RemoteTable.setItems(aptDao.getAllRemote());
             remoteTitle.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
             remoteDate.setCellValueFactory(new PropertyValueFactory<>("start"));
         } catch (SQLException throwables) {

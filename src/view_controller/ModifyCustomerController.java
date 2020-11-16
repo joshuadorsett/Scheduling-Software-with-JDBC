@@ -36,6 +36,7 @@ public class ModifyCustomerController implements Initializable {
     @FXML
     private Label customerId;
     private Customer customer = HomeController.getModifyCustomer();
+    private CustomerDaoImpl customerDao;
     /**
      * Initializes the controller class.
      */
@@ -64,7 +65,7 @@ public class ModifyCustomerController implements Initializable {
         if (alertNeeded)
             alert2.showAndWait();
         else {
-            CustomerDaoImpl.modify(name.getText(), address.getText(), phoneNumber.getText());
+            customerDao.modify(name.getText(), address.getText(), phoneNumber.getText());
             sceneChange("Home.fxml", event);
         }
     }

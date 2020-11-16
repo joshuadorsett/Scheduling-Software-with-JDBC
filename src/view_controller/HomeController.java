@@ -70,6 +70,8 @@ public class HomeController implements Initializable {
     private static Appointment modifyAppointment; /*the selected Appointment to be modified*/
     private static Customer modifyCustomer; /*the selected Customer to be modified*/
     private static Customer customerToMeetWith; /* customer selected for new appointment*/
+    private CustomerDaoImpl customerDao;
+    private AppointmentDaoImpl aptDao;
     /**
      * Initializes the controller class.
      */
@@ -83,7 +85,7 @@ public class HomeController implements Initializable {
 
         if (allRadio.isSelected()) {
             try {
-                calendarTable.setItems(AppointmentDaoImpl.getAll());
+                calendarTable.setItems(aptDao.getAll());
                 appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
@@ -95,7 +97,7 @@ public class HomeController implements Initializable {
             }
         } else if (thisWeekRadio.isSelected()) {
             try {
-                calendarTable.setItems(AppointmentDaoImpl.getAllWeekly());
+                calendarTable.setItems(aptDao.getAllWeekly());
                 appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
@@ -107,7 +109,7 @@ public class HomeController implements Initializable {
             }
         } else {
             try {
-                calendarTable.setItems(AppointmentDaoImpl.getAllMonthly());
+                calendarTable.setItems(aptDao.getAllMonthly());
                 appointmentId.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
                 customerId.setCellValueFactory(new PropertyValueFactory<>("associatedCustomerId"));
                 userId.setCellValueFactory(new PropertyValueFactory<>("associatedUserId"));
@@ -122,7 +124,7 @@ public class HomeController implements Initializable {
 
     public void generateCustomerTable(){
         try {
-            customerTable.setItems(CustomerDaoImpl.getAll());
+            customerTable.setItems(customerDao.getAll());
             customerIdCustomerTable.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             name.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             address.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
@@ -181,7 +183,7 @@ public class HomeController implements Initializable {
             alert.setContentText("Are you sure you want to delete " + appointment.getTitle() + "?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                AppointmentDaoImpl.delete(appointment);
+                aptDao.delete(appointment);
                 generateCalendarTable();
                 System.out.println("Appointment " + appointment.getTitle() + " was removed.");
 
@@ -234,7 +236,7 @@ public class HomeController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 try {
-                    CustomerDaoImpl.delete(customer);
+                    customerDao.delete(customer);
                     generateCustomerTable();
                     System.out.println("Customer " + customer.getCustomerName() + " was removed.");
                 } catch (SQLException throwables) {

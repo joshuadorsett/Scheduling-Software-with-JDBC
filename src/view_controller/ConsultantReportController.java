@@ -43,6 +43,8 @@ public class ConsultantReportController implements Initializable {
     @FXML
     private TableColumn<Appointment, LocalDate> date;
     private static User selectedUser;
+    private UserDaoImpl userDao;
+    private AppointmentDaoImpl aptDao;
     /**
      * Initializes the controller class.
      */
@@ -54,7 +56,7 @@ public class ConsultantReportController implements Initializable {
     public void generateConsultantTable(){
         try {
 
-            consultantTable.setItems(UserDaoImpl.getAllUsers());
+            consultantTable.setItems(userDao.getAllUsers());
             consultantId.setCellValueFactory(new PropertyValueFactory<>("userId"));
             consultantName.setCellValueFactory(new PropertyValueFactory<>("userName"));
 
@@ -66,7 +68,7 @@ public class ConsultantReportController implements Initializable {
     public void generateAppointmentTable() throws SQLException {
         selectedUser = consultantTable.getSelectionModel().getSelectedItem();
         String userIdString = Integer.toString(selectedUser.getUserId());
-        AppointmentTable.setItems(AppointmentDaoImpl.getConsultantReport(userIdString));
+        AppointmentTable.setItems(aptDao.getConsultantReport(userIdString));
         title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
         date.setCellValueFactory(new PropertyValueFactory<>("start"));
     }

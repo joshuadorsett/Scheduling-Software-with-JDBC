@@ -10,12 +10,14 @@ import java.time.ZonedDateTime;
 //  this class has one method that logs user data at login in the log.txt file
 public class Logger {
     private static final String path = "log.txt";
+    private static UserDaoImpl userDAO;
+
     public static void logger(boolean success) {
         try (FileWriter fileWriter = new FileWriter(path, true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
              PrintWriter printWriter = new PrintWriter(bufferedWriter)){
-            String userName = UserDaoImpl.getActiveUser().getUserName();
-            String  userId = Integer.toString(UserDaoImpl.getActiveUser().getUserId());
+            String userName = userDAO.getActiveUser().getUserName();
+            String  userId = Integer.toString(userDAO.getActiveUser().getUserId());
             String userInfo = ", User Name: " + userName + ", ID: " + userId;
             String logInSuccess = ZonedDateTime.now() + userInfo + ",  Login Attempt: Successful.";
             String logInFailure = ZonedDateTime.now() + userInfo + ",  Login Attempt: Unsuccessful.";

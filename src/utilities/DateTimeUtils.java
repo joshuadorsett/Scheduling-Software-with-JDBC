@@ -1,5 +1,6 @@
 package utilities;
 
+import dao.AppointmentDAO;
 import dao.AppointmentDaoImpl;
 import model.Appointment;
 
@@ -7,12 +8,13 @@ import java.sql.*;
 import java.time.LocalDateTime;
 
 public class DateTimeUtils {
+    private static AppointmentDAO aptDao;
 //    a method that returns true if there is an appointment within 15 minutes of login
 //    it remains false for appointments that have are now past tense
     public static boolean fifteenMinuteAlert() throws SQLException {
         LocalDateTime fifteenAfterNow = LocalDateTime.now().plusMinutes(15);
         LocalDateTime now = LocalDateTime.now();
-        for (Appointment a : AppointmentDaoImpl.getAll()) {
+        for (Appointment a : aptDao.getAll()) {
             if (a.getStart().isBefore(fifteenAfterNow) && a.getStart().isAfter(now)) {
                 return true;
             }
@@ -22,7 +24,7 @@ public class DateTimeUtils {
 
 //    this returns true if there is an appointment in the desired appointment time
     public static boolean overlaps(LocalDateTime start, LocalDateTime end) throws SQLException {
-        for (Appointment a : AppointmentDaoImpl.getAll()) {
+        for (Appointment a : aptDao.getAll()) {
             if (a.getStart().isEqual(start))
                 return true;
             if (a.getEnd().isEqual(end))

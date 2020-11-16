@@ -28,6 +28,7 @@ public class AddCustomerController {
     @FXML
     private TextField phoneNumber;
 
+    private CustomerDaoImpl customerDao;
     @FXML
     public void save(ActionEvent event) throws IOException, SQLException {
         Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
@@ -45,7 +46,7 @@ public class AddCustomerController {
         if (alertNeeded)
             alert2.showAndWait();
         else{
-            CustomerDaoImpl.add(name.getText(), address.getText(), phoneNumber.getText());
+            customerDao.add(name.getText(), address.getText(), phoneNumber.getText());
             sceneChange("Home.fxml", event);
         }
     }

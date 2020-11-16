@@ -36,7 +36,7 @@ public class LogInController implements Initializable {
     private Button login;
     @FXML
     private Button cancel;
-
+    private UserDaoImpl userDao;
 
 
     @FXML
@@ -57,7 +57,7 @@ public class LogInController implements Initializable {
     @FXML
     void loginButton(ActionEvent event) {
         try {
-            User activeUser = UserDaoImpl.getUserByName(name.getText());
+            User activeUser = userDao.getUserByName(name.getText());
             if (name.getText().equals("")) {
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);

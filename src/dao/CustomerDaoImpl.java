@@ -20,16 +20,17 @@ import static utilities.MakePreparedStatement.makePreparedStatement;
  * THe Database Access Object for the customer table, it also accesses the address table briefly
  * @author joshuadorsett
  */
-public class CustomerDaoImpl {
+public class CustomerDaoImpl implements CustomerDAO{
+    private UserDaoImpl userDAO;
 //      this uses an insert statement to add an address and a customer from the text fields
-    public static void add(String customerName, String address, String phoneNumber) throws SQLException{
+    public void add(String customerName, String address, String phoneNumber) throws SQLException{
         Connection connection = MakeConnection.getConnection();
         String insertAddressStatement = "INSERT INTO address(address, address2, cityId, postalCode, phone, createDate, " +
                 "createdBy,lastUpdateBy) VALUES(?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(insertAddressStatement, PreparedStatement.RETURN_GENERATED_KEYS);
         LocalDate localDate = LocalDate.now();
         String stringLocalDate = localDate.toString();
-        String createdBy = UserDaoImpl.getActiveUser().getUserName();
+        String createdBy = userDAO.getActiveUser().getUserName();
         String lastUpdateBy = createdBy;
         // key-value mapping
         preparedStatement.setString(1, address);
@@ -68,7 +69,7 @@ public class CustomerDaoImpl {
     }
 
 //      returns all customers as an observable list
-    public static ObservableList<Customer> getAll() throws SQLException{
+    public ObservableList<Customer> getAll() throws SQLException{
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         Connection connection = MakeConnection.getConnection(); //get reference to connection object
         String selectStatement = "SELECT * FROM U07nke.customer INNER JOIN U07nke.address ON customer.addressId = address.addressId;";
@@ -98,7 +99,7 @@ public class CustomerDaoImpl {
     }
 
 //      this creates an update statement to modify a customer
-    public static void modify(String name, String address, String phoneNumber) throws SQLException {
+    public void modify(String name, String address, String phoneNumber) throws SQLException {
         Connection connection = MakeConnection.getConnection();
         String updateStatement = "UPDATE customer SET customerName = ? WHERE customerId = ?";
         MakePreparedStatement.makePreparedStatement(connection, updateStatement);
@@ -126,7 +127,7 @@ public class CustomerDaoImpl {
     }
 
 //    a delete statement for the select customer object in param
-    public static void delete(Customer customer) throws SQLException{
+    public void delete(Customer customer) throws SQLException{
         Connection connection = MakeConnection.getConnection();
         String deleteStatement2 = "DELETE FROM customer WHERE customerId = ?";
         makePreparedStatement(connection, deleteStatement2);
@@ -148,4 +149,5 @@ public class CustomerDaoImpl {
             System.out.println("no customers deleted");
         }
     }
+
 }

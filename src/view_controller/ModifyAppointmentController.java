@@ -48,6 +48,7 @@ public class ModifyAppointmentController implements Initializable {
     private Label userId;
 
     private Appointment appointment;
+    private AppointmentDaoImpl aptDao;
     /**
      * Initializes the controller class.
      */
@@ -110,7 +111,7 @@ public class ModifyAppointmentController implements Initializable {
             alert2.setContentText("Sorry, there is already something scheduled for then.");
             alert2.showAndWait();
         } else {
-            AppointmentDaoImpl.modify(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp, appointmentId);
+            aptDao.modify(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp, appointmentId);
             sceneChange("Home.fxml", event);
         }
     }

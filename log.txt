@@ -119,3 +119,4 @@
 2020-09-09T19:09:41.460-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
 2020-10-17T13:11:46.029-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Unsuccessful.
 2020-10-17T13:11:51.425-04:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.
+2020-11-16T10:14:10.927-05:00[America/New_York], User Name: test, ID: 1,  Login Attempt: Successful.

@@ -32,7 +32,7 @@ public class LocationReportController implements Initializable {
     private TableColumn<Appointment, String> title;
     @FXML
     private TableColumn<Appointment, String> location;
-
+    private AppointmentDaoImpl aptDao;
 
     /**
      * Initializes the controller class.
@@ -40,7 +40,7 @@ public class LocationReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            locationTable.setItems(AppointmentDaoImpl.getAll());
+            locationTable.setItems(aptDao.getAll());
             title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
             location.setCellValueFactory(new PropertyValueFactory<>("appointmentLocation"));
         } catch (SQLException throwables) {

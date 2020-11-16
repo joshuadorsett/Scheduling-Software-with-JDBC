@@ -47,6 +47,8 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private Label userId;
     private Customer selectedCustomer;
+    private static UserDaoImpl userDao;
+    private AppointmentDaoImpl aptDao;
     /**
      * Initializes the controller class.
      */
@@ -54,7 +56,7 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         selectedCustomer = HomeController.getCustomerToMeetWith();
         customerId.setText(selectedCustomer.getCustomerName());
-        userId.setText(UserDaoImpl.getActiveUser().getUserName());
+        userId.setText(userDao.getActiveUser().getUserName());
         date.setConverter(
             new StringConverter<LocalDate>() {
                 DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -107,7 +109,7 @@ public class AddAppointmentController implements Initializable {
                 alert2.setContentText("Sorry, there is already something scheduled for then.");
                 alert2.showAndWait();
             } else {
-                AppointmentDaoImpl.add(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp);
+                aptDao.add(customerIdString, title.getText(), location.getText(), typeSelected, startTimeStamp, endTimeStamp);
                 sceneChange("Home.fxml", event);
             }
         } catch(NullPointerException throwables){
