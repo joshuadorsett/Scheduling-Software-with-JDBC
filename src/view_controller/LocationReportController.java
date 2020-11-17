@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import dao.AppointmentDAO;
 import dao.AppointmentDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,13 +27,18 @@ import model.Appointment;
  */
 public class LocationReportController implements Initializable {
 
+
     @FXML
     private TableView<Appointment> locationTable;
+
     @FXML
     private TableColumn<Appointment, String> title;
+
     @FXML
     private TableColumn<Appointment, String> location;
-    private AppointmentDaoImpl aptDao;
+
+    private final AppointmentDAO aptDao = new AppointmentDaoImpl();
+
 
     /**
      * Initializes the controller class.
@@ -48,10 +54,12 @@ public class LocationReportController implements Initializable {
         }
     }
 
+
     @FXML
     private void goBack(ActionEvent event) throws IOException {
         sceneChange("Home.fxml", event);
     }
+
 
     public void sceneChange(String path, ActionEvent event) throws IOException {
         Parent Parent = FXMLLoader.load(getClass().getResource(path));
@@ -60,5 +68,6 @@ public class LocationReportController implements Initializable {
         window.setScene(Scene);
         window.show();
     }
+
 
 }

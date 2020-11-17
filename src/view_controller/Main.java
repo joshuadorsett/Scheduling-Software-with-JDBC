@@ -10,7 +10,9 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class JoshuaDorsettC195 extends Application {
+public class Main extends Application {
+
+
     /**
      * @param args the command line arguments
      */
@@ -21,6 +23,7 @@ public class JoshuaDorsettC195 extends Application {
         MakeConnection.endConnection();
     }
 
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
@@ -30,8 +33,12 @@ public class JoshuaDorsettC195 extends Application {
         stage.show();
     }
 
+
     static ResourceBundle resources;
+
     static Locale locale;
+
+
     static void defineLanguageResource(){
         locale = Locale.getDefault();
         resources = ResourceBundle.getBundle("resources", locale);

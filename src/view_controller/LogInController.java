@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dao.UserDAO;
 import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,24 +29,30 @@ import utilities.Logger;
  * @author joshuadorsett
  */
 public class LogInController implements Initializable {
+
+
     @FXML
     private TextField name;
+
     @FXML
     private TextField password;
+
     @FXML
     private Button login;
+
     @FXML
     private Button cancel;
-    private UserDaoImpl userDao;
+
+    private final UserDAO userDao =  new UserDaoImpl();
 
 
     @FXML
     void cancel(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
-        alert.setTitle(JoshuaDorsettC195.resources.getString("exit"));
-        alert.setHeaderText(JoshuaDorsettC195.resources.getString("exit"));
-        alert.setContentText(JoshuaDorsettC195.resources.getString("exitMessage"));
+        alert.setTitle(Main.resources.getString("exit"));
+        alert.setHeaderText(Main.resources.getString("exit"));
+        alert.setContentText(Main.resources.getString("exitMessage"));
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             System.exit(0);
@@ -54,6 +61,7 @@ public class LogInController implements Initializable {
         }
     }
 
+
     @FXML
     void loginButton(ActionEvent event) {
         try {
@@ -61,18 +69,18 @@ public class LogInController implements Initializable {
             if (name.getText().equals("")) {
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
-                alert3.setTitle(JoshuaDorsettC195.resources.getString("invalidUser"));
-                alert3.setHeaderText(JoshuaDorsettC195.resources.getString("invalidUser"));
-                alert3.setContentText(JoshuaDorsettC195.resources.getString("invalidUserMessage"));
+                alert3.setTitle(Main.resources.getString("invalidUser"));
+                alert3.setHeaderText(Main.resources.getString("invalidUser"));
+                alert3.setContentText(Main.resources.getString("invalidUserMessage"));
                 alert3.showAndWait();
             }
             if (activeUser.getPassword().equals(password.getText())) {
                 if(DateTimeUtils.fifteenMinuteAlert()){
                     Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                     alert2.initModality(Modality.NONE);
-                    alert2.setTitle(JoshuaDorsettC195.resources.getString("fifteenMinuteAlert"));
-                    alert2.setHeaderText(JoshuaDorsettC195.resources.getString("fifteenMinuteAlert"));
-                    alert2.setContentText(JoshuaDorsettC195.resources.getString("fifteenMinuteAlertMessage"));
+                    alert2.setTitle(Main.resources.getString("fifteenMinuteAlert"));
+                    alert2.setHeaderText(Main.resources.getString("fifteenMinuteAlert"));
+                    alert2.setContentText(Main.resources.getString("fifteenMinuteAlertMessage"));
                     alert2.showAndWait();
                 }
                 Logger.logger(true);
@@ -81,20 +89,22 @@ public class LogInController implements Initializable {
                 Logger.logger(false);
                 Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert2.initModality(Modality.NONE);
-                alert2.setTitle(JoshuaDorsettC195.resources.getString("invalidPassword"));
-                alert2.setHeaderText(JoshuaDorsettC195.resources.getString("invalidPassword"));
-                alert2.setContentText(JoshuaDorsettC195.resources.getString("invalidPasswordMessage"));
+                alert2.setTitle(Main.resources.getString("invalidPassword"));
+                alert2.setHeaderText(Main.resources.getString("invalidPassword"));
+                alert2.setContentText(Main.resources.getString("invalidPasswordMessage"));
                 alert2.showAndWait();
             }
         }catch (Exception e){
                 Alert alert3 = new Alert(Alert.AlertType.CONFIRMATION);
                 alert3.initModality(Modality.NONE);
-                alert3.setTitle(JoshuaDorsettC195.resources.getString("invalidUser"));
-                alert3.setHeaderText(JoshuaDorsettC195.resources.getString("invalidUser"));
-                alert3.setContentText(JoshuaDorsettC195.resources.getString("invalidUserMessage"));
+                alert3.setTitle(Main.resources.getString("invalidUser"));
+                alert3.setHeaderText(Main.resources.getString("invalidUser"));
+                alert3.setContentText(Main.resources.getString("invalidUserMessage"));
                 alert3.showAndWait();
             }
     }
+
+
     /**
      * changes scenes.
      * @param path path of the new scene.
@@ -109,9 +119,12 @@ public class LogInController implements Initializable {
         window.show();
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        login.setText(JoshuaDorsettC195.resources.getString("login"));
-        cancel.setText(JoshuaDorsettC195.resources.getString("cancel"));
+        login.setText(Main.resources.getString("login"));
+        cancel.setText(Main.resources.getString("cancel"));
     }
+
+
 }

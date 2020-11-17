@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import dao.AppointmentDAO;
 import dao.AppointmentDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,19 +27,29 @@ import model.Appointment;
  * @author joshuadorsett
  */
 public class TypeReportController implements Initializable {
+
+
     @FXML
     private TableView<Appointment> RemoteTable;
+
     @FXML
     private TableColumn<Appointment, String> remoteTitle;
+
     @FXML
     private TableColumn<Appointment, LocalDate> remoteDate;
+
     @FXML
     private TableView<Appointment> inPersonTable;
+
     @FXML
     private TableColumn<Appointment, String> inPersonTitle;
+
     @FXML
     private TableColumn<Appointment, LocalDate> inPersonDate;
-    private AppointmentDaoImpl aptDao;
+
+    private final AppointmentDAO aptDao = new AppointmentDaoImpl();
+
+
     /**
      * Initializes the controller class.
      */
@@ -57,10 +68,12 @@ public class TypeReportController implements Initializable {
         }
     }
 
+
     @FXML
     private void goBack(ActionEvent event) throws IOException {
         sceneChange("Home.fxml", event);
     }
+
 
     public void sceneChange(String path, ActionEvent event) throws IOException {
         Parent Parent = FXMLLoader.load(getClass().getResource(path));

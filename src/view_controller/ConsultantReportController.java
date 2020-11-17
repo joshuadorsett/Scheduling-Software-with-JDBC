@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+import dao.AppointmentDAO;
 import dao.AppointmentDaoImpl;
+import dao.UserDAO;
 import dao.UserDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,21 +32,32 @@ import model.User;
  */
 public class ConsultantReportController implements Initializable {
 
+
     @FXML
     private TableView<User> consultantTable;
+
     @FXML
     private TableColumn<User, Integer> consultantId;
+
     @FXML
     private TableColumn<User, String> consultantName;
+
     @FXML
     private TableView<Appointment> AppointmentTable;
+
     @FXML
     private TableColumn<Appointment, String> title;
+
     @FXML
     private TableColumn<Appointment, LocalDate> date;
+
     private static User selectedUser;
-    private UserDaoImpl userDao;
-    private AppointmentDaoImpl aptDao;
+
+    private final UserDAO userDao = new UserDaoImpl();
+
+    private final AppointmentDAO aptDao = new AppointmentDaoImpl();
+
+
     /**
      * Initializes the controller class.
      */
@@ -53,9 +66,9 @@ public class ConsultantReportController implements Initializable {
         generateConsultantTable();
     }
 
+
     public void generateConsultantTable(){
         try {
-
             consultantTable.setItems(userDao.getAllUsers());
             consultantId.setCellValueFactory(new PropertyValueFactory<>("userId"));
             consultantName.setCellValueFactory(new PropertyValueFactory<>("userName"));
@@ -65,18 +78,22 @@ public class ConsultantReportController implements Initializable {
         }
     }
 
+
     public void generateAppointmentTable() throws SQLException {
         selectedUser = consultantTable.getSelectionModel().getSelectedItem();
         String userIdString = Integer.toString(selectedUser.getUserId());
+
         AppointmentTable.setItems(aptDao.getConsultantReport(userIdString));
         title.setCellValueFactory(new PropertyValueFactory<>("appointmentTitle"));
         date.setCellValueFactory(new PropertyValueFactory<>("start"));
     }
 
+
     @FXML
     private void goBack(ActionEvent event) throws IOException {
         sceneChange("Home.fxml", event);
     }
+
 
     public void sceneChange(String path, ActionEvent event) throws IOException {
         Parent Parent = FXMLLoader.load(getClass().getResource(path));

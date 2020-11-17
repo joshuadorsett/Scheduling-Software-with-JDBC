@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import dao.CustomerDAO;
 import dao.CustomerDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,16 +28,24 @@ import model.Customer;
  */
 public class ModifyCustomerController implements Initializable {
 
+
     @FXML
     private TextField name;
+
     @FXML
     private TextField address;
+
     @FXML
     private TextField phoneNumber;
+
     @FXML
     private Label customerId;
+
     private Customer customer = HomeController.getModifyCustomer();
-    private CustomerDaoImpl customerDao;
+
+    private final CustomerDAO customerDao = new CustomerDaoImpl();
+
+
     /**
      * Initializes the controller class.
      */
@@ -47,6 +56,7 @@ public class ModifyCustomerController implements Initializable {
         phoneNumber.setText(customer.getPhone());
         customerId.setText(Integer.toString(customer.getCustomerId()));
     }
+
 
     @FXML
     private void save(ActionEvent event) throws IOException, SQLException {
@@ -70,10 +80,12 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+
     @FXML
     private void cancel(ActionEvent event) throws IOException {
         sceneChange("Home.fxml", event);
     }
+
 
     /**
      * changes scenes.

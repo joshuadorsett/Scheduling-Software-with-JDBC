@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import dao.AppointmentDAO;
 import dao.AppointmentDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,25 +31,37 @@ import utilities.DateTimeUtils;
  * @author joshuadorsett
  */
 public class ModifyAppointmentController implements Initializable {
+
+
     @FXML
     public DatePicker modDate;
+
     @FXML
     private Label customerId;
+
     @FXML
     private TextField title;
+
     @FXML
     private RadioButton remoteRadio;
+
     @FXML
     private ComboBox time;
+
     @FXML
     private ComboBox endTime;
+
     @FXML
     private TextField location;
+
     @FXML
     private Label userId;
 
     private Appointment appointment;
-    private AppointmentDaoImpl aptDao;
+
+    private final AppointmentDAO aptDao = new AppointmentDaoImpl();
+
+
     /**
      * Initializes the controller class.
      */
@@ -88,6 +101,7 @@ public class ModifyAppointmentController implements Initializable {
                 "15:30:00","16:00:00","16:30:00","17:00:00","17:30:00","18:00:00");
     }
 
+
     @FXML
     public void saveAppointment(ActionEvent event) throws IOException, SQLException, ParseException {
         String typeSelected;
@@ -121,6 +135,8 @@ public class ModifyAppointmentController implements Initializable {
     public void cancelAppointment(ActionEvent event) throws IOException {
         sceneChange("Home.fxml", event);
     }
+
+
     /**
      * changes scenes.
      * @param path path of the new scene.

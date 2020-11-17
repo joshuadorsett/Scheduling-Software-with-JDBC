@@ -3,6 +3,7 @@ package view_controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import dao.CustomerDAO;
 import dao.CustomerDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,20 +16,27 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
 /**
  * FXML Controller class
  *
  * @author joshuadorsett
  */
 public class AddCustomerController {
+
+
     @FXML
     private TextField name;
+
     @FXML
     private TextField address;
+
     @FXML
     private TextField phoneNumber;
 
-    private CustomerDaoImpl customerDao;
+    private final CustomerDAO customerDao = new CustomerDaoImpl();
+
+
     @FXML
     public void save(ActionEvent event) throws IOException, SQLException {
         Alert alert2 = new Alert(Alert.AlertType.CONFIRMATION);
@@ -37,6 +45,7 @@ public class AddCustomerController {
         alert2.setHeaderText("Cannot Add");
         alert2.setContentText("Please enter data into all text fields.");
         boolean alertNeeded = false;
+
         if (name.getText().equals(""))
             alertNeeded = true;
         if (address.getText().equals(""))
@@ -51,10 +60,12 @@ public class AddCustomerController {
         }
     }
 
+
     @FXML
     public void cancel(ActionEvent event) throws IOException {
         sceneChange("Home.fxml", event);
     }
+
 
     /**
      * changes scenes.

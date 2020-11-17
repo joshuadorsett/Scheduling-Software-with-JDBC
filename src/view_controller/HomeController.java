@@ -8,7 +8,9 @@ import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import dao.AppointmentDAO;
 import dao.AppointmentDaoImpl;
+import dao.CustomerDAO;
 import dao.CustomerDaoImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,43 +37,66 @@ import model.Customer;
  * @author joshuadorsett
  */
 public class HomeController implements Initializable {
+
+
     @FXML
     private RadioButton allRadio;
+
     @FXML
     private RadioButton thisWeekRadio;
+
     @FXML
     private TableView<Appointment> calendarTable;
+
     @FXML
     private TableColumn<Appointment, Integer> appointmentId;
+
     @FXML
     private TableColumn<Appointment, Integer> userId;
+
     @FXML
     private TableColumn<Appointment, Integer> customerId;
+
     @FXML
     private TableColumn<Appointment, String> title;
+
     @FXML
     private TableColumn<Appointment, String> location;
+
     @FXML
     private TableColumn<Appointment, LocalDate> date;
+
     @FXML
     private TableColumn<Appointment, LocalTime> time;
+
     @FXML
     private TableColumn<Appointment, String> endTime;
+
     @FXML
     private TableView<Customer> customerTable;
+
     @FXML
     private TableColumn<Customer, Integer> customerIdCustomerTable;
+
     @FXML
     private TableColumn<Customer, String> name;
+
     @FXML
     private TableColumn<Customer, Integer> address;
     @FXML
     private TableColumn<Customer, Integer> phone;
+
     private static Appointment modifyAppointment; /*the selected Appointment to be modified*/
+
     private static Customer modifyCustomer; /*the selected Customer to be modified*/
+
     private static Customer customerToMeetWith; /* customer selected for new appointment*/
-    private CustomerDaoImpl customerDao;
-    private AppointmentDaoImpl aptDao;
+
+    private final CustomerDAO customerDao = new CustomerDaoImpl();
+
+    private final AppointmentDAO aptDao = new AppointmentDaoImpl();
+
+
     /**
      * Initializes the controller class.
      */
@@ -82,7 +107,6 @@ public class HomeController implements Initializable {
     }
 
     public void generateCalendarTable(){
-
         if (allRadio.isSelected()) {
             try {
                 calendarTable.setItems(aptDao.getAll());
@@ -122,6 +146,7 @@ public class HomeController implements Initializable {
         }
     }
 
+
     public void generateCustomerTable(){
         try {
             customerTable.setItems(customerDao.getAll());
@@ -133,6 +158,8 @@ public class HomeController implements Initializable {
             throwables.printStackTrace();
         }
     }
+
+
     @FXML
     public void addAppointment(ActionEvent event) throws IOException {
         customerToMeetWith = customerTable.getSelectionModel().getSelectedItem();
@@ -147,9 +174,12 @@ public class HomeController implements Initializable {
             alert.showAndWait();
         }
     }
+
+
     public static Customer getCustomerToMeetWith() {
         return customerToMeetWith;
     }
+
 
     @FXML
     public void modifyAppointment(ActionEvent event) throws IOException {
@@ -165,12 +195,15 @@ public class HomeController implements Initializable {
             alert2.showAndWait();
         }
     }
+
+
     /**
      * @return modifyAppointment
      */
     public static Appointment getModifyAppointment() {
         return modifyAppointment;
     }
+
 
     @FXML
     public void deleteAppointment(ActionEvent event) throws SQLException {
@@ -200,10 +233,12 @@ public class HomeController implements Initializable {
         }
     }
 
+
     @FXML
     public void addCustomer(ActionEvent event) throws IOException {
         sceneChange("AddCustomer.fxml", event);
     }
+
 
     @FXML
     public void modifyCustomer(ActionEvent event) throws IOException {
@@ -220,9 +255,11 @@ public class HomeController implements Initializable {
         }
     }
 
+
     public static Customer getModifyCustomer() {
         return modifyCustomer;
     }
+
 
     @FXML
     public void deleteCustomer(ActionEvent event) {
@@ -234,6 +271,7 @@ public class HomeController implements Initializable {
             alert.setHeaderText("Confirm?");
             alert.setContentText("Are you sure you want to delete " + customer.getCustomerName() + "?");
             Optional<ButtonType> result = alert.showAndWait();
+
             if (result.get() == ButtonType.OK) {
                 try {
                     customerDao.delete(customer);
@@ -260,39 +298,48 @@ public class HomeController implements Initializable {
         }
     }
 
+
     @FXML
     public void typeReport(ActionEvent event) throws IOException {
         sceneChange("TypeReport.fxml", event);
     }
+
 
     @FXML
     public void consultantReport(ActionEvent event) throws IOException {
         sceneChange("ConsultantReport.fxml", event);
     }
 
+
     @FXML
     public void locationReport(ActionEvent event) throws IOException {
         sceneChange("LocationReport.fxml", event);
     }
+
+
     @FXML
     public void LogOut(ActionEvent event) throws IOException {
         sceneChange("LogIn.fxml", event);
     }
 
+
     @FXML
     public void exitProgram(ActionEvent event) {
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirmation Needed");
         alert.setHeaderText("Confirm Exit");
         alert.setContentText("Are you sure you want to exit?");
         Optional<ButtonType> result = alert.showAndWait();
+
         if (result.get() == ButtonType.OK) {
             System.exit(0);
         } else {
             System.out.println("You clicked cancel.");
         }
     }
+
 
     /**
      * changes scenes.
@@ -308,13 +355,16 @@ public class HomeController implements Initializable {
         window.show();
     }
 
+
     public void allRadio(ActionEvent actionEvent) {
         generateCalendarTable();
     }
 
+
     public void thisMonthRadio(ActionEvent actionEvent) {
         generateCalendarTable();
     }
+
 
     public void thisWeekRadio(ActionEvent actionEvent) {
         generateCalendarTable();
