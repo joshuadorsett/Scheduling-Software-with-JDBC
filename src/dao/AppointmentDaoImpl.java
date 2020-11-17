@@ -9,24 +9,27 @@ import utilities.MakePreparedStatement;
 import java.sql.*;
 import java.time.*;
 
-import static utilities.MakePreparedStatement.*;
 
 /**
  * This is the DataBase Access Object for the appointment table
  * @author joshuadorsett
  */
 public class AppointmentDaoImpl implements AppointmentDAO {
-    private UserDaoImpl userDao;
-    int userId = userDao.getActiveUser().getUserId();
+
+
+    private final UserDAO userDao = new UserDaoImpl();
+
+    private int userId = userDao.getActiveUser().getUserId();
+
 
     //    creates a prepared statement object and then uses variables from text fields to insert into SQL.
     public void add(String customerId, String title,
                            String location, String type, LocalDateTime start, LocalDateTime end) throws SQLException {
-        Connection connection = MakeConnection.getConnection();
+
         String insertStatement = "INSERT INTO appointment(customerId,userId,title,description,"+
                 "location,contact,type,url,start,end,createDate,createdBy,lastUpdateBy)" +
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        MakePreparedStatement.makePreparedStatement(connection, insertStatement);
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), insertStatement);
         PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
 
         LocalDateTime localDate = LocalDateTime.now();
@@ -47,11 +50,10 @@ public class AppointmentDaoImpl implements AppointmentDAO {
         preparedStatement.setTimestamp(11, Timestamp.valueOf(localDate));
         preparedStatement.setString(12, createdBy);
         preparedStatement.setString(13, lastUpdateBy);
-
         preparedStatement.execute();
 
-
         String startString = start.toString();
+
         if (preparedStatement.getUpdateCount() > 0 ){
             System.out.println(preparedStatement.getUpdateCount() + " appointment added for " +startString);
         } else {
@@ -59,12 +61,13 @@ public class AppointmentDaoImpl implements AppointmentDAO {
         }
     }
 
+
 //    uses a prepared statement to make an update statement with variables from the textfield
     public void modify(String customerId, String title,
                               String location, String type, LocalDateTime start, LocalDateTime end, String appointmentId) throws SQLException {
-        Connection connection = MakeConnection.getConnection();
+
         String updateStatement = "UPDATE appointment SET customerId = ?, title = ?, location = ?, type = ?, start = ?, end = ? WHERE appointmentId = ?;";
-        MakePreparedStatement.makePreparedStatement(connection, updateStatement);
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), updateStatement);
         PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
 
         preparedStatement.setString(1,customerId);
@@ -74,27 +77,30 @@ public class AppointmentDaoImpl implements AppointmentDAO {
         preparedStatement.setTimestamp(5, Timestamp.valueOf(start));
         preparedStatement.setTimestamp(6, Timestamp.valueOf(end));
         preparedStatement.setString(7,appointmentId);
-
         preparedStatement.execute();
 
         String startString = start.toString();
+
         if (preparedStatement.getUpdateCount() > 0 ){
             System.out.println(preparedStatement.getUpdateCount() + " appointment updated for " +startString);
         } else {
             System.out.println("appointment not updated");
         }
-
     }
+
 
 //    this creates a select statement to return all appointments as an observable list
     public ObservableList<Appointment> getAll() throws SQLException {
+
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
+
         String selectStatement = "Select * FROM U07nke.appointment";
-        makePreparedStatement(connection, selectStatement); //create statement object
-        PreparedStatement preparedStatement = getPreparedStatement();
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), selectStatement); //create statement object
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         preparedStatement.execute();
+
         ResultSet resultSet = preparedStatement.getResultSet();
+
         while (resultSet.next()) {
             int appointmentId = resultSet.getInt("appointmentId");
             int customerId = resultSet.getInt("customerId");
@@ -112,14 +118,19 @@ public class AppointmentDaoImpl implements AppointmentDAO {
         return allAppointments;
     }
 
-//    this creates a select statement to return appointments this month as an observable list
+
+//    this creates a select statement to return appointments this month as an obs
+//    ervable list
     public ObservableList<Appointment> getAllMonthly() throws SQLException {
+
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
-        String selectStatement = "Select * FROM U07nke.appointment WHERE start BETWEEN (LAST_DAY(NOW())+ INTERVAL 1 DAY - interval 1 month) AND (LAST_DAY(NOW())+ INTERVAL 1 DAY)";
-        makePreparedStatement(connection, selectStatement); //create statement object
-        PreparedStatement preparedStatement = getPreparedStatement();
+
+        String selectStatement = "Select * FROM U07nke.appointment WHERE start " +
+                "BETWEEN (LAST_DAY(NOW())+ INTERVAL 1 DAY - interval 1 month) AND (LAST_DAY(NOW())+ INTERVAL 1 DAY)";
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), selectStatement); //create statement object
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         preparedStatement.execute();
+
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
             int appointmentId = resultSet.getInt("appointmentId");
@@ -137,15 +148,18 @@ public class AppointmentDaoImpl implements AppointmentDAO {
         }
         return allAppointments;
     }
+
 
     //    this creates a select statement to return weekly appointments as an observable list
     public ObservableList<Appointment> getAllWeekly() throws SQLException {
+
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
+
         String selectStatement = "Select * FROM U07nke.appointment WHERE WEEK(NOW()) = WEEK(start)";
-        makePreparedStatement(connection, selectStatement); //create statement object
-        PreparedStatement preparedStatement = getPreparedStatement();
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), selectStatement); //create statement object
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         preparedStatement.execute();
+
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
             int appointmentId = resultSet.getInt("appointmentId");
@@ -164,14 +178,17 @@ public class AppointmentDaoImpl implements AppointmentDAO {
         return allAppointments;
     }
 
+
 //    this creates a select statement to return all remote appointments as an observable list
     public ObservableList<Appointment> getAllRemote() throws  SQLException {
+
         ObservableList<Appointment> remoteAppointments = FXCollections.observableArrayList();
-        Connection connection = MakeConnection.getConnection();
+
         String selectStatement = "Select * FROM U07nke.appointment Where type = 'Remote' ";
-        makePreparedStatement(connection, selectStatement);
-        PreparedStatement preparedStatement = getPreparedStatement();
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), selectStatement);
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         preparedStatement.execute();
+
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
             int appointmentId = resultSet.getInt("appointmentId");
@@ -182,7 +199,6 @@ public class AppointmentDaoImpl implements AppointmentDAO {
             String type = resultSet.getString("type");
             LocalDateTime start = resultSet.getTimestamp("start").toLocalDateTime();
             LocalDateTime end = resultSet.getTimestamp("end").toLocalDateTime();
-
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,start,end,location);
             remoteAppointments.add(appointment);
             System.out.println(appointmentId + " | " + title + " at " + start );
@@ -190,14 +206,17 @@ public class AppointmentDaoImpl implements AppointmentDAO {
         return remoteAppointments;
     }
 
+
 //    this creates a select statement to return all In-Person appointments as an observable list
     public ObservableList<Appointment> getAllInPerson() throws  SQLException {
+
         ObservableList<Appointment> inPersonAppointments = FXCollections.observableArrayList();
-        Connection connection = MakeConnection.getConnection();
+
         String selectStatement = "Select * FROM U07nke.appointment WHERE type = 'In-Person' ";
-        makePreparedStatement(connection, selectStatement);
-        PreparedStatement preparedStatement = getPreparedStatement();
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), selectStatement);
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         preparedStatement.execute();
+
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
             int appointmentId = resultSet.getInt("appointmentId");
@@ -212,20 +231,22 @@ public class AppointmentDaoImpl implements AppointmentDAO {
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,start,end,location);
             inPersonAppointments.add(appointment);
             System.out.println(appointmentId + " | " + title + " at " + start );
-
         }
         return inPersonAppointments;
     }
 
+
     //    this creates a select statement to return all appointments for each seperate consultatnt as an observable list
     public ObservableList<Appointment> getConsultantReport(String consultant) throws SQLException {
+
         ObservableList<Appointment> userAppointments = FXCollections.observableArrayList();
-        Connection connection = MakeConnection.getConnection();
+
         String selectStatement = "Select * FROM U07nke.appointment WHERE userId = ?";
-        makePreparedStatement(connection, selectStatement); //create statement object
-        PreparedStatement preparedStatement = getPreparedStatement();
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), selectStatement); //create statement object
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         preparedStatement.setString(1, consultant);
         preparedStatement.execute();
+
         ResultSet resultSet = preparedStatement.getResultSet();
         while (resultSet.next()) {
             int appointmentId = resultSet.getInt("appointmentId");
@@ -240,26 +261,28 @@ public class AppointmentDaoImpl implements AppointmentDAO {
             Appointment appointment = new Appointment(appointmentId, customerId,userId,title,type,start,end,location);
             userAppointments.add(appointment);
             System.out.println(appointmentId + " | " + title + " at " + start );
-
         }
         return userAppointments;
     }
 
+
 //            this creates a delete statement that deletes the appointment selected in param
     public void delete(Appointment appointment) throws SQLException {
-        Connection connection = MakeConnection.getConnection();
+
         String deleteStatement = "DELETE FROM appointment WHERE appointmentId = ?";
-        makePreparedStatement(connection, deleteStatement);
-        PreparedStatement preparedStatement = getPreparedStatement();
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), deleteStatement);
+        PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
+
         String appointmentId = Integer.toString(appointment.getAppointmentId());
+
         preparedStatement.setString(1, appointmentId);
         preparedStatement.execute();
+
         if (preparedStatement.getUpdateCount() > 0 ){
             System.out.println(preparedStatement.getUpdateCount() + " appointments deleted.");
         } else {
             System.out.println("no appointments deleted");
         }
     }
-
 
 }

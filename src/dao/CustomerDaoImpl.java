@@ -20,14 +20,17 @@ import static utilities.MakePreparedStatement.makePreparedStatement;
  * THe Database Access Object for the customer table, it also accesses the address table briefly
  * @author joshuadorsett
  */
-public class CustomerDaoImpl implements CustomerDAO{
-    private UserDaoImpl userDAO;
+public class CustomerDaoImpl implements CustomerDAO {
+
+
+    private final UserDAO userDAO = new UserDaoImpl();
+
+
 //      this uses an insert statement to add an address and a customer from the text fields
-    public void add(String customerName, String address, String phoneNumber) throws SQLException{
-        Connection connection = MakeConnection.getConnection();
+    public void add(String customerName, String address, String phoneNumber) throws SQLException {
         String insertAddressStatement = "INSERT INTO address(address, address2, cityId, postalCode, phone, createDate, " +
                 "createdBy,lastUpdateBy) VALUES(?,?,?,?,?,?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(insertAddressStatement, PreparedStatement.RETURN_GENERATED_KEYS);
+        PreparedStatement preparedStatement = MakeConnection.getConnection().prepareStatement(insertAddressStatement, PreparedStatement.RETURN_GENERATED_KEYS);
         LocalDate localDate = LocalDate.now();
         String stringLocalDate = localDate.toString();
         String createdBy = userDAO.getActiveUser().getUserName();
@@ -50,7 +53,7 @@ public class CustomerDaoImpl implements CustomerDAO{
 //        next insert statement
         String insertCustomerStatement = "INSERT INTO customer(customerName, addressId, active, createDate, " +
                 "createdBy, lastUpdateBy) VALUES(?,?,?,?,?,?)";
-        MakePreparedStatement.makePreparedStatement(connection, insertCustomerStatement);
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), insertCustomerStatement);
         PreparedStatement preparedStatement2 = MakePreparedStatement.getPreparedStatement();
         // key-value mapping
         preparedStatement2.setString(1, customerName);
@@ -60,7 +63,6 @@ public class CustomerDaoImpl implements CustomerDAO{
         preparedStatement2.setString(5, createdBy);
         preparedStatement2.setString(6, lastUpdateBy);
         preparedStatement2.execute();
-
         if (preparedStatement.getUpdateCount() > 0 ){
             System.out.println(preparedStatement.getUpdateCount() + " customer added.");
         } else {
@@ -68,12 +70,12 @@ public class CustomerDaoImpl implements CustomerDAO{
         }
     }
 
+
 //      returns all customers as an observable list
-    public ObservableList<Customer> getAll() throws SQLException{
+    public ObservableList<Customer> getAll() throws SQLException {
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-        Connection connection = MakeConnection.getConnection(); //get reference to connection object
         String selectStatement = "SELECT * FROM U07nke.customer INNER JOIN U07nke.address ON customer.addressId = address.addressId;";
-        makePreparedStatement(connection, selectStatement); //create statement object
+        makePreparedStatement(MakeConnection.getConnection(), selectStatement); //create statement object
         PreparedStatement preparedStatement = getPreparedStatement();
         preparedStatement.execute();
         ResultSet resultSet = preparedStatement.getResultSet();
@@ -88,7 +90,6 @@ public class CustomerDaoImpl implements CustomerDAO{
             String author = resultSet.getString("createdBy");
             LocalDate lastDate = resultSet.getDate("lastUpdate").toLocalDate();
             LocalDateTime lastTimestamp = resultSet.getTimestamp("lastUpdate").toLocalDateTime();
-
             Customer customer = new Customer(customerId,addressId, customerName,address,phone);
             allCustomers.add(customer);
             System.out.println(customerId + " | " + customerName + " | " + dateCreated + " " +
@@ -96,13 +97,16 @@ public class CustomerDaoImpl implements CustomerDAO{
                     " | " + lastTimestamp);
         }
         return allCustomers;
+
     }
+
 
 //      this creates an update statement to modify a customer
     public void modify(String name, String address, String phoneNumber) throws SQLException {
-        Connection connection = MakeConnection.getConnection();
+
         String updateStatement = "UPDATE customer SET customerName = ? WHERE customerId = ?";
-        MakePreparedStatement.makePreparedStatement(connection, updateStatement);
+
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), updateStatement);
         PreparedStatement preparedStatement = MakePreparedStatement.getPreparedStatement();
         String customerId = Integer.toString(HomeController.getModifyCustomer().getCustomerId());
         preparedStatement.setString(1,name);
@@ -110,7 +114,8 @@ public class CustomerDaoImpl implements CustomerDAO{
         preparedStatement.execute();
 
         String updateStatement2 = "UPDATE address SET address = ?, phone = ? WHERE addressId = ?";
-        MakePreparedStatement.makePreparedStatement(connection, updateStatement2);
+        MakePreparedStatement.makePreparedStatement(MakeConnection.getConnection(), updateStatement2);
+
         PreparedStatement preparedStatement2 = MakePreparedStatement.getPreparedStatement();
         String addressId = Integer.toString(HomeController.getModifyCustomer().getAddressId());
         preparedStatement2.setString(1,address);
@@ -126,18 +131,21 @@ public class CustomerDaoImpl implements CustomerDAO{
 
     }
 
+
 //    a delete statement for the select customer object in param
-    public void delete(Customer customer) throws SQLException{
-        Connection connection = MakeConnection.getConnection();
+    public void delete(Customer customer) throws SQLException {
+
         String deleteStatement2 = "DELETE FROM customer WHERE customerId = ?";
-        makePreparedStatement(connection, deleteStatement2);
+
+        makePreparedStatement(MakeConnection.getConnection(), deleteStatement2);
         PreparedStatement preparedStatement2 = getPreparedStatement();
         String customerId = Integer.toString(customer.getCustomerId());
         preparedStatement2.setString(1, customerId);
         preparedStatement2.execute();
 
         String deleteStatement = "DELETE FROM address WHERE addressId = ?";
-        makePreparedStatement(connection, deleteStatement);
+
+        makePreparedStatement(MakeConnection.getConnection(), deleteStatement);
         PreparedStatement preparedStatement = getPreparedStatement();
         String addressId = Integer.toString(customer.getAddressId());
         preparedStatement.setString(1, addressId);

@@ -5,11 +5,16 @@ import model.Customer;
 
 import java.sql.SQLException;
 
-interface CustomerDAO {
+public interface CustomerDAO {
+
 
     ObservableList<Customer> getAll() throws SQLException;
+
     void add(String customerName, String address, String phoneNumber) throws SQLException;
+
     void modify(String name, String address, String phoneNumber) throws SQLException;
+
     void delete(Customer customer) throws SQLException;
+
 
 }
