@@ -4,7 +4,6 @@ package model;
  * creates an user object used to contain the data selected from the DB
  * @author joshuadorsett
  */
-
 public class User {
 
     private final int userId;
